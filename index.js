@@ -53,23 +53,26 @@ function getTownshipCodeAverage(dataArray) {
             sum += element[10];
         });
 
-        /*let sum = filteredArray.reduce((acum, current) => {
+        /*
+        let sum = filteredArray.reduce((acum, current) => {
             acum + current[10], initial;
-        })*/
+        })
+        */
+
     return sum/length;
 }
 
 
 var cool = require("cool-ascii-faces");
+
 var express = require("express");
-
 var app = express();
-var port = process.env.PORT || 12345;
 
+var port = process.env.PORT || 12345;
 
 app.get("/samples/IGR", (req, res) => {
     res.send(`` + getTownshipCodeAverage(associationData));
-    console.log(`New request`);
+    console.log(`New data request to IGR route`);
 });
 
 app.listen(port, () => {
