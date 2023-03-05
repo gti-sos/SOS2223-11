@@ -195,11 +195,9 @@ var filters = projectionHomes.filter(anyo => anyo.year >= 2005 && anyo.year <= 2
 
 var half = sum / filters.length;
 
-console.log("\nMean Result:");
+var round = half.toFixed(2);
 
-console.log(half.toFixed(2));
-
-return half;
+return round;
 
 }
 
