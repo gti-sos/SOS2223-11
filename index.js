@@ -233,7 +233,7 @@ app.get("/samples/VRJ",(req,res)=>{
 });
 
 app.get("/samples/CAC", (req, res) => {
-    res.send(String(averageCoupleChildren("Huelva")));
+    res.send(averageCoupleChildren("Huelva"));
     console.log(`New data request to CAC route`);
 });
 
