@@ -24,7 +24,6 @@ var projectionHomes = [
 {province: "Almería", year: 2008, couple_children: 1068369, couple_nochildren: 575006,	single_parent: 171857},
 {province: "Almería", year: 2009, couple_children: 1041268, couple_nochildren: 558298,	single_parent: 208899},
 {province: "Almería", year: 2010, couple_children: 987317, couple_nochildren: 585697,  single_parent: 221869},
-
 {province: "Huelva", year: 2011, couple_children: 851060, couple_nochildren: 452784, single_parent: 161686},
 {province: "Huelva", year: 2012, couple_children: 857901, couple_nochildren: 403155, single_parent: 214345},
 {province: "Huelva", year: 2013, couple_children: 814218, couple_nochildren: 417317, single_parent: 253532},

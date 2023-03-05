@@ -1,5 +1,4 @@
 
-
 var phoneArray= [{
     year: 2021,
     province: "Almeria",
@@ -87,7 +86,4 @@ function averageWideLandline(province){
 
 
 console.log(averageWideLandline("Almeria"))
-
-
-
 
