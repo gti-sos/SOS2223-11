@@ -346,14 +346,12 @@ app.get(BASE_API_URL_ASSOC + "/loadInitialData", (req, res) => {
 
 app.get(BASE_API_URL_ASSOC, (req, res) => {
     console.log("New GET request to /association-stats");
-    if (Object.keys(req.query).length === 0) {
+    // if (Object.keys(req.query).length === 0) {
         res.json(APIAssocData);
-    }
-
-    else {
-        // test
-        res.sendStatus(405);
-    }
+    // }
+    // else {
+        res.sendStatus(400);
+    // }
 });
 
 
@@ -410,14 +408,27 @@ app.post(BASE_API_URL_ASSOC + "/:id", (req, res) => {
 app.put(BASE_API_URL_ASSOC + "/:id", (req, res) => {
     var idParam = parseInt(req.params.id);
     console.log(`New PUT request to /association-stats/${idParam}`);
-    if (APIAssocData.filter(x => x.id === idParam).length > 0) {
+    var nameReq = req.body.name;
+    var goalReq = req.body.goal;
+    var regReq = req.body.registration_date;
+    var creReq = req.body.creation_date;
+    var addReq = req.body.address;
+    var zipReq = req.body.zip_code;
+    var proCodeReq = req.body.province_code;
+    var proReq = req.body.province;
+    var townReq = req.body.township;
+    var townCodeReq = req.body.township_code;
+    if (idParam && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
+        && proReq && townReq && townCodeReq) {
         objToUpdate = APIAssocData.filter(x => x.id === idParam)[0];
-        // MISSING PARAMETERS TO UPDATE DATA ENTRY
+        Object.assign(objToUpdate, {name: nameReq, goal: goalReq, registration_date: regReq, creation_date: creReq, address: addReq, zip_code: zipReq, 
+        province_code: proCodeReq, province: proReq, township: townReq, township_code: townCodeReq});
         res.sendStatus(200);
     }
     else {
         res.sendStatus(400);
     }
+
 });
 
 
