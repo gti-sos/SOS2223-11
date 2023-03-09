@@ -292,6 +292,7 @@ function averageCoupleChildren(province) {
 
 // Abrir puertos y caras ascii
 
+
 var cool = require("cool-ascii-faces");
 
 var express = require("express");
@@ -299,6 +300,10 @@ var express = require("express");
 var app = express();
 
 var port = process.env.PORT || 12345;
+
+var bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
 
 // cool faces (obtener ruta /cool)
 
@@ -317,6 +322,7 @@ app.get("/samples/IGR", (req, res) => {
 
 app.get("/samples/VRJ", (req, res) => {
     res.send(String(averageWideLandline("Almeria")));
+    console.log(`New data request to VRJ route`);
 });
 
 app.get("/samples/CAC", (req, res) => {
@@ -324,35 +330,110 @@ app.get("/samples/CAC", (req, res) => {
     console.log(`New data request to CAC route`);
 });
 
+
 const BASE_API_URL_ASSOC = "/api/v1/association-stats";
 
+var APIAssocData = [];
+
+app.get(BASE_API_URL_ASSOC + "/loadInitialData", (req, res) => {
+    if (APIAssocData.length === 0) {
+        console.log("Loaded initial data to /association-stats");
+        APIAssocData = associationData;
+    }
+    res.sendStatus(200);
+});
+
+
 app.get(BASE_API_URL_ASSOC, (req, res) => {
+    console.log("New GET request to /association-stats");
     if (Object.keys(req.query).length === 0) {
-        res.json(associationData);
+        res.json(APIAssocData);
+    }
+
+    else {
+        // test
+        res.sendStatus(405);
+    }
+});
+
+
+app.post(BASE_API_URL_ASSOC, (req, res) => {
+    var newAssoc = req.body;
+    console.log("New POST request to /association-stats");
+    // newAssoc = JSON.stringify(newAssoc, null, 2);
+    if (APIAssocData.filter(x => x.id === newAssoc.id).length > 0) {
+        res.sendStatus(409);
     }
     else {
-        //test
-        res.sendStatus(405, "Forbidden");
+        APIAssocData.push(newAssoc);
+        res.sendStatus(201);
     }
-})
+});
+
+
+app.put(BASE_API_URL_ASSOC, (req, res) => {
+    console.log("New PUT request to /association-stats");
+    res.sendStatus(405);
+});
+
+
+app.delete(BASE_API_URL_ASSOC, (req, res) => {
+    console.log("New DELETE request to /association-stats");
+    APIAssocData = [];
+    res.sendStatus(200);
+});
+
 
 app.get(BASE_API_URL_ASSOC + "/:id", (req, res) => {
     var idParam = parseInt(req.params.id);
-    console.log(idParam);
-    var data = associationData.filter(x => {
-        if(x.id === idParam) {
+    console.log(`New GET request to /association-stats/${idParam}`);
+    var data = APIAssocData.filter(x => {
+        if (x.id === idParam) {
             return x;
-        }     
+        }
     });
     if (data.length > 0) {
         res.json(data);
     }
     else {
-        //test
         res.sendStatus(404, 'NotFound');
     }
+});
 
-})
+
+app.post(BASE_API_URL_ASSOC + "/:id", (req, res) => {
+    console.log(`New POST request to /association-stats/${req.params.id}`);
+    res.sendStatus(405);
+});
+
+
+app.put(BASE_API_URL_ASSOC + "/:id", (req, res) => {
+    var idParam = parseInt(req.params.id);
+    console.log(`New PUT request to /association-stats/${idParam}`);
+    if (APIAssocData.filter(x => x.id === idParam).length > 0) {
+        objToUpdate = APIAssocData.filter(x => x.id === idParam)[0];
+        // MISSING PARAMETERS TO UPDATE DATA ENTRY
+        res.sendStatus(200);
+    }
+    else {
+        res.sendStatus(400);
+    }
+});
+
+
+app.delete(BASE_API_URL_ASSOC + "/:id", (req, res) => {
+    var idParam = parseInt(req.params.id);
+    console.log(`New DELETE request to /association-stats/${idParam}`);
+    if (APIAssocData.filter(x => x.id === idParam).length > 0) {
+        objToDelete = APIAssocData.filter(x => x.id === idParam)[0];
+        APIAssocData = APIAssocData.filter(x => x !== objToDelete);
+        res.sendStatus(200);
+    }
+    else {
+        res.sendStatus(404);
+    }
+});
+
 
 // Escuchar puertos abiertos
 
