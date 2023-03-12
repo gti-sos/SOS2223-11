@@ -166,7 +166,7 @@ app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
 
 app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
-    var provinceParam = request.params.year;
+    var provinceParam = request.params.province;
 
     console.log(`New GET request to /projection-homes-stats/${provinceParam}`);
 
