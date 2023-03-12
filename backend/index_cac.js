@@ -78,7 +78,7 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
         response.json(APIProjectData);
 
-        request.status(400); // Bad Request
+        response.status(400); // Bad Request
 
 });
 
