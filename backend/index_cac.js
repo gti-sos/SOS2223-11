@@ -66,7 +66,7 @@ app.get(BASE_API_URL_PROJECT + "/loadInitialData", (req, response) => {
 
     }
 
-    response.status(200);
+    response.sendStatus(200); // Ok
 
 });
 
