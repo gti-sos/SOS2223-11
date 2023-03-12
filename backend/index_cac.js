@@ -78,7 +78,7 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
         response.json(APIProjectData);
 
-        response.status(400); // Bad Request
+        response.sendStatus(400); // Bad Request
 
 });
 
@@ -94,15 +94,15 @@ app.post(BASE_API_URL_PROJECT, (request, response) => {
 
     if(filters > 0) {
 
-        response.status(409); // Conflict
+        response.sendStatus(409); // Conflict
 
     }
 
     else {
 
-        response.status(201); // Created
-
         projectionHomes.push(newProject);
+
+        response.sendStatus(201); // Created
 
     }
 
@@ -112,7 +112,7 @@ app.put(BASE_API_URL_PROJECT, (request, response) => {
 
     console.log("New PUT request to /projection-homes-stats");
 
-    response.status(405); // Method not allowed
+    response.sendStatus(405); // Method not allowed
 
 });
 
@@ -122,7 +122,7 @@ app.delete(BASE_API_URL_PROJECT, (request, response) => {
 
     APIProjectData = [];
 
-    response.status(200); // Ok
+    response.sendStatus(200); // Ok
 
 });
 
@@ -156,7 +156,7 @@ app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
 
     else {
 
-        response.status(404); // Not Found
+        response.sendStatus(404); // Not Found
 
     }
 
@@ -188,7 +188,7 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
     else {
 
-        response.status(404); // Not Found
+        response.sendStatus(404); // Not Found
 
     }
 });
@@ -197,7 +197,7 @@ app.post(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
     console.log(`New POST request to /projection-homes-stats/${request.params.province}/${parseInt(request.params.year)}`);
 
-    response.status(405); // Method Not Allowed
+    response.sendStatus(405); // Method Not Allowed
 
 });
 
@@ -237,13 +237,13 @@ app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
             }
         });
 
-            response.status(201); // Created
+            response.sendStatus(200); // Created
 
         }
 
         else {
 
-            response.status(400); // Bad Request
+            response.sendStatus(400); // Bad Request
         }
 
     });
@@ -262,15 +262,14 @@ app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
          APIProjectData = APIProjectData.filter(x => x !== objToDelete);
 
-         response.status(200);
+         response.sendStatus(200);
 
         }
 
     else {
 
-         response.status(404);
+         response.sendStatus(404);
 
         }
-        
 });
 }
