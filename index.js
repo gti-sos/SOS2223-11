@@ -292,7 +292,6 @@ function averageCoupleChildren(province) {
 
 // Abrir puertos y caras ascii
 
-
 var cool = require("cool-ascii-faces");
 
 var express = require("express");
@@ -300,6 +299,8 @@ var express = require("express");
 var app = express();
 
 var port = process.env.PORT || 12345;
+
+// Parsear cuerpo de los mensajes
 
 var bodyParser = require("body-parser");
 
@@ -330,10 +331,22 @@ app.get("/samples/CAC", (req, res) => {
     console.log(`New data request to CAC route`);
 });
 
+// Rutas para carpetas diferentes
+
+var backend_igr = require("./backend/index_igr");
+var backend_cac = require("./backend/index_cac");
+
+// Variable base url api
 
 const BASE_API_URL_ASSOC = "/api/v1/association-stats";
+const BASE_API_URL_PROJECT = "/api/v1/projection-homes-stats";
+
+// Variables para guardar los datos en el array
 
 var APIAssocData = [];
+var APIProjectData = [];
+
+// Cargar los datos de entrada al array y verificar mediante código OK (200)
 
 app.get(BASE_API_URL_ASSOC + "/loadInitialData", (req, res) => {
     if (APIAssocData.length === 0) {
@@ -343,6 +356,23 @@ app.get(BASE_API_URL_ASSOC + "/loadInitialData", (req, res) => {
     res.sendStatus(200);
 });
 
+app.get(BASE_API_URL_PROJECT + "/loadInitialData", (req, response) => {
+
+    if (APIProjectData.length === 0) {
+
+        console.log("Loaded initial data to /projection-homes-stats");
+
+        APIProjectData = projectionHomes;
+
+    }
+
+    response.sendStatus(200);
+
+});
+
+//------------------------------Métodos y Códigos de estados de Ignacio--------------------------
+
+ // Get request of all data entries
 
 app.get(BASE_API_URL_ASSOC, (req, res) => {
     console.log("New GET request to /association-stats");
@@ -354,6 +384,7 @@ app.get(BASE_API_URL_ASSOC, (req, res) => {
     // }
 });
 
+ // Post request of data entry to base url
 
 app.post(BASE_API_URL_ASSOC, (req, res) => {
     var newAssoc = req.body;
@@ -368,6 +399,7 @@ app.post(BASE_API_URL_ASSOC, (req, res) => {
     }
 });
 
+ // Put request of data entry to base url (error)
 
 app.put(BASE_API_URL_ASSOC, (req, res) => {
     console.log("New PUT request to /association-stats");
@@ -375,18 +407,21 @@ app.put(BASE_API_URL_ASSOC, (req, res) => {
 });
 
 
+ // Delete request of data entry to base url
+
 app.delete(BASE_API_URL_ASSOC, (req, res) => {
     console.log("New DELETE request to /association-stats");
     APIAssocData = [];
     res.sendStatus(200);
 });
 
+// Get request of data entry by province field
 
-app.get(BASE_API_URL_ASSOC + "/:id", (req, res) => {
-    var idParam = parseInt(req.params.id);
-    console.log(`New GET request to /association-stats/${idParam}`);
+app.get(BASE_API_URL_ASSOC + "/:province", (req, res) => {
+    var provinceParam = req.params.id;
+    console.log(`New GET request to /association-stats/${provinceParam}`);
     var data = APIAssocData.filter(x => {
-        if (x.id === idParam) {
+        if (x.province === provinceParam) {
             return x;
         }
     });
@@ -394,49 +429,89 @@ app.get(BASE_API_URL_ASSOC + "/:id", (req, res) => {
         res.json(data);
     }
     else {
-        res.sendStatus(404, 'NotFound');
+        res.sendStatus(404);
     }
 });
 
+// Get request of data entry by province and registration date field 
 
-app.post(BASE_API_URL_ASSOC + "/:id", (req, res) => {
-    console.log(`New POST request to /association-stats/${req.params.id}`);
+app.get(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
+    var provinceParam = req.params.province;
+    var regParam = parseInt(req.params.regDate);
+    console.log(`New GET request to /association-stats/${provinceParam}/${regParam}`);
+    var data = APIAssocData.filter(x => {
+        if (x.province === provinceParam && x.registration_date === regParam) {
+            return x;
+        }
+    });
+    if (data.length > 0) {
+        res.json(data);
+    }
+    else {
+        res.sendStatus(404);
+    }
+});
+
+// Post request of data entry by province and registration date field (error)
+
+app.post(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
+    var provinceParam = req.params.province;
+    var regParam = parseInt(req.params.regDate);
+    console.log(`New POST request to /association-stats/${provinceParam}/${regParam}`);
     res.sendStatus(405);
 });
 
+  // Put request of data entry by province field
 
-app.put(BASE_API_URL_ASSOC + "/:id", (req, res) => {
-    var idParam = parseInt(req.params.id);
-    console.log(`New PUT request to /association-stats/${idParam}`);
+app.put(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
+    var provinceParam = req.params.province;
+    var regParam = parseInt(req.params.regDate);
+    console.log(`New PUT request to /association-stats/${provinceParam}/${regParam}`);
+    var idReq = parseInt(req.body.id);
     var nameReq = req.body.name;
     var goalReq = req.body.goal;
-    var regReq = req.body.registration_date;
-    var creReq = req.body.creation_date;
+    var regReq = parseInt(req.body.registration_date);
+    var creReq = parseInt(req.body.creation_date);
     var addReq = req.body.address;
-    var zipReq = req.body.zip_code;
-    var proCodeReq = req.body.province_code;
+    var zipReq = parseInt(req.body.zip_code);
+    var proCodeReq = parseInt(req.body.province_code);
     var proReq = req.body.province;
     var townReq = req.body.township;
-    var townCodeReq = req.body.township_code;
-    if (idParam && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
+    var townCodeReq = parseInt(req.body.township_code);
+    if (idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
         && proReq && townReq && townCodeReq) {
-        objToUpdate = APIAssocData.filter(x => x.id === idParam)[0];
-        Object.assign(objToUpdate, {name: nameReq, goal: goalReq, registration_date: regReq, creation_date: creReq, address: addReq, zip_code: zipReq, 
-        province_code: proCodeReq, province: proReq, township: townReq, township_code: townCodeReq});
-        res.sendStatus(200);
+        APIAssocData.map(x => {
+            if (x.province === provinceParam && x.registration_date === regParam) {
+                x.id = idReq;
+                x.name = nameReq;
+                x.goal = goalReq;
+                x.registration_date = regParam;
+                x.creation_date = creReq;
+                x.address = addReq;
+                x.province_code = proCodeReq;
+                x.province = proReq;
+                x.township = townReq;
+                x.township_code = townCodeReq;
+                return x;
+            } else {
+                return x;
+            }
+        });
+        res.sendStatus(201);
     }
     else {
         res.sendStatus(400);
     }
-
 });
 
+// Delete request of data entry by province and registration date field
 
-app.delete(BASE_API_URL_ASSOC + "/:id", (req, res) => {
-    var idParam = parseInt(req.params.id);
-    console.log(`New DELETE request to /association-stats/${idParam}`);
-    if (APIAssocData.filter(x => x.id === idParam).length > 0) {
-        objToDelete = APIAssocData.filter(x => x.id === idParam)[0];
+app.delete(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
+    var provinceParam = req.params.province;
+    var regParam = parseInt(req.params.regDate);
+    console.log(`New DELETE request to /association-stats/${provinceParam}/${regParam}`);
+    if (APIAssocData.filter(x => x.province === provinceParam && x.registration_date === x.regParam).length > 0) {
+        objToDelete = APIAssocData.filter(x => x.province === provinceParam && x.registration_date === x.regParam)[0];
         APIAssocData = APIAssocData.filter(x => x !== objToDelete);
         res.sendStatus(200);
     }
@@ -445,10 +520,220 @@ app.delete(BASE_API_URL_ASSOC + "/:id", (req, res) => {
     }
 });
 
+backend_igr(app);
+
+
+//-------------------------------Métodos y Códigos de estados de Christian--------------------------
+
+app.get(BASE_API_URL_PROJECT, (request, response) => {
+
+    console.log("New GET request to /projection-homes-stats");
+
+        response.json(APIProjectData);
+
+        request.sendStatus(400); // Bad Request
+
+});
+
+app.post(BASE_API_URL_PROJECT, (request, response) => {
+
+    var newProject = request.body;
+
+    var filters = APIProjectData.filter(x => x.province === newProject.province).length;
+
+    console.log(`newProject = ${JSON.stringify(newProject, filters, 2)}`);
+
+    console.log("New POST request to /projection-homes-stats");
+
+    if(filters > 0) {
+
+        response.sendStatus(409); // Conflict
+
+    }
+
+    else {
+
+        response.sendStatus(201); // Created
+
+        projectionHomes.push(newProject);
+
+    }
+
+});
+
+app.put(BASE_API_URL_PROJECT, (request, response) => {
+
+    console.log("New PUT request to /projection-homes-stats");
+
+    response.sendStatus(405); // Method not allowed
+
+});
+
+app.delete(BASE_API_URL_PROJECT, (request, response) => {
+
+    console.log("New DELETE request to /projection-homes-stats");
+
+    APIProjectData = [];
+
+    response.sendStatus(200); // Ok
+
+});
+
+// Métodos con un recurso más: 
+
+// GET para provincia
+
+app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
+
+    var provinceParam = request.params.province;
+
+    var yearParam = parseInt(request.params.year);
+
+    console.log(`New GET request to /projection-homes-stats/${provinceParam}/${yearParam}`);
+
+    var home = APIProjectData.filter(x => {
+
+        if (x.province === provinceParam && x.year === yearParam) {
+
+            return x;
+
+        }
+
+    });
+
+    if (home.length > 0) {
+
+        response.json(home);
+
+    }
+
+    else {
+
+        response.sendStatus(404); // Not Found
+
+    }
+
+});
+
+// GET para provincia
+
+app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
+
+    var provinceParam = request.params.year;
+
+    console.log(`New GET request to /projection-homes-stats/${provinceParam}`);
+
+    var home = APIProjectData.filter(x => {
+
+        if (x.province === provinceParam) {
+
+            return x;
+
+        }
+
+    });
+
+    if (home.length > 0) {
+
+        response.json(home);
+
+    }
+
+    else {
+
+        response.sendStatus(404); // Not Found
+
+    }
+});
+
+app.post(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
+
+    console.log(`New POST request to /projection-homes-stats/${request.params.province}/${parseInt(request.params.year)}`);
+
+    response.sendStatus(405); // Method Not Allowed
+
+});
+
+app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
+
+    var provinceParam = request.params.province;
+    
+    var yearParam = parseInt(request.params.year);
+
+    console.log(`New PUT request to /projection-homes-stats/${provinceParam}/${yearParam}`);
+
+    var provinceReq = request.body.province;
+    var yearReq = request.body.year;
+    var couple_childrenReq = request.body.couple_children;
+    var couple_nochildrenReq = request.body.couple_nochildren;
+    var single_parentReq = request.body.single_parent;
+
+    if (provinceReq && yearReq && couple_childrenReq && couple_nochildrenReq && single_parentReq ) {
+
+        APIProjectData.map(x => {
+
+            if (x.province === provinceParam && x.yearParam) {
+
+                x.province = provinceReq;
+                x.year = yearReq;
+                x.couple_children = x.couple_childrenReq;
+                x.couple_nochildren = x.couple_nochildrenReq;
+                x.single_parent = single_parentReq;
+                return x;
+            }
+
+            else {
+
+                return x;
+
+            }
+        });
+
+            response.sendStatus(201); // Created
+
+        }
+
+        else {
+
+            responde.sendStatus(400); // Bad Request
+        }
+
+    });
+
+app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
+
+    var provinceParam = request.params.province;
+
+    var yearParam = parseInt(request.params.year);
+
+    console.log(`New DELETE request to /projection-homes-stats/${provinceParam}/${yearParam}`);
+
+    if (APIProjectData.filter(x => x.province === provinceParam && x.year === x.yearParam).length > 0) {
+
+         objToDelete = APIProjectData.filter(x => x.province === provinceParam && x.year === x.yearParam)[0];
+
+         APIProjectData = APIProjectData.filter(x => x !== objToDelete);
+
+         response.sendStatus(200);
+
+        }
+
+    else {
+
+         response.sendStatus(404);
+
+        }
+        
+
+});
+
+backend_cac(app);
 
 // Escuchar puertos abiertos
 
 app.listen(port, () => {
+
     console.log(`Server ready in port ${port}`);
+
 });
 
