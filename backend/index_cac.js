@@ -66,7 +66,7 @@ app.get(BASE_API_URL_PROJECT + "/loadInitialData", (req, response) => {
 
     }
 
-    response.sendStatus(200);
+    response.status(200);
 
 });
 
@@ -78,7 +78,7 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
         response.json(APIProjectData);
 
-        request.sendStatus(400); // Bad Request
+        request.status(400); // Bad Request
 
 });
 
@@ -94,13 +94,13 @@ app.post(BASE_API_URL_PROJECT, (request, response) => {
 
     if(filters > 0) {
 
-        response.sendStatus(409); // Conflict
+        response.status(409); // Conflict
 
     }
 
     else {
 
-        response.sendStatus(201); // Created
+        response.status(201); // Created
 
         projectionHomes.push(newProject);
 
@@ -112,7 +112,7 @@ app.put(BASE_API_URL_PROJECT, (request, response) => {
 
     console.log("New PUT request to /projection-homes-stats");
 
-    response.sendStatus(405); // Method not allowed
+    response.status(405); // Method not allowed
 
 });
 
@@ -122,7 +122,7 @@ app.delete(BASE_API_URL_PROJECT, (request, response) => {
 
     APIProjectData = [];
 
-    response.sendStatus(200); // Ok
+    response.status(200); // Ok
 
 });
 
@@ -156,7 +156,7 @@ app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
 
     else {
 
-        response.sendStatus(404); // Not Found
+        response.status(404); // Not Found
 
     }
 
@@ -188,7 +188,7 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
     else {
 
-        response.sendStatus(404); // Not Found
+        response.status(404); // Not Found
 
     }
 });
@@ -197,7 +197,7 @@ app.post(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
     console.log(`New POST request to /projection-homes-stats/${request.params.province}/${parseInt(request.params.year)}`);
 
-    response.sendStatus(405); // Method Not Allowed
+    response.status(405); // Method Not Allowed
 
 });
 
@@ -226,6 +226,7 @@ app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
                 x.couple_children = x.couple_childrenReq;
                 x.couple_nochildren = x.couple_nochildrenReq;
                 x.single_parent = single_parentReq;
+
                 return x;
             }
 
@@ -236,13 +237,13 @@ app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
             }
         });
 
-            response.sendStatus(201); // Created
+            response.status(201); // Created
 
         }
 
         else {
 
-            responde.sendStatus(400); // Bad Request
+            response.status(400); // Bad Request
         }
 
     });
@@ -261,16 +262,15 @@ app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
          APIProjectData = APIProjectData.filter(x => x !== objToDelete);
 
-         response.sendStatus(200);
+         response.status(200);
 
         }
 
     else {
 
-         response.sendStatus(404);
+         response.status(404);
 
         }
         
-
 });
 }
