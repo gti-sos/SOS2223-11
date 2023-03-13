@@ -247,24 +247,30 @@ module.exports = (app) => {
         var townCodeReq = parseInt(req.body.township_code);
         if (idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
             && proReq && townReq && townCodeReq) {
-            APIAssocData.map(x => {
-                if (x.province === provinceParam && x.registration_date === regParam) {
-                    x.id = idReq;
-                    x.name = nameReq;
-                    x.goal = goalReq;
-                    x.registration_date = regParam;
-                    x.creation_date = creReq;
-                    x.address = addReq;
-                    x.province_code = proCodeReq;
-                    x.province = proReq;
-                    x.township = townReq;
-                    x.township_code = townCodeReq;
-                    return x;
-                } else {
-                    return x;
-                }
-            });
-            res.sendStatus(201);
+            if (provinceParam === proReq && regParam === regReq) {
+                APIAssocData.map(x => {
+                    if (x.province === provinceParam && x.registration_date === regParam) {
+                        x.id = idReq;
+                        x.name = nameReq;
+                        x.goal = goalReq;
+                        x.registration_date = regParam;
+                        x.creation_date = creReq;
+                        x.address = addReq;
+                        x.province_code = proCodeReq;
+                        x.province = proReq;
+                        x.township = townReq;
+                        x.township_code = townCodeReq;
+                        return x;
+                    } else {
+                        return x;
+                    }
+                });
+
+                res.sendStatus(201);
+            }
+            else {
+                res.sendStatus(400);
+            }
         }
         else {
             res.sendStatus(400);
@@ -275,10 +281,15 @@ module.exports = (app) => {
     app.delete(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
         var provinceParam = req.params.province;
         var regParam = parseInt(req.params.regDate);
-        console.log(`New DELETE request to /association-stats/${provinceParam}/${regParam}`);
-        if (APIAssocData.filter(x => x.province === provinceParam && x.registration_date === x.regParam).length > 0) {
-            objToDelete = APIAssocData.filter(x => x.province === provinceParam && x.registration_date === x.regParam)[0];
-            APIAssocData = APIAssocData.filter(x => x !== objToDelete);
+        if (APIAssocData.filter(x => x.province === provinceParam && x.registration_date === regParam).length > 0) {
+            APIAssocData.map(x => {
+                if (!(x.province === provinceParam && x.registration_date === regParam)) {
+                    return x;
+                } else {
+                    var indexDelete = APIAssocData.indexOf(x);
+                    APIAssocData.splice(indexDelete, 1);
+                }
+            });
             res.sendStatus(200);
         }
         else {
