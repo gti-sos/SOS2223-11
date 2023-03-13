@@ -335,10 +335,10 @@ app.get("/samples/CAC", (req, res) => {
 
 var backend_igr = require("./backend/index_igr");
 var backend_cac = require("./backend/index_cac");
-
+var backend_vrj = require("./backend/index-vrj");
 backend_igr(app);
 backend_cac(app);
-
+backend_vrj(app);
 // Escuchar puertos abiertos
 
 app.listen(port, () => {
