@@ -164,7 +164,7 @@ module.exports = (app) => {
         var newAssoc = req.body;
         console.log("New POST request to /association-stats");
         // newAssoc = JSON.stringify(newAssoc, null, 2);
-        if (APIAssocData.filter(x => x.id === newAssoc.id).length > 0) {
+        if (APIAssocData.filter(x => x.province === newAssoc.province && x.registration_date===newAssoc.registration_date).length > 0) {
             res.sendStatus(409);
         }
         else {
