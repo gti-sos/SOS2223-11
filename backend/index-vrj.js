@@ -166,10 +166,10 @@ app.put(BASE_API_URL_PHONE+"/:province/:year",(req,res)=>{
             phone.wide_landline = wide_landline;
             return phone;
         }else{
-            res.sendStatus(400);
+            return phone;
         }
         });
-        res.sendStatus(201);
+        res.sendStatus(200);
     }else{
         res.sendStatus(400);
     }
