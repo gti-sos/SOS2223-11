@@ -161,9 +161,25 @@ module.exports = (app) => {
 
     // Post request of data entry to base url
     app.post(BASE_API_URL_ASSOC, (req, res) => {
+        var idReq = parseInt(req.body.id);
+        var nameReq = req.body.name;
+        var goalReq = req.body.goal;
+        var regReq = parseInt(req.body.registration_date);
+        var creReq = parseInt(req.body.creation_date);
+        var addReq = req.body.address;
+        var zipReq = parseInt(req.body.zip_code);
+        var proCodeReq = parseInt(req.body.province_code);
+        var proReq = req.body.province;
+        var townReq = req.body.township;
+        var townCodeReq = parseInt(req.body.township_code);
         var newAssoc = req.body;
         console.log("New POST request to /association-stats");
         // newAssoc = JSON.stringify(newAssoc, null, 2);
+        if (!(idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
+            && proReq && townReq && townCodeReq)) {
+                res.sendStatus(400);
+                return;
+            }
         if (APIAssocData.filter(x => x.province === newAssoc.province && x.registration_date===newAssoc.registration_date).length > 0) {
             res.sendStatus(409);
         }
@@ -201,7 +217,7 @@ module.exports = (app) => {
             }
         });
         if (data.length > 0) {
-            res.json(data);
+            res.json(data[0]);
         }
         else {
             res.sendStatus(404);
@@ -219,7 +235,7 @@ module.exports = (app) => {
             }
         });
         if (data.length > 0) {
-            res.json(data);
+            res.json(data[0]);
         }
         else {
             res.sendStatus(404);
