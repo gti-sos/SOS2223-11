@@ -175,8 +175,8 @@ module.exports = (app) => {
         var newAssoc = req.body;
         console.log("New POST request to /association-stats");
         // newAssoc = JSON.stringify(newAssoc, null, 2);
-        if (!(idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
-            && proReq && townReq && townCodeReq)) {
+        if (!((idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
+            && proReq && townReq && townCodeReq) && Object.values(req.body).length === 11 )) {
                 res.sendStatus(400);
                 return;
             }
