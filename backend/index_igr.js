@@ -168,8 +168,13 @@ module.exports = (app) => {
             res.sendStatus(409);
         }
         else {
+            if (idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
+            && proReq && townReq && townCodeReq) {
             APIAssocData.push(newAssoc);
             res.sendStatus(201);
+            }else {
+                res.sendStatus(400);
+            }
         }
     });
 
