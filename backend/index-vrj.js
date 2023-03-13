@@ -159,6 +159,9 @@ app.put(BASE_API_URL_PHONE+"/:province/:year",(req,res)=>{
     var wide_landline =  req.body.landline;
     console.log(`New PUT request to /association-stats/${province}/${year}`);
     if (landline && wide_landline && post_payment_phone_line){
+        if (province === req.body.province && parseInt(req.body.year)===year){
+
+        
         apiPhoneData.map(phone=>{
             if (phone.province===province && phone.year === year){
             phone.landline = landline;
@@ -170,6 +173,10 @@ app.put(BASE_API_URL_PHONE+"/:province/:year",(req,res)=>{
         }
         });
         res.sendStatus(200);
+    }else{
+        res.sendStatus(400);
+    }
+        
     }else{
         res.sendStatus(400);
     }
