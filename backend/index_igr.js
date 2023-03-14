@@ -160,37 +160,22 @@ module.exports = (app) => {
     });
 
     // Post request of data entry to base url
+    // to test
     app.post(BASE_API_URL_ASSOC, (req, res) => {
-        var idReq = parseInt(req.body.id);
-        var nameReq = req.body.name;
-        var goalReq = req.body.goal;
-        var regReq = parseInt(req.body.registration_date);
-        var creReq = parseInt(req.body.creation_date);
-        var addReq = req.body.address;
-        var zipReq = parseInt(req.body.zip_code);
-        var proCodeReq = parseInt(req.body.province_code);
-        var proReq = req.body.province;
-        var townReq = req.body.township;
-        var townCodeReq = parseInt(req.body.township_code);
-        var newAssoc = req.body;
+        const { id, name, goal, registration_date, creation_date, address, zip_code, province_code, province, township, township_code } = req.body;
+        const newAssociation = req.body;
         console.log("New POST request to /association-stats");
-        // newAssoc = JSON.stringify(newAssoc, null, 2);
-        if (!((idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
-            && proReq && townReq && townCodeReq) && Object.values(req.body).length === 11 )) {
-                res.sendStatus(400);
-                return;
-            }
-        if (APIAssocData.filter(x => x.province === newAssoc.province && x.registration_date===newAssoc.registration_date).length > 0) {
-            res.sendStatus(409);
+
+        if (!(id && name && goal && registration_date && creation_date && address && zip_code && province_code && province && township && township_code && Object.values(req.body).length === 11)) {
+            res.sendStatus(400);
+            return;
         }
-        else {
-            if (idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
-            && proReq && townReq && townCodeReq) {
-            APIAssocData.push(newAssoc);
+
+        if (APIAssocData.filter(x => x.province === newAssociation.province && x.registration_date === newAssociation.registration_date).length > 0) {
+            res.sendStatus(409);
+        } else {
+            APIAssocData.push(newAssociation);
             res.sendStatus(201);
-            }else {
-                res.sendStatus(400);
-            }
         }
     });
 
@@ -209,7 +194,9 @@ module.exports = (app) => {
 
     // Get request of data entry by province field
     app.get(BASE_API_URL_ASSOC + "/:province", (req, res) => {
-        var provinceParam = req.params.province;
+        const provinceParam = req.params.province;
+        const limit = parseInt(req.query.limit);
+        const offset = parseInt(req.query.offset);
         console.log(`New GET request to /association-stats/${provinceParam}`);
         var data = APIAssocData.filter(x => {
             if (x.province === provinceParam) {
@@ -217,7 +204,15 @@ module.exports = (app) => {
             }
         });
         if (data.length > 0) {
-            res.json(data[0]);
+            if (typeof limit !== undefined && typeof offset !== undefined) {
+                let dataSliced = data.slice(offset, offset + limit);
+                res.json(dataSliced);
+            }
+            else {
+                res.json(data);
+                // res.json(data[0]);
+                // res.sendStatus(404);
+            }
         }
         else {
             res.sendStatus(404);
@@ -225,21 +220,12 @@ module.exports = (app) => {
     });
 
     // Get request of data entry by province and registration date field 
+    // to test
     app.get(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
-        var provinceParam = req.params.province;
-        var regParam = parseInt(req.params.regDate);
+        const { province: provinceParam, regDate: regParam } = req.params;
         console.log(`New GET request to /association-stats/${provinceParam}/${regParam}`);
-        var data = APIAssocData.filter(x => {
-            if (x.province === provinceParam && x.registration_date === regParam) {
-                return x;
-            }
-        });
-        if (data.length > 0) {
-            res.json(data[0]);
-        }
-        else {
-            res.sendStatus(404);
-        }
+        const data = APIAssocData.find(x => x.province === provinceParam && x.registration_date === regParam);
+        data ? res.json(data) : res.sendStatus(404);
     });
 
     // Post request of data entry by province and registration date field (error)
@@ -251,69 +237,52 @@ module.exports = (app) => {
     });
 
     // Put request of data entry by province field
-    app.put(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
-        var provinceParam = req.params.province;
-        var regParam = parseInt(req.params.regDate);
-        console.log(`New PUT request to /association-stats/${provinceParam}/${regParam}`);
-        var idReq = parseInt(req.body.id);
-        var nameReq = req.body.name;
-        var goalReq = req.body.goal;
-        var regReq = parseInt(req.body.registration_date);
-        var creReq = parseInt(req.body.creation_date);
-        var addReq = req.body.address;
-        var zipReq = parseInt(req.body.zip_code);
-        var proCodeReq = parseInt(req.body.province_code);
-        var proReq = req.body.province;
-        var townReq = req.body.township;
-        var townCodeReq = parseInt(req.body.township_code);
-        if (idReq && nameReq && goalReq && regReq && creReq && addReq && zipReq && proCodeReq
-            && proReq && townReq && townCodeReq) {
-            if (provinceParam === proReq && regParam === regReq) {
-                APIAssocData.map(x => {
-                    if (x.province === provinceParam && x.registration_date === regParam) {
-                        x.id = idReq;
-                        x.name = nameReq;
-                        x.goal = goalReq;
-                        x.registration_date = regParam;
-                        x.creation_date = creReq;
-                        x.address = addReq;
-                        x.province_code = proCodeReq;
-                        x.province = proReq;
-                        x.township = townReq;
-                        x.township_code = townCodeReq;
-                        return x;
-                    } else {
-                        return x;
-                    }
-                });
+    // to test
+    app.put(`${BASE_API_URL_ASSOC}/:province/:regDate`, (req, res) => {
+        const { province, regDate } = req.params;
+        const { id, name, goal, registration_date, creation_date, address, zip_code, province_code, township, township_code } = req.body;
 
-                res.sendStatus(201);
-            }
-            else {
-                res.sendStatus(400);
-            }
-        }
-        else {
+        console.log(`New PUT request to /association-stats/${province}/${regDate}`);
+
+        const isRequestBodyValid = id && name && goal && registration_date && creation_date && address && zip_code && province_code && province && township && township_code;
+        const areParamsMatching = province === province && parseInt(regDate) === parseInt(registration_date);
+
+        if (isRequestBodyValid && areParamsMatching) {
+            APIAssocData = APIAssocData.map(x => {
+                if (x.province === province && x.registration_date === parseInt(regDate)) {
+                    x.id = id;
+                    x.name = name;
+                    x.goal = goal;
+                    x.registration_date = parseInt(registration_date);
+                    x.creation_date = parseInt(creation_date);
+                    x.address = address;
+                    x.zip_code = parseInt(zip_code);
+                    x.province_code = parseInt(province_code);
+                    x.township = township;
+                    x.township_code = parseInt(township_code);
+                }
+                return x;
+            });
+
+            res.sendStatus(201);
+        } else {
             res.sendStatus(400);
         }
     });
 
     // Delete request of data entry by province and registration date field
-    app.delete(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
-        var provinceParam = req.params.province;
-        var regParam = parseInt(req.params.regDate);
-        if (APIAssocData.filter(x => x.province === provinceParam && x.registration_date === regParam).length > 0) {
-            APIAssocData.map(x => {
-                if (!(x.province === provinceParam && x.registration_date === regParam)) {
-                    return x;
-                } else {
-                    var indexDelete = APIAssocData.indexOf(x);
-                    APIAssocData.splice(indexDelete, 1);
-                }
-            });
+    // to test
+    app.delete(`${BASE_API_URL_ASSOC}/:province/:regDate`, (req, res) => {
+        const { province, regDate } = req.params;
+
+        console.log(`New DELETE request to /association-stats/${province}/${regDate}`);
+
+        const filteredData = APIAssocData.filter(x => x.province === province && x.registration_date === parseInt(regDate));
+        if (filteredData.length > 0) {
+            const indexToDelete = APIAssocData.indexOf(filteredData[0]);
+            APIAssocData.splice(indexToDelete, 1);
             res.sendStatus(200);
-        }
-        else {
+        } else {
             res.sendStatus(404);
         }
     });
