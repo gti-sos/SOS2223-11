@@ -292,7 +292,7 @@ function averageCoupleChildren(province) {
 
 // Abrir puertos y caras ascii
 
-var cool = require("cool-ascii-faces");
+// var cool = require("cool-ascii-faces");
 
 var express = require("express");
 
@@ -308,14 +308,16 @@ app.use(bodyParser.json());
 
 // cool faces (obtener ruta /cool)
 
+/*
 app.get("/cool", (req, res) => {
     res.send(cool());
     console.log("New face request");
 
 });
+*/
 
 // Obtener los resultados de las medias por cada ruta
-
+/*
 app.get("/samples/IGR", (req, res) => {
     res.send(`` + getTownshipCodeAverage(associationData));
     console.log(`New data request to IGR route`);
@@ -330,15 +332,22 @@ app.get("/samples/CAC", (req, res) => {
     res.send(averageCoupleChildren("Huelva"));
     console.log(`New data request to CAC route`);
 });
+*/
 
 // Rutas para carpetas diferentes
 
 var backend_igr = require("./backend/index_igr");
+
 var backend_cac = require("./backend/index_cac");
+
 var backend_vrj = require("./backend/index-vrj");
+
 backend_igr(app);
+
 backend_cac(app);
+
 backend_vrj(app);
+
 // Escuchar puertos abiertos
 
 app.listen(port, () => {
