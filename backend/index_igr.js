@@ -1,3 +1,6 @@
+var Datastore = require('nedb');
+var db = new Datastore();
+
 module.exports = (app) => {
 
     let associationData = [
@@ -141,22 +144,69 @@ module.exports = (app) => {
 
     // Load initial data route
     app.get(BASE_API_URL_ASSOC + "/loadInitialData", (req, res) => {
+        console.log("Loaded initial data to /association-stats");
         if (APIAssocData.length === 0) {
-            console.log("Loaded initial data to /association-stats");
-            APIAssocData = associationData;
+            // APIAssocData = associationData;
+            console.log(`Inserted ${associationData.length} contacts`)
+            db.insert(associationData);
         }
         res.sendStatus(200);
     });
 
     // Get request of all data entries
     app.get(BASE_API_URL_ASSOC, (req, res) => {
+        /*if (req.query.limit) {
+            const limit = parseInt(req.query.limit);
+        }
+        if (req.query.offset) {
+        const offset = parseInt(req.query.offset);
+        }*/
+        /*const idQuery = req.query.id;
+        const nameQuery = req.query.name;
+        const goalQuery = req.query.goal;
+        const regQuery = req.query.registration_date;
+        const creQuery = req.query.creation_date;
+        const addrQuery = req.query.address;
+        const zipQuery = req.query.zip_code;
+        const proCodeQuery = req.query.province_code;
+        const proQuery = req.query.province;
+        const townQuery = req.query.township;
+        const townCodeQuery = req.query.township_code;*/
         console.log("New GET request to /association-stats");
         // if (Object.keys(req.query).length === 0) {
-        res.json(APIAssocData);
-        // }
-        // else {
-        // res.sendStatus(400);
-        // }
+            console.log(req.query);
+            db.find({}, (err, data) => {
+                if (err) {
+                    console.log("Error getting association-stats");
+                    response.sendStatus(500);
+                }
+                else{
+                    console.log(data);
+                    if (data.length > 0) {
+                        console.log(req.query.limit);
+                        if (req.query.limit !== undefined && req.query.offset !== undefined) {
+                            console.log("test2");
+                            let dataSliced = data.slice(req.query.offset, req.query.offset + req.query.limit);
+                            res.json(dataSliced);
+                        }
+                        else {
+                            console.log("test1");
+                            res.json(data);
+                            // res.json(data[0]);
+                            // res.sendStatus(404);
+                        }
+                    }
+                    else {
+                        console.log("test3");
+                        res.json(data);
+                    }
+                    // }
+                    // else {
+                    // res.sendStatus(400);
+                    // }
+                }
+            });
+        
     });
 
     // Post request of data entry to base url

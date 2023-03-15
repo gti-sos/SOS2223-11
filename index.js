@@ -304,6 +304,8 @@ var port = process.env.PORT || 12345;
 
 var bodyParser = require("body-parser");
 
+app.use("/", express.static("./public"));
+
 app.use(bodyParser.json());
 
 // cool faces (obtener ruta /cool)
