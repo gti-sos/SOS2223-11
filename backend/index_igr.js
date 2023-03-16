@@ -174,39 +174,39 @@ module.exports = (app) => {
         const townCodeQuery = req.query.township_code;*/
         console.log("New GET request to /association-stats");
         // if (Object.keys(req.query).length === 0) {
-            console.log(req.query);
-            db.find({}, (err, data) => {
-                if (err) {
-                    console.log("Error getting association-stats");
-                    response.sendStatus(500);
-                }
-                else{
-                    console.log(data);
-                    if (data.length > 0) {
-                        console.log(req.query.limit);
-                        if (req.query.limit !== undefined && req.query.offset !== undefined) {
-                            console.log("test2");
-                            let dataSliced = data.slice(req.query.offset, req.query.offset + req.query.limit);
-                            res.json(dataSliced);
-                        }
-                        else {
-                            console.log("test1");
-                            res.json(data);
-                            // res.json(data[0]);
-                            // res.sendStatus(404);
-                        }
+        console.log(req.query);
+        db.find({}, (err, data) => {
+            if (err) {
+                console.log("Error getting association-stats");
+                response.sendStatus(500);
+            }
+            else {
+                console.log(data);
+                if (data.length > 0) {
+                    console.log(req.query.limit);
+                    if (req.query.limit !== undefined && req.query.offset !== undefined) {
+                        console.log("test2");
+                        let dataSliced = data.slice(req.query.offset, req.query.offset + req.query.limit);
+                        res.json(dataSliced);
                     }
                     else {
-                        console.log("test3");
+                        console.log("test1");
                         res.json(data);
+                        // res.json(data[0]);
+                        // res.sendStatus(404);
                     }
-                    // }
-                    // else {
-                    // res.sendStatus(400);
-                    // }
                 }
-            });
-        
+                else {
+                    console.log("test3");
+                    res.json(data);
+                }
+                // }
+                // else {
+                // res.sendStatus(400);
+                // }
+            }
+        });
+
     });
 
     // Post request of data entry to base url
@@ -221,12 +221,21 @@ module.exports = (app) => {
             return;
         }
 
-        if (APIAssocData.filter(x => x.province === newAssociation.province && x.registration_date === newAssociation.registration_date).length > 0) {
-            res.sendStatus(409);
-        } else {
-            APIAssocData.push(newAssociation);
-            res.sendStatus(201);
-        }
+        db.find({ province: newAssociation.province, registration_date: newAssociation.registration_date }, (err, data) => {
+            if (err) {
+                console.log("Error retrieving associations data");
+            }
+            else {
+                if (data.length > 0) {
+                    res.sendStatus(409);
+                } else {
+                    db.insert(newAssociation);
+                    // APIAssocData.push(newAssociation);
+                    res.sendStatus(201);
+                }
+            }
+        })
+
     });
 
     // Put request of data entry to base url (error)
@@ -236,10 +245,24 @@ module.exports = (app) => {
     });
 
     // Delete request of data entry to base url
+    // test
     app.delete(BASE_API_URL_ASSOC, (req, res) => {
         console.log("New DELETE request to /association-stats");
+        db.remove({}, {}, (err, numRemoved) => {
+            if (err) {
+                console.log('Error deleting data');
+                // check
+                res.sendStatus(500);
+            }
+            else {
+                console.log(`Deleted ${numRemoved} association(s)`);
+                res.sendStatus(200);
+            }
+        });
+        /*
         APIAssocData = [];
         res.sendStatus(200);
+        */
     });
 
     // Get request of data entry by province field
@@ -248,25 +271,32 @@ module.exports = (app) => {
         const limit = parseInt(req.query.limit);
         const offset = parseInt(req.query.offset);
         console.log(`New GET request to /association-stats/${provinceParam}`);
-        var data = APIAssocData.filter(x => {
-            if (x.province === provinceParam) {
-                return x;
+        db.find({ province: provinceParam }, (err, data) => {
+            if (err) {
+                console.log('Error retrieving data');
+            } else {
+                data.filter(x => {
+                    if (x.province === provinceParam) {
+                        return x;
+                    }
+                });
+                if (data.length > 0) {
+                    if (req.query.limit !== undefined && req.query.offset !== undefined) {
+                        let dataSliced = data.slice(req.query.offset, req.query.offset + req.query.limit);
+                        res.json(dataSliced);
+                    }
+                    else {
+                        res.json(data);
+                        // res.json(data[0]);
+                        // res.sendStatus(404);
+                    }
+                }
+                else {
+                    res.sendStatus(404);
+                }
             }
         });
-        if (data.length > 0) {
-            if (typeof limit !== undefined && typeof offset !== undefined) {
-                let dataSliced = data.slice(offset, offset + limit);
-                res.json(dataSliced);
-            }
-            else {
-                res.json(data);
-                // res.json(data[0]);
-                // res.sendStatus(404);
-            }
-        }
-        else {
-            res.sendStatus(404);
-        }
+
     });
 
     // Get request of data entry by province and registration date field 
@@ -274,8 +304,13 @@ module.exports = (app) => {
     app.get(BASE_API_URL_ASSOC + "/:province/:regDate", (req, res) => {
         const { province: provinceParam, regDate: regParam } = req.params;
         console.log(`New GET request to /association-stats/${provinceParam}/${regParam}`);
-        const data = APIAssocData.find(x => x.province === provinceParam && x.registration_date === regParam);
-        data ? res.json(data) : res.sendStatus(404);
+        db.find({ province: provinceParam, registration_date: regParam }, (err, data) => {
+            if (err) {
+                console.log('Error retrieving data');
+            } else {
+                data ? res.json(data) : res.sendStatus(404);
+            }
+        });
     });
 
     // Post request of data entry by province and registration date field (error)
@@ -288,6 +323,7 @@ module.exports = (app) => {
 
     // Put request of data entry by province field
     // to test
+    // missing nedb implementation
     app.put(`${BASE_API_URL_ASSOC}/:province/:regDate`, (req, res) => {
         const { province, regDate } = req.params;
         const { id, name, goal, registration_date, creation_date, address, zip_code, province_code, township, township_code } = req.body;
@@ -323,17 +359,24 @@ module.exports = (app) => {
     // Delete request of data entry by province and registration date field
     // to test
     app.delete(`${BASE_API_URL_ASSOC}/:province/:regDate`, (req, res) => {
-        const { province, regDate } = req.params;
-
+        const { provinceParam, regParam } = req.params;
         console.log(`New DELETE request to /association-stats/${province}/${regDate}`);
+        db.remove({ province: provinceParam, registration_date: regParam }, {}, (err, numRemoved) => {
+            if (err) {
+                console.log('Error deleting data');
+                res.sendStatus(404);
+            } else {
+                console.log(`Removed ${numRemoved} association(s)`)
+                res.sendStatus(200);
+            }
 
-        const filteredData = APIAssocData.filter(x => x.province === province && x.registration_date === parseInt(regDate));
-        if (filteredData.length > 0) {
-            const indexToDelete = APIAssocData.indexOf(filteredData[0]);
-            APIAssocData.splice(indexToDelete, 1);
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(404);
-        }
+        });
+        /*
+                const filteredData = APIAssocData.filter(x => x.province === province && x.registration_date === parseInt(regDate));
+                if (filteredData.length > 0) {
+                    const indexToDelete = APIAssocData.indexOf(filteredData[0]);
+                    APIAssocData.splice(indexToDelete, 1);
+                } else {
+                }*/
     });
 }
