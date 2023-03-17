@@ -1,3 +1,5 @@
+var Datastore = require('nedb');
+var db = new Datastore();
 module.exports = (app) => {
 
     var phoneArray = [{
@@ -75,17 +77,71 @@ module.exports = (app) => {
     BASE_API_URL_PHONE = "/api/v1/phone-line-stats";
     var apiPhoneData = [];
     app.get(BASE_API_URL_PHONE + "/loadInitialData", (req, res) => {
-        if (apiPhoneData.length === 0) {
-            console.log("datos cargados")
-            apiPhoneData = phoneArray;
-
+       db.count({},(err,count)=>{
+        if (err){
+            console.log("Error count");
+            res.sendStatus(500);
+        }else{
+            if (count === 0){
+                db.insert(phoneArray);
+                console.log(`Añadidos ${phoneArray.length}`);
+            }
+            res.sendStatus(200);
         }
-        //res.json(apiPhoneData);
-        res.sendStatus(200);
+       });
+        //res.j son(apiPhoneData);
+        //res.sendStatus(200);
     });
 
     app.get(BASE_API_URL_PHONE, (req, res) => {
-        var filters = req.query;
+        var limit = parseInt(req.query.limit);
+        var offset = parseInt(req.query.limit);
+        var search = {};
+        console.log(req.query.year);
+        if (req.query.province) search["province"] = req.query.province; 
+        if (req.query.year) search["year"] = parseInt(req.query.year);
+        if (req.query.landline_over) search["landline"] = {$gte: parseInt(req.query.landline_over)};
+        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = {$gte: parseInt(req.query.post_payment_phone_line_over)};
+        if (req.query.wide_landline_over) search["wide_landline"] = {$gte: parseInt(req.query.wide_landline_over)};
+        console.log(search);
+        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).skip(offset).limit(limit).exec((err,data)=>{
+            if(data.length === 0){
+                console.log("No content to show");
+                res.json(data);
+            }
+            else if (data.length===1){
+                delete data[0]._id;
+                res.json(data[0]);
+
+            }
+
+            else{
+                console.log(data.length);
+                data.map(d=>{
+                    delete d._id;
+                    return d;
+                });
+                res.json(data);
+            }
+
+        });
+
+        /*
+        db.find({"landline": {$gte: 1000000}},(err,data)=>{
+           let resultado = data;
+            console.log("New Get request to phone-line-stats");
+            
+           
+            
+            resultado.map(x=>{
+                delete x._id; 
+                return x;
+            });
+            res.json(resultado);
+          
+        });
+        */
+        /*
         var filteredPhones = apiPhoneData.filter(phone => {
             let isValid = true;
             for (key in filters) {
@@ -100,7 +156,7 @@ module.exports = (app) => {
             res.json(apiPhoneData);
         }
         res.sendStatus(200);
-
+*/
     });
     app.get(BASE_API_URL_PHONE + "/:province", (req, res) => {
         var provincia = req.params.province;
