@@ -293,7 +293,7 @@ module.exports = (app) => {
         const proReq = req.body.province;
         const townReq = req.body.township;
         const townCodeReq = req.body.township_code;
-        const isRequestBodyValid = (idReq !== undefined) && (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (zipReq !== undefined) && (proCodeReq !== undefined) && (proReq !== undefined) && (townReq !== undefined) && (townCodeReq !== undefined);
+        const isRequestBodyValid = (idReq !== undefined) && (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (addReq !== undefined) && (zipReq !== undefined) && (proCodeReq !== undefined) && (proReq !== undefined) && (townReq !== undefined) && (townCodeReq !== undefined);
         const areParamsMatching = provinceParam === proReq && parseInt(regParam) === regReq;
         console.log(`New PUT request to /association-stats/${provinceParam}/${regParam}`);
         if (isRequestBodyValid && areParamsMatching) {
