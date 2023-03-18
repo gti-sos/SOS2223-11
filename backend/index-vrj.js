@@ -187,28 +187,39 @@ module.exports = (app) => {
 
 
     app.post(BASE_API_URL_PHONE, (req, res) => {
-        var newPhoneLine = req.body;
-        var provincia = newPhoneLine.province;
-        console.log(provincia);
-        var year = parseInt(newPhoneLine.year);
-        console.log(year);
-        var landline = req.body.landline;
-        var post_payment_phone_line = req.body.post_payment_phone_line;
-        var wide_landline = req.body.wide_landline;
+        
+        console.log(req.body);
+        const newprovince = req.body.province;
+        const newyear = parseInt(req.body.year);
+        const newlandline = parseInt(req.body.landline);
+        const newpost_payment_phone_line = parseInt(req.body.post_payment_phone_line);
+        const newwide_landline = parseInt(req.body.wide_landline);
+        const validRequest = newprovince && newyear && newlandline && newpost_payment_phone_line && newwide_landline && Object.values(req.body).length === 5;
+        const newPhoneLine = req.body;
         console.log("New POST request to /phone-line-stats");
-        if (landline && post_payment_phone_line && wide_landline && Object.values(req.body).length === 5) {
-            apiPhoneData.push(newPhoneLine);
-            res.sendStatus(201);
-            
-        } else {
+        if (!(validRequest)){
+            console.log(req.body);
+            console.log("Format not valid and more than 5 values");
+            res.sendStatus(400);
+        }else{
+            db.find({year:newyear,province:newprovince},(err,data)=>{
+                if(err){
+                    console.log("Error tomando datos Post");
+                }
+                else{
+                    if(data.length>0){
+                        console.log("Ya existe el objeto");
+                        res.sendStatus(409);
+                    }else{
+                        console.log(req.body);
+                    console.log("Created new phoneLine");
+                    db.insert(newPhoneLine);
+                    res.sendStatus(201);
+                }
+                }
 
-            if (apiPhoneData.filter(phone => phone.province === provincia && year === phone.year).length != 0) {
-                console.log("Resource already exists");
-                res.sendStatus(409);
-            }
-            else {
-                res.sendStatus(400);
-            }
+            });
+
         }
     });
     app.post(BASE_API_URL_PHONE + "/:province/:year", (req, res) => {
@@ -217,34 +228,39 @@ module.exports = (app) => {
     });
 
     app.put(BASE_API_URL_PHONE + "/:province/:year", (req, res) => {
-        var province = req.params.province;
-        var year = parseInt(req.params.year);
-        var landline = req.body.landline;
-        var post_payment_phone_line = req.body.landline;
-        var wide_landline = req.body.landline;
-        console.log(`New PUT request to /association-stats/${province}/${year}`);
-        if (landline && wide_landline && post_payment_phone_line) {
-            if (province === req.body.province && parseInt(req.body.year) === year) {
+        
+        const paramProvince = req.params.province;
+        const paramYear = parseInt(req.params.year);
+        const newlandline = parseInt(req.body.landline);
+        const newpost_payment_phone_line = parseInt(req.body.post_payment_phone_line);
+        const newwide_landline = parseInt(req.body.wide_landline);
+        const validRequest =  newlandline && newpost_payment_phone_line && newwide_landline && Object.values(req.body).length === 5;
+        console.log(`New PUT request to /phone-line-stats/${paramProvince}/${paramYear}`);
+        if(validRequest && (paramProvince === req.body.province && parseInt(req.body.year) === paramYear)){
+            db.update({year: paramYear, province: paramProvince},{
+                $set:{
+                    year: paramYear,
+                    province : paramProvince,
+                    landline: newlandline,
+                    post_payment_phone_line: newpost_payment_phone_line,
+                    wide_landline: newwide_landline
 
+                }
+            },(err,numReplaced)=>{
+                if(err){
+                    console.log("Error actualizando los datos");
+                    res.sendStatus(500);
+                }else{
+                    console.log(`Updated ${numReplaced} phone`);
+                    res.sendStatus(200);
 
-                apiPhoneData.map(phone => {
-                    if (phone.province === province && phone.year === year) {
-                        phone.landline = landline;
-                        phone.post_payment_phone_line = post_payment_phone_line;
-                        phone.wide_landline = wide_landline;
-                        return phone;
-                    } else {
-                        return phone;
-                    }
-                });
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(400);
-            }
-
-        } else {
+                }
+            });
+        }else{
+            console.log("Cuerpo de la peticion no es valido o los parametros de la URL no coinciden con la peticion")
             res.sendStatus(400);
         }
+        
     });
 
     app.put(BASE_API_URL_PHONE, (req, res) => {
@@ -254,21 +270,34 @@ module.exports = (app) => {
 
     app.delete(BASE_API_URL_PHONE, (req, res) => {
         console.log("New delete to /phone-line-stats");
-        apiPhoneData = [];
-        res.sendStatus(200);
+        db.remove({},{multi:true},(err,numRemoved)=>{
+            if(err){
+                console.log("Error borrando datos");
+                res.sendStatus(500);
+            }else{
+                console.log(`Se han eliminado ${numRemoved} datos`);
+                res.sendStatus(200);
+            }
+        });
     });
 
     app.delete(BASE_API_URL_PHONE + "/:province/:year", (req, res) => {
-        var province = req.params.province;
-        var year = parseInt(req.params.year);
-        console.log(`New DELETE request to /association-stats/${province}/${year}`);
-        if (apiPhoneData.filter(phone => phone.province === province && phone.year === year).length > 0) {
-            borra = apiPhoneData.filter(phone => phone.province === province && phone.year === year)[0];
-            apiPhoneData = apiPhoneData.filter(phone => phone != borra);
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(404);
+        const paramProvince = req.params.province;
+        const paramYear = parseInt(req.params.year);
+        console.log(`New DELETE request to /phone-line-stats/${paramProvince}/${paramYear}`);
+       db.remove({province: paramProvince,year: paramYear},{},(err,numRemoved)=>{
+        if(err){
+            console.log("Error al borrar los datos");
+            res.sendStatus(500);
+        }else{
+            if(numRemoved===0){
+                res.sendStatus(404);
+            }else{
+                console.log(`Se ha borrado ${numRemoved} phone`);
+                res.sendStatus(200);
+            }
         }
+       });
     });
 
 }
