@@ -224,27 +224,22 @@ module.exports = (app) => {
     app.get(BASE_API_URL_ASSOC + "/:province", (req, res) => {
         const provinceParam = req.params.province;
         console.log(`New GET request to /association-stats/${provinceParam}`);
-        db.find({ province: provinceParam }, { _id: 0 }, (err, data) => {
+        let limit = 0;
+        let offset = 0;
+        if (req.query.limit !== undefined) {
+            limit = req.query.limit;
+        }
+        if (req.query.offset !== undefined) {
+            offset = req.query.offset;
+        }
+        db.find({ province: provinceParam }, { _id: 0 }).skip(offset).limit(limit).exec((err, data) => {
             if (err) {
                 console.log('Error retrieving data');
                 res.sendStatus(500);
             } else {
                 if (data.length > 0) {
                     console.log("Data found");
-                    if (req.query.limit !== undefined && req.query.offset !== undefined) {
-                        let dataSliced = data.slice(req.query.offset, req.query.offset + req.query.limit);
-                        res.json(dataSliced);
-                    }
-                    else if (req.query.limit !== undefined) {
-                        let dataSliced = data.slice(0, req.query.limit);
-                        res.json(dataSliced);
-                    } else if (req.query.offset !== undefined) {
-                        let dataSliced = data.slice(req.query.offset - 1, -1);
-                        res.json(dataSliced);
-                    }
-                    else {
-                        res.json(data);
-                    }
+                    res.json(data);
                 }
                 else {
                     console.log("Data not found");
