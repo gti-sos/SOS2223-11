@@ -343,7 +343,7 @@ var backend_igr = require("./backend/index_igr");
 
 var backend_cac = require("./backend/index_cac");
 
-var backend_vrj = require("./backend/index-vrj");
+var backend_vrj = require("./backend/index_vrj");
 
 backend_igr(app);
 

@@ -80,18 +80,6 @@ app.get(BASE_API_URL_PROJECT + "/loadInitialData", (request, response) => {
 
 //--------------------------------------Métodos GET-------------------------------------
 
-// Obtener todos los datos 
-
-app.get(BASE_API_URL_PROJECT, (request, response) => {
-
-    console.log("New GET request to /projection-homes-stats");
-
-        response.json(APIProjectData);
-
-        response.sendStatus(400); // Bad Request
-
-});
-
 // Obtener datos desde un punto a otro
 
 app.get(BASE_API_URL_PROJECT, (request, response) => {
@@ -106,7 +94,7 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
     if(request.query.province) search["province"] = request.query.province;
 
-    if(request.query.year) search["year"] = request.query.year;
+    if(request.query.year) search["year"] = parseInt(request.query.year);
 
     if(request.query.couple_children) search["couple_children"] = {$gte: parseInt(request.query.couple_children)};
 
@@ -234,70 +222,27 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
 // Obtener datos de una provincia y un anyo dados
 
-app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
+app.get(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
     let provinceParam = request.params.province;
 
-    let yearParam = request.params.year;
+    let yearParam = parseInt(request.params.year);
 
-    let offset = parseInt(request.query.offset); // Inicio
+    console.log(`New GET request to /projection-homes-stats/${provinceParam}/${yearParam}`);
 
-    let limit = parseInt(request.query.limit); // Fin
+    db.findOne({province : provinceParam, year : yearParam}, {_id: 0}, (error, data) => {
 
-    var search = {};
+        if(error) {
 
-    search["province"] = provinceParam;
+            console.log("Error getting data");
 
-    search["year"] = yearParam;
+        }
 
-    if(request.query.couple_children) search["couple_children"] = {$gte: parseInt(request.query.couple_children)};
+        else {
 
-    if(request.query.couple_nochildren) search["couple_nochildren"] = {$gte: parseInt(request.query.couple_nochildren)};
+            data ? response.json(data) : response.sendStatus(404);
 
-    if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
-
-    console.log("Param: Province");
-
-    console.log("Param: Year");
-
-    console.log("Search datas:");
-
-    console.log(search);
-
-    // Ordenar los datos encontrados
-
-    db.find(search).sort({year : 1, province : -1, couple_children : -2, couple_nochildren : -3, single_parent : -4})
-    .skip(offset).limit(limit).exec((error, data) => {
-
-            if(data.length === 0) {
-
-                console.log("0 datas");
-
-                response.sendStatus(404); // Page, Data Not Found
-            }
-
-            else if(data.length === 1) {
-
-                delete data[0]._id;
-
-                response.json(data[0]);
-            }
-
-            else {
-
-                console.log(data.length);
-
-                data.map(ds => {
-                    
-                    delete ds._id;
-
-                    return ds;
-
-                });
-
-                response.json(data);
-
-            }
+        }
     });
 });
 
@@ -395,18 +340,16 @@ app.put(BASE_API_URL_PROJECT, (request, response) => {
 
 app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
-    var provinceReq = request.body.province;
-    var yearReq = parseInt(request.body.year);
+    var provinceParam = request.params.province;
+    var yearParam = parseInt(request.params.year);
 
     console.log(`New PUT request to /projection-homes-stats/${provinceParam}/${yearParam}`);
 
-    var provinceReq = request.body.province;
-    var yearReq = request.body.year;
-    var couple_childrenReq = request.body.couple_children;
-    var couple_nochildrenReq = request.body.couple_nochildren;
-    var single_parentReq = request.body.single_parent;
+    var couple_childrenReq = parseInt(request.body.couple_children);
+    var couple_nochildrenReq = parseInt(request.body.couple_nochildren);
+    var single_parentReq = parseInt(request.body.single_parent);
 
-    var requestValid = provinceReq && yearReq && couple_childrenReq 
+    var requestValid = couple_childrenReq 
                        && couple_nochildrenReq && single_parentReq
                        && Object.values(request.body).length == 5;
 
