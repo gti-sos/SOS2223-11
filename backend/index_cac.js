@@ -1,3 +1,11 @@
+// Base de datos neDB
+
+var Datastore = require('nedb');
+
+var db = new Datastore();
+
+// Modularizar la app
+
 module.exports = (app) => {
 
 // ------------------------------Array datos con los tipos de familiares-------------------------------
@@ -28,49 +36,51 @@ var projectionHomes = [
 
 ];
 
-// funcion media de parejas con hijos de Huelva entre los anyos 2005 hasta 2015 (ambos incluidos)
-
-function averageCoupleChildren(province) {
-
-    var sum = projectionHomes.filter(anyo => anyo.year >= 2005 && anyo.year <= 2015 && anyo.province === province)
-        .map(couple => couple.couple_children)
-        .reduce((a, n) => (a += n, a), 0);
-
-    var filters = projectionHomes.filter(anyo => anyo.year >= 2005 && anyo.year <= 2015 && anyo.province === province)
-        .map(couple => couple.couple_children)
-
-    var half = sum / filters.length;
-
-    var round = half.toFixed(2);
-
-    return round;
-
-}
-
-app.get("/samples/CAC", (req, res) => {
-    res.send(averageCoupleChildren("Huelva"));
-    console.log(`New data request to CAC route`);
-});
-
 const BASE_API_URL_PROJECT = "/api/v1/projection-homes-stats";
 
-var APIProjectData = [];
+// Redirigir al enlace /docs para la colección de llamadas de postman
 
-app.get(BASE_API_URL_PROJECT + "/loadInitialData", (req, response) => {
+app.get(BASE_API_URL_PROJECT + "/docs", (request, response) => {
 
-    if (APIProjectData.length === 0) {
+    console.log("Redirection to the collection of calls Postman");
 
-        console.log("Loaded initial data to /projection-homes-stats");
+    response.redirect("");
 
-        APIProjectData = projectionHomes;
+})
 
-    }
+// Cargar datos en la base de datos
 
-    response.sendStatus(200); // Ok
+app.get(BASE_API_URL_PROJECT + "/loadInitialData", (request, response) => {
 
-});
+    db.count({}, (error, count) => {
 
-//-------------------------------Métodos y Códigos de estados de Christian--------------------------
+        if(error) {
+
+            console.log("Error counting datas");
+
+            response.sendStatus(500); // Internal Server Error
+
+        }
+
+        else {
+
+            if(count === 0) {
+
+                db.insert(projectionHomes);
+
+                console.log(`Inserted ${projectionHomes.length}`);
+
+            }
+
+            response.sendStatus(200); // Ok
+
+        }
+    })
+    });
+
+//--------------------------------------Métodos GET-------------------------------------
+
+// Obtener todos los datos 
 
 app.get(BASE_API_URL_PROJECT, (request, response) => {
 
@@ -82,130 +92,311 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
 });
 
+// Obtener datos desde un punto a otro
+
+app.get(BASE_API_URL_PROJECT, (request, response) => {
+
+    let offset = parseInt(request.query.offset); // Inicio
+
+    let limit = parseInt(request.query.limit); // Fin
+
+    var search = {};
+
+    console.log(request.query.year);
+
+    if(request.query.province) search["province"] = request.query.province;
+
+    if(request.query.year) search["year"] = request.query.year;
+
+    if(request.query.couple_children) search["couple_children"] = {$gte: parseInt(request.query.couple_children)};
+
+    if(request.query.couple_nochildren) search["couple_nochildren"] = {$gte: parseInt(request.query.couple_nochildren)};
+
+    if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
+
+    console.log("Search datas:");
+
+    console.log(search);
+
+    // Ordenar los datos encontrados
+
+    db.find(search).sort({year : 1, province : -1, couple_children : -2, couple_nochildren : -3, single_parent : -4})
+    .skip(offset).limit(limit).exec((error, data) => {
+
+        if(error) {
+
+            console.log("Error getting data");
+
+            response.sendStatus(500); // Internal Server Error
+
+        }
+
+        else {
+
+            if(data.length === 0) {
+
+                console.log("0 datas");
+
+                response.json(data);
+
+            }
+
+            else if(data.length === 1) {
+
+                delete data[0]._id;
+
+                response.json(data[0]);
+            }
+
+            else {
+
+                console.log(data.length);
+
+                data.map(ds => {
+                    
+                    delete ds._id;
+
+                    return ds;
+
+                });
+
+                response.json(data);
+
+            }
+        }
+    });
+})
+
+// Obtener datos de una provincia
+
+app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
+
+    let provinceParam = request.params.province;
+
+    let offset = parseInt(request.query.offset); // Inicio
+
+    let limit = parseInt(request.query.limit); // Fin
+
+    var search = {};
+
+    search["province"] = provinceParam;
+
+    if(request.query.year) search["year"] = request.query.year;
+
+    if(request.query.couple_children) search["couple_children"] = {$gte: parseInt(request.query.couple_children)};
+
+    if(request.query.couple_nochildren) search["couple_nochildren"] = {$gte: parseInt(request.query.couple_nochildren)};
+
+    if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
+
+    console.log("Param: Province");
+
+    console.log("Search datas:");
+
+    console.log(search);
+
+    // Ordenar los datos encontrados
+
+    db.find(search).sort({year : 1, province : -1, couple_children : -2, couple_nochildren : -3, single_parent : -4})
+    .skip(offset).limit(limit).exec((error, data) => {
+
+            if(data.length === 0) {
+
+                console.log("0 datas");
+
+                response.sendStatus(404); // Page, Data Not Found
+            }
+
+            else if(data.length === 1) {
+
+                delete data[0]._id;
+
+                response.json(data[0]);
+            }
+
+            else {
+
+                console.log(data.length);
+
+                data.map(ds => {
+                    
+                    delete ds._id;
+
+                    return ds;
+
+                });
+
+                response.json(data);
+
+            }
+    });
+});
+
+// Obtener datos de una provincia y un anyo dados
+
+app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
+
+    let provinceParam = request.params.province;
+
+    let yearParam = request.params.year;
+
+    let offset = parseInt(request.query.offset); // Inicio
+
+    let limit = parseInt(request.query.limit); // Fin
+
+    var search = {};
+
+    search["province"] = provinceParam;
+
+    search["year"] = yearParam;
+
+    if(request.query.couple_children) search["couple_children"] = {$gte: parseInt(request.query.couple_children)};
+
+    if(request.query.couple_nochildren) search["couple_nochildren"] = {$gte: parseInt(request.query.couple_nochildren)};
+
+    if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
+
+    console.log("Param: Province");
+
+    console.log("Param: Year");
+
+    console.log("Search datas:");
+
+    console.log(search);
+
+    // Ordenar los datos encontrados
+
+    db.find(search).sort({year : 1, province : -1, couple_children : -2, couple_nochildren : -3, single_parent : -4})
+    .skip(offset).limit(limit).exec((error, data) => {
+
+            if(data.length === 0) {
+
+                console.log("0 datas");
+
+                response.sendStatus(404); // Page, Data Not Found
+            }
+
+            else if(data.length === 1) {
+
+                delete data[0]._id;
+
+                response.json(data[0]);
+            }
+
+            else {
+
+                console.log(data.length);
+
+                data.map(ds => {
+                    
+                    delete ds._id;
+
+                    return ds;
+
+                });
+
+                response.json(data);
+
+            }
+    });
+});
+
+//--------------------------------------Métodos POST-------------------------------------
+
+// Cargar nuevos datos
+
 app.post(BASE_API_URL_PROJECT, (request, response) => {
 
-    var newProject = request.body;
+    console.log(request.body);
 
-    var filters = APIProjectData.filter(x => x.province === newProject.province).length;
+    var provinceReq = request.body.province;
+    var yearReq = parseInt(request.body.year);
+    var couple_childrenReq = parseInt(request.body.couple_children);
+    var couple_nochildrenReq = parseInt(request.body.couple_nochildren);
+    var single_parentReq = parseInt(request.body.single_parent);
 
-    console.log(`newProject = ${JSON.stringify(newProject, filters, 2)}`);
+    var requestValid = provinceReq && yearReq && couple_childrenReq 
+                       && couple_nochildrenReq && single_parentReq
+                       && Object.values(request.body).length == 5;
 
-    console.log("New POST request to /projection-homes-stats");
+    var newProjectionHome = request.body;
 
-    if(filters > 0) {
+    console.log(`New POST request to /projection-homes-stats`);
 
-        response.sendStatus(409); // Conflict
+    if(!(requestValid)) {
+
+        console.log(request.body);
+
+        console.log("More than 5 values and parsers not valids");
+
+        response.sendStatus(400); // Bad Request
 
     }
 
     else {
 
-        projectionHomes.push(newProject);
+        db.find({year: yearReq, province: provinceReq}, (error, data) => {
 
-        response.sendStatus(201); // Created
+            if(error) {
 
+                console.log("Error size Post");
+
+            }
+
+            else {
+
+                if(data.length > 0) {
+
+                    console.log("Exist the value");
+
+                    response.sendStatus(400); // Bad Request
+
+                }
+
+                else {
+
+                    console.log(request.body);
+
+                    console.log("ProjectionHome created");
+
+                    db.insert(newProjectionHome);
+
+                    response.sendStatus(201); // Created
+
+                }
+            }
+        });
     }
-
 });
+    
+// Poner datos segun el anyo y la provincia: No se puede
 
-app.put(BASE_API_URL_PROJECT, (request, response) => {
+app.post(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
-    console.log("New PUT request to /projection-homes-stats");
+    console.log("Impossible POST of province and year");
 
     response.sendStatus(405); // Method not allowed
 
 });
 
-app.delete(BASE_API_URL_PROJECT, (request, response) => {
+//--------------------------------------Métodos PUT-------------------------------------
 
-    console.log("New DELETE request to /projection-homes-stats");
+// Actualizar todos los datos: No se puede
 
-    APIProjectData = [];
+app.put(BASE_API_URL_PROJECT, (request, response) => {
 
-    response.sendStatus(200); // Ok
+    console.log("Impossible PUT of datas");
 
-});
-
-// Métodos con un recurso más: 
-
-// GET para provincia
-
-app.get(BASE_API_URL_PROJECT + "/:province" + "/:year", (request, response) => {
-
-    var provinceParam = request.params.province;
-
-    var yearParam = parseInt(request.params.year);
-
-    console.log(`New GET request to /projection-homes-stats/${provinceParam}/${yearParam}`);
-
-    var home = APIProjectData.filter(x => {
-
-        if (x.province === provinceParam && x.year === yearParam) {
-
-            return x;
-
-        }
-
-    });
-
-    if (home.length > 0) {
-
-        response.json(home);
-
-    }
-
-    else {
-
-        response.sendStatus(404); // Not Found
-
-    }
+    response.sendStatus(405); // Method not allowed
 
 });
 
-// GET para provincia
-
-app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
-
-    var provinceParam = request.params.province;
-
-    console.log(`New GET request to /projection-homes-stats/${provinceParam}`);
-
-    var home = APIProjectData.filter(x => {
-
-        if (x.province === provinceParam) {
-
-            return x;
-
-        }
-
-    });
-
-    if (home.length > 0) {
-
-        response.json(home);
-
-    }
-
-    else {
-
-        response.sendStatus(404); // Not Found
-
-    }
-});
-
-app.post(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
-
-    console.log(`New POST request to /projection-homes-stats/${request.params.province}/${parseInt(request.params.year)}`);
-
-    response.sendStatus(405); // Method Not Allowed
-
-});
+// Actualizar los datos según la provincia y el anyo
 
 app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
-    var provinceParam = request.params.province;
-    
-    var yearParam = parseInt(request.params.year);
+    var provinceReq = request.body.province;
+    var yearReq = parseInt(request.body.year);
 
     console.log(`New PUT request to /projection-homes-stats/${provinceParam}/${yearParam}`);
 
@@ -215,39 +406,95 @@ app.put(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
     var couple_nochildrenReq = request.body.couple_nochildren;
     var single_parentReq = request.body.single_parent;
 
-    if (provinceReq && yearReq && couple_childrenReq && couple_nochildrenReq && single_parentReq ) {
+    var requestValid = provinceReq && yearReq && couple_childrenReq 
+                       && couple_nochildrenReq && single_parentReq
+                       && Object.values(request.body).length == 5;
 
-        APIProjectData.map(x => {
+    if(requestValid && (provinceParam === request.body.province && parseInt(request.body.year) === yearParam)) {
 
-            if (x.province === provinceParam && x.yearParam) {
+        db.update({year: yearParam, province: provinceParam}, {
 
-                x.province = provinceReq;
-                x.year = yearReq;
-                x.couple_children = x.couple_childrenReq;
-                x.couple_nochildren = x.couple_nochildrenReq;
-                x.single_parent = single_parentReq;
+            $set: {
 
-                return x;
+                year: yearParam,
+                province: provinceParam,
+                couple_children: couple_childrenReq,
+                couple_nochildren: couple_nochildrenReq,
+                single_parent: single_parentReq
+
+            }
+        }, (error, replaced) => {
+
+            if(error) {
+
+                console.log("Error update datas");
+
+                response.sendStatus(500); // Internal Server error
+
             }
 
             else {
 
-                return x;
+                if(replaced === 0) {
 
+                    console.log("Object not found");
+
+                    response.sendStatus(404); // Not Found
+
+
+                }
+
+                else {
+
+                    console.log(`Updated ${replaced} projectionHome`);
+
+                    response.sendStatus(200); // Ok
+
+                }
             }
         });
 
-            response.sendStatus(200); // Created
+    }
+
+    else {
+
+        console.log("Body not valid or params not equals");
+
+        response.sendStatus(400); // Not Found
+    }
+
+    });
+
+//--------------------------------------Métodos DELETE-------------------------------------
+
+// Eliminar todos los datos
+
+app.delete(BASE_API_URL_PROJECT, (request, response) => {
+
+    console.log("New DELETE request to /projection-homes-stats");
+
+    db.remove({}, {multi: true}, (error, removed) => {
+
+        if(error) {
+
+            console.log("Error remove datas");
+
+            response.sendStatus(500); // Internal Server Error
 
         }
 
         else {
 
-            response.sendStatus(400); // Bad Request
+            console.log(`Remove ${removed} datas`);
+
+            response.sendStatus(200); // Ok
+
         }
-
     });
+});
 
+// Eliminar los datos de una provincia y un anyo dados
+    
 app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
     var provinceParam = request.params.province;
@@ -256,20 +503,35 @@ app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
     console.log(`New DELETE request to /projection-homes-stats/${provinceParam}/${yearParam}`);
 
-    if (APIProjectData.filter(x => x.province === provinceParam && x.year === x.yearParam).length > 0) {
+    db.remove({province : provinceParam, year: yearParam}, {}, (error, removed) => {
 
-         objToDelete = APIProjectData.filter(x => x.province === provinceParam && x.year === x.yearParam)[0];
+        if(error) {
 
-         APIProjectData = APIProjectData.filter(x => x !== objToDelete);
+            console.log("Error remove datas");
 
-         response.sendStatus(200);
-
-        }
-
-    else {
-
-         response.sendStatus(404);
+            response.sendStatus(500); // Internal Server Error
 
         }
+
+        else {
+
+            if(removed === 0) {
+
+                console.log(`Remove ${removed} datas`);
+
+                response.sendStatus(404); // Not Found
+
+            }
+
+            else {
+
+            console.log(`Remove ${removed} datas`);
+
+            response.sendStatus(200); // Ok
+
+            }
+
+        }
+    });
 });
 }
