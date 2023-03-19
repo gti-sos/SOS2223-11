@@ -1,5 +1,5 @@
 //-------------------------------------Array datos de entidades-----------------------------------
-
+/*
 let associationData = [
     {
         id: 44044,
@@ -132,9 +132,9 @@ let associationData = [
         township_code: 299
     }
 ]
-
+*/
 // --------------------------------- Array lineas telefonicas ------------------------------
-
+/*
 var phoneArray = [{
     year: 2021,
     province: "Almeria",
@@ -206,9 +206,9 @@ var phoneArray = [{
     wide_landline: 349104,
 }
 ];
-
+*/
 // ------------------------------Array datos con los tipos de familiares-------------------------------
-
+/*
 var projectionHomes = [
 
     { province: "Almería", year: 2002, couple_children: 894148, couple_nochildren: 341796, single_parent: 150083 },
@@ -234,9 +234,9 @@ var projectionHomes = [
     { province: "Huelva", year: 2021, couple_children: 860099, couple_nochildren: 414464, single_parent: 212114 },
 
 ];
-
+*/
 // funcion media de codigos por provincia
-
+/*
 function getTownshipCodeAverage(dataArray) {
 
     let filteredArray = dataArray.filter(dataRow => dataRow[8] === "ALMERIA");
@@ -246,18 +246,18 @@ function getTownshipCodeAverage(dataArray) {
     filteredArray.forEach(element => {
         sum += element[10];
     });
-
-    /*
-    let sum = filteredArray.reduce((acum, current) => {
-        acum + current[10], initial;
-    })
-    */
-
+*/
+/*
+let sum = filteredArray.reduce((acum, current) => {
+    acum + current[10], initial;
+})
+*/
+/*
     return sum / length;
 }
-
+*/
 // funcion media lineas telefonicas 
-
+/*
 function averageWideLandline(province) {
 
     s = phoneArray.filter(n => n.province === province);
@@ -270,9 +270,10 @@ function averageWideLandline(province) {
     return total / size
 
 }
+*/
 
 // funcion media de parejas con hijos de Huelva entre los anyos 2005 hasta 2015 (ambos incluidos)
-
+/*
 function averageCoupleChildren(province) {
 
     var sum = projectionHomes.filter(anyo => anyo.year >= 2005 && anyo.year <= 2015 && anyo.province === province)
@@ -289,7 +290,7 @@ function averageCoupleChildren(province) {
     return round;
 
 }
-
+*/
 // Abrir puertos y caras ascii
 
 // var cool = require("cool-ascii-faces");
