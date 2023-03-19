@@ -94,8 +94,8 @@ module.exports = (app) => {
     });
 
     app.get(BASE_API_URL_PHONE, (req, res) => {
-        var limit = parseInt(req.query.limit);
-        var offset = parseInt(req.query.limit);
+        const limit = parseInt(req.query.limit);
+        const offset = parseInt(req.query.offset);
         var search = {};
         console.log(req.query.year);
         if (req.query.province) search["province"] = req.query.province; 
@@ -104,7 +104,12 @@ module.exports = (app) => {
         if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = {$gte: parseInt(req.query.post_payment_phone_line_over)};
         if (req.query.wide_landline_over) search["wide_landline"] = {$gte: parseInt(req.query.wide_landline_over)};
         console.log(search);
+        console.log("Patataaaaaaaaaaaaaaaaaaaa");
         db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).skip(offset).limit(limit).exec((err,data)=>{
+            if(err){
+                console.log("Error cogiendo datos");
+                res.sendStatus(500);
+            }else{
             if(data.length === 0){
                 console.log("No content to show");
                 res.json(data);
@@ -123,66 +128,73 @@ module.exports = (app) => {
                 });
                 res.json(data);
             }
-
+}
         });
-
-        /*
-        db.find({"landline": {$gte: 1000000}},(err,data)=>{
-           let resultado = data;
-            console.log("New Get request to phone-line-stats");
-            
-           
-            
-            resultado.map(x=>{
-                delete x._id; 
-                return x;
-            });
-            res.json(resultado);
-          
-        });
-        */
-        /*
-        var filteredPhones = apiPhoneData.filter(phone => {
-            let isValid = true;
-            for (key in filters) {
-                console.log(key, phone[key], filters[key]);
-                isValid = isValid && phone[key] == filters[key];
-            }
-            return isValid;
-        });
-        if (filteredPhones.length != 0) {
-            res.json(filteredPhones);
-        } else {
-            res.json(apiPhoneData);
-        }
-        res.sendStatus(200);
-*/
     });
     app.get(BASE_API_URL_PHONE + "/:province", (req, res) => {
-        var provincia = req.params.province;
-        var filtro = apiPhoneData.filter(phone => phone.province === provincia);
-        if (filtro.length != 0) {
-            res.json(filtro);
-        }
-        else {
+        const provinciaParam = req.params.province;
+        const limit = parseInt(req.query.limit);
+        const offset = parseInt(req.query.limit);
+        var search = {};
+        search["province"] = provinciaParam;
+        if (req.query.year) search["year"] = parseInt(req.query.year);
+        if (req.query.landline_over) search["landline"] = {$gte: parseInt(req.query.landline_over)};
+        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = {$gte: parseInt(req.query.post_payment_phone_line_over)};
+        if (req.query.wide_landline_over) search["wide_landline"] = {$gte: parseInt(req.query.wide_landline_over)};
+        console.log("Peticion GET provincia param");
+        console.log("Patataaaaaaaaaaaaaaaaaaaa");
+        console.log(search);
+        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).skip(offset).limit(limit).exec((err,data)=>{
+            if(data.length === 0){
+                console.log("No content to show");
+                res.sendStatus(404);
+            }
+            else if (data.length===1){
+                console.log("estamos en tamaño data 1");
+                delete data[0]._id;
+                console.log(data);
+                res.json(data[0]);
 
-            res.sendStatus(404);
-        }
+            }
+            else{
+                console.log(data.length);
+                data.map(d=>{
+                    delete d._id;
+                    return d;
+                });
+                res.json(data);
+            }
 
+        });
     });
 
     app.get(BASE_API_URL_PHONE + "/:province/:year", (req, res) => {
-        var provincia = req.params.province;
+        var province = req.params.province;
         var year = parseInt(req.params.year);
-        var filtro = apiPhoneData.filter(phone => phone.province === provincia && phone.year === year);
-        if (filtro.length != 0) {
-            res.json(filtro[0]);
-        }
-        else {
+        var search = {};
+        search["province"] = province;
+        search["year"] = year;
+        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).exec((err,data)=>{
+            if(data.length === 0){
+                console.log("No content to show");
+                res.sendStatus(404);
+            }
+            else if (data.length===1){
+                delete data[0]._id;
+                res.json(data[0]);
 
-            res.sendStatus(404);
-        }
+            }
 
+            else{
+                console.log(data.length);
+                data.map(d=>{
+                    delete d._id;
+                    return d;
+                });
+                res.json(data);
+            }
+
+        });
     });
 
 
@@ -251,9 +263,13 @@ module.exports = (app) => {
                     console.log("Error actualizando los datos");
                     res.sendStatus(500);
                 }else{
+                    if(numReplaced===0){
+                        console.log("No se ha encontrado el recurso a actualizar");
+                        res.sendStatus(404);
+                    }else{
                     console.log(`Updated ${numReplaced} phone`);
                     res.sendStatus(200);
-
+                    }
                 }
             });
         }else{
