@@ -75,7 +75,11 @@ module.exports = (app) => {
     ];
 
     BASE_API_URL_PHONE = "/api/v1/phone-line-stats";
-    var apiPhoneData = [];
+    //var apiPhoneData = [];
+    app.get(BASE_API_URL_PHONE+"/docs",(req,res)=>{
+        console.log("Redirection to Postman documentation");
+        res.redirect("https://documenter.getpostman.com/view/26051684/2s93JzMgNi");
+    });
     app.get(BASE_API_URL_PHONE + "/loadInitialData", (req, res) => {
        db.count({},(err,count)=>{
         if (err){
