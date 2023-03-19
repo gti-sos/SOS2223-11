@@ -1,0 +1,14 @@
+{
+	"id": "55eca53f-aa09-4d04-8373-5453dbd49257",
+	"name": "Google Cloud",
+	"values": [
+		{
+			"key": "HOSTURL",
+			"value": "https://sos2223-11.ew.r.appspot.com",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-03-19T22:00:04.912Z",
+	"_postman_exported_using": "Postman/10.12.3-230318-0431"
+}
