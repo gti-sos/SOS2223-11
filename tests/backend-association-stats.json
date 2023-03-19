@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "df2edd28-3c74-4906-9b8e-ad31125bdc5d",
+		"name": "Associations-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26035195"
+	},
+	"item": [
+		{
+			"name": "Load data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/loadInitialData",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET base",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET base l&n&g",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats?limit=10&name_contains=CASA&goal_contains=SERVIR",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "name_contains",
+							"value": "CASA"
+						},
+						{
+							"key": "goal_contains",
+							"value": "SERVIR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST base",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 1999,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"test\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST base error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 1999,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"test\",\r\n    \"township_code\": 123,\r\n    \"test\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT base",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 1999,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"test\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE base",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET prov",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET prov & reg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA/2000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST prov & reg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 2000,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"ALMERIA\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA/2000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT prov & reg",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 2000,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"ALMERIA\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA/2000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT error",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 1999,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"test\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA/2000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE prov & reg",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/ALMERIA/2000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"ALMERIA",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
