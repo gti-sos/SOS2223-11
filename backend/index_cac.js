@@ -294,7 +294,7 @@ app.post(BASE_API_URL_PROJECT, (request, response) => {
 
                     console.log("Exist the value");
 
-                    response.sendStatus(400); // Bad Request
+                    response.sendStatus(409); // Conflict
 
                 }
 
