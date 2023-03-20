@@ -118,12 +118,13 @@ module.exports = (app) => {
                 console.log("No content to show");
                 res.json(data);
             }
+            /*
             else if (data.length===1){
                 delete data[0]._id;
                 res.json(data[0]);
 
             }
-
+            */
             else{
                 console.log(data.length);
                 data.map(d=>{
