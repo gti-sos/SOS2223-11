@@ -55,7 +55,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.test(\"Status code is 409 recurso ya existente\", function () {\r",
 							"    pm.response.to.have.status(409);\r",
 							"});\r",
 							""
@@ -70,6 +70,48 @@
 				"body": {
 					"mode": "raw",
 					"raw": " {\r\n        \"year\": 2010,\r\n        \"province\": \"Almeria\",\r\n        \"landline\": 440327,\r\n        \"post_payment_phone_line\": 956742,\r\n        \"wide_landline\": 349104\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"phone-line-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post error 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"year\": 2010,\r\n        \"province\": \"Almeria\",\r\n        \"landline\": 440327\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -273,12 +315,10 @@
 							"   console.log(\"aparece en consola por favor\")\r",
 							"   let jsonData = pm.response.json()\r",
 							"   //arrayOfObject = jsonData.data.items[0].OrderBlocks;\r",
-							"   console.log(\"lascosas\")\r",
-							"   console.log(jsonData.year)\r",
-							"   jsonData.landline === 1 && jsonData.post_payment_phone_line === 1 && jsonData.wide_landline === 1 \r",
+							"   jsonData.landline === 1 && jsonData.post_payment_phone_line === 2 && jsonData.wide_landline === 3 \r",
 							"\r",
 							"});\r",
-							"pm.test(\"Response is an array\", function () {\r",
+							"pm.test(\"Response is an object\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.be.an('object');\r",
 							"});"
@@ -442,7 +482,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.test(\"Status code is 400\", function () {\r",
 							"    pm.response.to.have.status(400);\r",
 							"});"
 						],
@@ -485,7 +525,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.test(\"Status code is 405\", function () {\r",
 							"    pm.response.to.have.status(405);\r",
 							"});"
 						],
@@ -560,7 +600,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.test(\"Status code is 404\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
 							"});"
 						],
@@ -570,6 +610,40 @@
 			],
 			"request": {
 				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"phone-line-stats",
+						"Almeria",
+						"2010"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete error 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
 				"header": [],
 				"url": {
 					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
