@@ -95,10 +95,7 @@ module.exports = (app) => {
             province: `SEVILLA`,
             township_code: 299
         }
-    ]
-
-    // Data array inicialization
-    // var APIAssocData = [];
+    ];
 
     // Base url declaration
     const BASE_API_URL_ASSOC = "/api/v1/association-stats";
