@@ -7,7 +7,8 @@
     "start": "node index",
     "test-association-stats": "npx newman run ./tests/backend-association-stats.json -e ./tests/env/gcloud-env.json",
     "test-projection-home-stats": "npx newman run ./tests/backend-projection-home-stats.json -e ./tests/env/gcloud-env.json",
-    "test": "npm run test-association-stats && npm run test-projection-home-stats"
+    "test-phone-line-stats": "npx newman run ./tests/backend-phone-line-stats.json -e ./tests/env/gcloud-env.json",
+    "test": "npm run test-association-stats && npm run test-projection-home-stats && npm run test-phone-line-stats"
   },
   "repository": {
     "type": "git",

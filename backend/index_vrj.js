@@ -154,6 +154,7 @@ module.exports = (app) => {
                 console.log("No content to show");
                 res.sendStatus(404);
             }
+            /*
             else if (data.length===1){
                 console.log("estamos en tamaño data 1");
                 delete data[0]._id;
@@ -161,6 +162,7 @@ module.exports = (app) => {
                 res.json(data[0]);
 
             }
+            */
             else{
                 console.log(data.length);
                 data.map(d=>{
