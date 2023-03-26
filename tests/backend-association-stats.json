@@ -42,6 +42,40 @@
 			"response": []
 		},
 		{
+			"name": "GET prov & reg 404",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"MADEUPPROVINCE",
+						"3000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST base",
 			"event": [
 				{
@@ -77,6 +111,43 @@
 						"api",
 						"v1",
 						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET prov & reg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response is object\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"association-stats",
+						"MADEUPPROVINCE",
+						"3000"
 					]
 				}
 			},
@@ -208,43 +279,6 @@
 						"v1",
 						"association-stats",
 						"MADEUPPROVINCE"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET prov & reg",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Response is object\", function () {\r",
-							"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
-					"host": [
-						"{{HOSTURL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"association-stats",
-						"MADEUPPROVINCE",
-						"3000"
 					]
 				}
 			},
