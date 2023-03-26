@@ -349,7 +349,7 @@
 			"response": []
 		},
 		{
-			"name": "Muestra de datos por provincia y año (GET)",
+			"name": "Muestra de datos por año (GET)",
 			"event": [
 				{
 					"listen": "test",
@@ -386,7 +386,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?year=2002&province=Cádiz",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?year=2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
@@ -399,11 +399,54 @@
 						{
 							"key": "year",
 							"value": "2002"
-						},
-						{
-							"key": "province",
-							"value": "Cádiz"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos por provincia y año (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response is object\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cádiz is updated\", function () {\r",
+							"\tvar data = pm.response.json();\r",
+							"\tpm.expect(data.province).to.eql(\"Cádiz\");\r",
+							"\t});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2002"
 					]
 				}
 			},
