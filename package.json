@@ -1,7 +1,7 @@
 {
   "name": "sos2223-11",
   "version": "1.0.0",
-  "description": "This is a project for Feedback F04",
+  "description": "This is a project for Feedback F07",
   "main": "index.js",
   "scripts": {
     "start": "node index",

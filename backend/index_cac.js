@@ -32,7 +32,7 @@ var projectionHomes = [
     { province: "Huelva", year: 2018, couple_children: 873261, couple_nochildren: 385670, single_parent: 204814 },
     { province: "Huelva", year: 2019, couple_children: 863731, couple_nochildren: 399176, single_parent: 209060 },
     { province: "Huelva", year: 2020, couple_children: 861369, couple_nochildren: 406862, single_parent: 211070 },
-    { province: "Huelva", year: 2021, couple_children: 860099, couple_nochildren: 414464, single_parent: 212114 },
+    { province: "Huelva", year: 2021, couple_children: 860099, couple_nochildren: 414464, single_parent: 212114 }
 
 ];
 
@@ -84,13 +84,11 @@ app.get(BASE_API_URL_PROJECT + "/loadInitialData", (request, response) => {
 
 app.get(BASE_API_URL_PROJECT, (request, response) => {
 
-    let offset = parseInt(request.query.offset); // Inicio
+    var offset = parseInt(request.query.offset); // Inicio
 
-    let limit = parseInt(request.query.limit); // Fin
+    var limit = parseInt(request.query.limit); // Fin
 
     var search = {};
-
-    console.log(request.query.year);
 
     if(request.query.province) search["province"] = request.query.province;
 
@@ -101,10 +99,6 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
     if(request.query.couple_nochildren) search["couple_nochildren"] = {$gte: parseInt(request.query.couple_nochildren)};
 
     if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
-
-    console.log("Search datas:");
-
-    console.log(search);
 
     // Ordenar los datos encontrados
 
@@ -127,13 +121,6 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
                 response.json(data);
 
-            }
-
-            else if(data.length === 1) {
-
-                delete data[0]._id;
-
-                response.json(data[0]);
             }
 
             else {
@@ -159,11 +146,11 @@ app.get(BASE_API_URL_PROJECT, (request, response) => {
 
 app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
-    let provinceParam = request.params.province;
+    var provinceParam = request.params.province;
 
-    let offset = parseInt(request.query.offset); // Inicio
+    var offset = parseInt(request.query.offset); // Inicio
 
-    let limit = parseInt(request.query.limit); // Fin
+    var limit = parseInt(request.query.limit); // Fin
 
     var search = {};
 
@@ -177,12 +164,6 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
     if(request.query.single_parent) search["single_parent"] = {$gte: parseInt(request.query.single_parent)};
 
-    console.log("Param: Province");
-
-    console.log("Search datas:");
-
-    console.log(search);
-
     // Ordenar los datos encontrados
 
     db.find(search).sort({year : 1, province : -1, couple_children : -2, couple_nochildren : -3, single_parent : -4})
@@ -193,13 +174,7 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
                 console.log("0 datas");
 
                 response.sendStatus(404); // Page, Data Not Found
-            }
 
-            else if(data.length === 1) {
-
-                delete data[0]._id;
-
-                response.json(data[0]);
             }
 
             else {
@@ -224,9 +199,9 @@ app.get(BASE_API_URL_PROJECT + "/:province", (request, response) => {
 
 app.get(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 
-    let provinceParam = request.params.province;
+    const provinceParam = request.params.province;
 
-    let yearParam = parseInt(request.params.year);
+    const yearParam = parseInt(request.params.year);
 
     console.log(`New GET request to /projection-homes-stats/${provinceParam}/${yearParam}`);
 
