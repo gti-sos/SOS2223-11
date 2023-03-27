@@ -93,8 +93,6 @@ module.exports = (app) => {
             res.sendStatus(200);
         }
        });
-        //res.j son(apiPhoneData);
-        //res.sendStatus(200);
     });
 
     app.get(BASE_API_URL_PHONE, (req, res) => {
