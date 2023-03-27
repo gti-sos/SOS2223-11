@@ -280,7 +280,7 @@ module.exports = (app) => {
         const zipReq = req.body.zip_code;
         const proReq = req.body.province;
         const townCodeReq = req.body.township_code;
-        const isRequestBodyValid = (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (zipReq !== undefined) && (proReq !== undefined) && (townCodeReq !== undefined);
+        const isRequestBodyValid = (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (zipReq !== undefined) && (proReq !== undefined) && (townCodeReq !== undefined) && (Object.values(req.body).length === 7);
         const areParamsMatching = provinceParam === proReq && parseInt(regParam) === regReq;
         console.log(`New PUT request to /association-stats/${provinceParam}/${regParam}`);
         if (isRequestBodyValid && areParamsMatching) {
