@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a project for Feedback F07",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index",
     "test-association-stats": "npx newman run ./tests/backend-association-stats.json -e ./tests/env/gcloud-env.json",

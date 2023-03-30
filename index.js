@@ -1,7 +1,5 @@
 
-var express = require("express");
-
-var bodyParser = require("body-parser");
+import express from "express";
 
 var app = express();
 
@@ -9,11 +7,11 @@ var port = process.env.PORT || 12345;
 
 app.use("/", express.static("./public"));
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Rutas para carpetas diferentes
 
-var backend_igr = require("./backend/index_igr");
+import {backend_igr} from "./backend/index_igr";
 
 var backend_cac = require("./backend/index_cac");
 
