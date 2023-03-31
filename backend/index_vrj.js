@@ -1,6 +1,6 @@
-var Datastore = require('nedb');
+import Datastore from 'nedb';
 var db = new Datastore();
-module.exports = (app) => {
+function backend_vrj(app) {
 
     var phoneArray = [{
         year: 2021,
@@ -74,25 +74,25 @@ module.exports = (app) => {
     }
     ];
 
-    BASE_API_URL_PHONE = "/api/v1/phone-line-stats";
+    const BASE_API_URL_PHONE = "/api/v1/phone-line-stats";
     //var apiPhoneData = [];
-    app.get(BASE_API_URL_PHONE+"/docs",(req,res)=>{
+    app.get(BASE_API_URL_PHONE + "/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
         res.redirect("https://documenter.getpostman.com/view/26051684/2s93JzMgNi");
     });
     app.get(BASE_API_URL_PHONE + "/loadInitialData", (req, res) => {
-       db.count({},(err,count)=>{
-        if (err){
-            console.log("Error count");
-            res.sendStatus(500);
-        }else{
-            if (count === 0){
-                db.insert(phoneArray);
-                console.log(`Añadidos ${phoneArray.length}`);
+        db.count({}, (err, count) => {
+            if (err) {
+                console.log("Error count");
+                res.sendStatus(500);
+            } else {
+                if (count === 0) {
+                    db.insert(phoneArray);
+                    console.log(`Añadidos ${phoneArray.length}`);
+                }
+                res.sendStatus(200);
             }
-            res.sendStatus(200);
-        }
-       });
+        });
     });
 
     app.get(BASE_API_URL_PHONE, (req, res) => {
@@ -100,38 +100,38 @@ module.exports = (app) => {
         const offset = parseInt(req.query.offset);
         var search = {};
         console.log(req.query.year);
-        if (req.query.province) search["province"] = req.query.province; 
+        if (req.query.province) search["province"] = req.query.province;
         if (req.query.year) search["year"] = parseInt(req.query.year);
-        if (req.query.landline_over) search["landline"] = {$gte: parseInt(req.query.landline_over)};
-        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = {$gte: parseInt(req.query.post_payment_phone_line_over)};
-        if (req.query.wide_landline_over) search["wide_landline"] = {$gte: parseInt(req.query.wide_landline_over)};
+        if (req.query.landline_over) search["landline"] = { $gte: parseInt(req.query.landline_over) };
+        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = { $gte: parseInt(req.query.post_payment_phone_line_over) };
+        if (req.query.wide_landline_over) search["wide_landline"] = { $gte: parseInt(req.query.wide_landline_over) };
         console.log(search);
         console.log("Patataaaaaaaaaaaaaaaaaaaa");
-        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).skip(offset).limit(limit).exec((err,data)=>{
-            if(err){
+        db.find(search).sort({ year: 1, province: -1, landline: -2, post_payment_phone_line: -3, wide_landline: -4 }).skip(offset).limit(limit).exec((err, data) => {
+            if (err) {
                 console.log("Error cogiendo datos");
                 res.sendStatus(500);
-            }else{
-            if(data.length === 0){
-                console.log("No content to show");
-                res.json(data);
+            } else {
+                if (data.length === 0) {
+                    console.log("No content to show");
+                    res.json(data);
+                }
+                /*
+                else if (data.length===1){
+                    delete data[0]._id;
+                    res.json(data[0]);
+    
+                }
+                */
+                else {
+                    console.log(data.length);
+                    data.map(d => {
+                        delete d._id;
+                        return d;
+                    });
+                    res.json(data);
+                }
             }
-            /*
-            else if (data.length===1){
-                delete data[0]._id;
-                res.json(data[0]);
-
-            }
-            */
-            else{
-                console.log(data.length);
-                data.map(d=>{
-                    delete d._id;
-                    return d;
-                });
-                res.json(data);
-            }
-}
         });
     });
     app.get(BASE_API_URL_PHONE + "/:province", (req, res) => {
@@ -141,14 +141,14 @@ module.exports = (app) => {
         var search = {};
         search["province"] = provinciaParam;
         if (req.query.year) search["year"] = parseInt(req.query.year);
-        if (req.query.landline_over) search["landline"] = {$gte: parseInt(req.query.landline_over)};
-        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = {$gte: parseInt(req.query.post_payment_phone_line_over)};
-        if (req.query.wide_landline_over) search["wide_landline"] = {$gte: parseInt(req.query.wide_landline_over)};
+        if (req.query.landline_over) search["landline"] = { $gte: parseInt(req.query.landline_over) };
+        if (req.query.post_payment_phone_line_over) search["post_payment_phone_line"] = { $gte: parseInt(req.query.post_payment_phone_line_over) };
+        if (req.query.wide_landline_over) search["wide_landline"] = { $gte: parseInt(req.query.wide_landline_over) };
         console.log("Peticion GET provincia param");
         console.log("Patataaaaaaaaaaaaaaaaaaaa");
         console.log(search);
-        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).skip(offset).limit(limit).exec((err,data)=>{
-            if(data.length === 0){
+        db.find(search).sort({ year: 1, province: -1, landline: -2, post_payment_phone_line: -3, wide_landline: -4 }).skip(offset).limit(limit).exec((err, data) => {
+            if (data.length === 0) {
                 console.log("No content to show");
                 res.sendStatus(404);
             }
@@ -161,9 +161,9 @@ module.exports = (app) => {
                 tatatatatata
             }
             */
-            else{
+            else {
                 console.log(data.length);
-                data.map(d=>{
+                data.map(d => {
                     delete d._id;
                     return d;
                 });
@@ -179,20 +179,20 @@ module.exports = (app) => {
         var search = {};
         search["province"] = province;
         search["year"] = year;
-        db.find(search).sort({year:1,province:-1,landline:-2,post_payment_phone_line:-3,wide_landline:-4}).exec((err,data)=>{
-            if(data.length === 0){
+        db.find(search).sort({ year: 1, province: -1, landline: -2, post_payment_phone_line: -3, wide_landline: -4 }).exec((err, data) => {
+            if (data.length === 0) {
                 console.log("No content to show");
                 res.sendStatus(404);
             }
-            else if (data.length===1){
+            else if (data.length === 1) {
                 delete data[0]._id;
                 res.json(data[0]);
 
             }
 
-            else{
+            else {
                 console.log(data.length);
-                data.map(d=>{
+                data.map(d => {
                     delete d._id;
                     return d;
                 });
@@ -204,7 +204,7 @@ module.exports = (app) => {
 
 
     app.post(BASE_API_URL_PHONE, (req, res) => {
-        
+
         console.log(req.body);
         const newprovince = req.body.province;
         const newyear = parseInt(req.body.year);
@@ -214,25 +214,25 @@ module.exports = (app) => {
         const validRequest = newprovince && newyear && newlandline && newpost_payment_phone_line && newwide_landline && Object.values(req.body).length === 5;
         const newPhoneLine = req.body;
         console.log("New POST request to /phone-line-stats");
-        if (!(validRequest)){
+        if (!(validRequest)) {
             console.log(req.body);
             console.log("Format not valid and more than 5 values");
             res.sendStatus(400);
-        }else{
-            db.find({year:newyear,province:newprovince},(err,data)=>{
-                if(err){
+        } else {
+            db.find({ year: newyear, province: newprovince }, (err, data) => {
+                if (err) {
                     console.log("Error tomando datos Post");
                 }
-                else{
-                    if(data.length>0){
+                else {
+                    if (data.length > 0) {
                         console.log("Ya existe el objeto");
                         res.sendStatus(409);
-                    }else{
+                    } else {
                         console.log(req.body);
-                    console.log("Created new phoneLine");
-                    db.insert(newPhoneLine);
-                    res.sendStatus(201);
-                }
+                        console.log("Created new phoneLine");
+                        db.insert(newPhoneLine);
+                        res.sendStatus(201);
+                    }
                 }
 
             });
@@ -245,43 +245,43 @@ module.exports = (app) => {
     });
 
     app.put(BASE_API_URL_PHONE + "/:province/:year", (req, res) => {
-        
+
         const paramProvince = req.params.province;
         const paramYear = parseInt(req.params.year);
         const newlandline = parseInt(req.body.landline);
         const newpost_payment_phone_line = parseInt(req.body.post_payment_phone_line);
         const newwide_landline = parseInt(req.body.wide_landline);
-        const validRequest =  newlandline && newpost_payment_phone_line && newwide_landline && Object.values(req.body).length === 5;
+        const validRequest = newlandline && newpost_payment_phone_line && newwide_landline && Object.values(req.body).length === 5;
         console.log(`New PUT request to /phone-line-stats/${paramProvince}/${paramYear}`);
-        if(validRequest && (paramProvince === req.body.province && parseInt(req.body.year) === paramYear)){
-            db.update({year: paramYear, province: paramProvince},{
-                $set:{
+        if (validRequest && (paramProvince === req.body.province && parseInt(req.body.year) === paramYear)) {
+            db.update({ year: paramYear, province: paramProvince }, {
+                $set: {
                     year: paramYear,
-                    province : paramProvince,
+                    province: paramProvince,
                     landline: newlandline,
                     post_payment_phone_line: newpost_payment_phone_line,
                     wide_landline: newwide_landline
 
                 }
-            },(err,numReplaced)=>{
-                if(err){
+            }, (err, numReplaced) => {
+                if (err) {
                     console.log("Error actualizando los datos");
                     res.sendStatus(500);
-                }else{
-                    if(numReplaced===0){
+                } else {
+                    if (numReplaced === 0) {
                         console.log("No se ha encontrado el recurso a actualizar");
                         res.sendStatus(404);
-                    }else{
-                    console.log(`Updated ${numReplaced} phone`);
-                    res.sendStatus(200);
+                    } else {
+                        console.log(`Updated ${numReplaced} phone`);
+                        res.sendStatus(200);
                     }
                 }
             });
-        }else{
+        } else {
             console.log("Cuerpo de la peticion no es valido o los parametros de la URL no coinciden con la peticion")
             res.sendStatus(400);
         }
-        
+
     });
 
     app.put(BASE_API_URL_PHONE, (req, res) => {
@@ -291,11 +291,11 @@ module.exports = (app) => {
 
     app.delete(BASE_API_URL_PHONE, (req, res) => {
         console.log("New delete to /phone-line-stats");
-        db.remove({},{multi:true},(err,numRemoved)=>{
-            if(err){
+        db.remove({}, { multi: true }, (err, numRemoved) => {
+            if (err) {
                 console.log("Error borrando datos");
                 res.sendStatus(500);
-            }else{
+            } else {
                 console.log(`Se han eliminado ${numRemoved} datos`);
                 res.sendStatus(200);
             }
@@ -306,19 +306,21 @@ module.exports = (app) => {
         const paramProvince = req.params.province;
         const paramYear = parseInt(req.params.year);
         console.log(`New DELETE request to /phone-line-stats/${paramProvince}/${paramYear}`);
-       db.remove({province: paramProvince,year: paramYear},{},(err,numRemoved)=>{
-        if(err){
-            console.log("Error al borrar los datos");
-            res.sendStatus(500);
-        }else{
-            if(numRemoved===0){
-                res.sendStatus(404);
-            }else{
-                console.log(`Se ha borrado ${numRemoved} phone`);
-                res.sendStatus(200);
+        db.remove({ province: paramProvince, year: paramYear }, {}, (err, numRemoved) => {
+            if (err) {
+                console.log("Error al borrar los datos");
+                res.sendStatus(500);
+            } else {
+                if (numRemoved === 0) {
+                    res.sendStatus(404);
+                } else {
+                    console.log(`Se ha borrado ${numRemoved} phone`);
+                    res.sendStatus(200);
+                }
             }
-        }
-       });
+        });
     });
 
 }
+
+export { backend_vrj };

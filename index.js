@@ -5,17 +5,19 @@ var app = express();
 
 var port = process.env.PORT || 12345;
 
-app.use("/", express.static("./public"));
-
 app.use(express.json());
 
 // Rutas para carpetas diferentes
 
-import {backend_igr} from "./backend/index_igr";
+import {backend_igr} from "./backend/index_igr.js";
 
-var backend_cac = require("./backend/index_cac");
+import {backend_cac} from "./backend/index_cac.js";
 
-var backend_vrj = require("./backend/index_vrj");
+import {backend_vrj} from "./backend/index_vrj.js";
+
+import { handler } from "./frontend/build/handler.js";
+
+app.use(handler);
 
 backend_igr(app);
 
