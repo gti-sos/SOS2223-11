@@ -13,11 +13,11 @@ app.use(cors());
 
 // Rutas para carpetas diferentes
 
-import {backend_igr} from "./backend/index_igr.js";
+import {backend_igr} from "./backend/api/v2/index_igr.js";
 
-import {backend_cac} from "./backend/index_cac.js";
+import {backend_cac} from "./backend/api/v2/index_cac.js";
 
-import {backend_vrj} from "./backend/index_vrj.js";
+import {backend_vrj} from "./backend/api/v2/index_vrj.js";
 
 import { handler } from "./frontend/build/handler.js";
 
