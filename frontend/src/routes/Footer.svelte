@@ -3,11 +3,11 @@
   </script>
   
   <footer>
-    <Container fluid dark class="bg-secondary py-3">
+    <Container fluid dark class="bg-secondary py-2">
       <Row>
         <Col>
-          <p class="text-center">SOS Grupo 11</p>
-          <p class="text-center">&copy; 2023</p>
+          <div class="text-center">SOS Grupo 11</div>
+          <div class="text-center">&copy; 2023</div>
         </Col>
       </Row>
     </Container>
@@ -20,7 +20,7 @@
       bottom: 0;
       width: 100%;
     }
-    p {
+    div {
       color: white;
     }
   </style>
