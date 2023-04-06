@@ -13,7 +13,9 @@
     } from "sveltestrap";
 
     let open = false;
+    let openOne = false;
     const toggle = () => (open = !open);
+    const toggleOne = () => (openOne = !openOne);
 
     onMount(async () => {
         getAssociations();
@@ -32,6 +34,9 @@
     let newZipCode = "";
     let newProvince = "";
     let newTownshipCode = "";
+
+    let provinceDelete = "";
+    let registrationDateDelete = "";
 
     let result = "";
     let resultStatus = "";
@@ -134,9 +139,7 @@
 
 <h2>
     Asociaciones de andalucía
-    <Button color="danger" on:click={toggle}
-        >Borrar asociaciones</Button
-    >
+    <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
     <Modal isOpen={open} {toggle}>
         <ModalHeader {toggle}
             >Vas a borrar todos los recursos de la base de datos</ModalHeader
@@ -148,16 +151,34 @@
                 on:click={() => {
                     deleteAssociations();
                     toggle();
-                }}
-            >
-                Proceder</Button
+                }}>Proceder</Button
             >
             <Button color="secondary" on:click={toggle}>Cancelar</Button>
         </ModalFooter>
     </Modal>
-    <Button color="primary" on:click={loadData}
-        >Cargar asociaciones</Button
-    >
+    <Modal isOpen={openOne} {toggleOne}>
+        <ModalHeader {toggleOne}
+            >Vas a borrar el recurso seleccionado de la base de datos</ModalHeader
+        >
+        <ModalBody>¿Estás seguro?</ModalBody>
+        <ModalFooter>
+            <Button
+                color="primary"
+                on:click={() => {
+                    deleteAssociation(
+                        provinceDelete,
+                        registrationDateDelete
+                    );
+                    toggleOne();
+                }}>Proceder</Button
+            >
+            <Button color="secondary" on:click={toggleOne}
+                >Cancelar</Button
+            >
+        </ModalFooter>
+    </Modal>
+
+    <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
 </h2>
 
 <Table borderless>
@@ -191,29 +212,32 @@
         </tr>
 
         {#each associations as association}
+            
             <tr>
                 <td>{association.name}</td>
                 <td>{association.goal}</td>
                 <td>{association.registration_date}</td>
                 <td>{association.creation_date}</td>
                 <td>{association.zip_code}</td>
-                <td>
-                    <!-- <a 
-                        href="/association/{association.province}/{association.registration_date}"
-                    >-->
-                    {association.province}
-                    <!-- </a> -->
-                </td>
+                <td>{association.province}</td>
                 <td>{association.township_code}</td>
                 <td
                     ><Button
-                        color="danger"
-                        on:click={deleteAssociation(
-                            association.province,
-                            association.registration_date
-                        )}>Borrar</Button
+                        ><a
+                            class="linkStyleless"
+                            href="/association-stats/{association.province}/{association.registration_date}"
+                        >
+                            Editar</a
+                        ></Button
                     ></td
                 >
+                <td
+                    ><Button color="danger" on:click={()=>{
+                        provinceDelete = association.province;
+                        registrationDateDelete = association.registration_date;
+                        console.log("hola");
+                        toggleOne()}}>Borrar</Button>
+                </td>
             </tr>
         {/each}
     </tbody>
@@ -221,21 +245,37 @@
 {#if resultStatus != ""}
     <h6>Depuración:</h6>
     <pre>
-    {resultStatus}
-{result}
+        {resultStatus}
+        {result}
     </pre>
 {/if}
 
 <style>
-    /* a { 
-        text-decoration: none;
-        color: white;
-    }*/
     h2 {
         margin-left: 2%;
         margin-top: 0.5%;
     }
+
     h6 {
         margin-left: 2%;
+    }
+    
+    .linkStyleless {
+        text-decoration: none;
+        color: white;
+    }
+
+    /* Responsive styles */
+    @media only screen and (max-width: 768px) {
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
     }
 </style>

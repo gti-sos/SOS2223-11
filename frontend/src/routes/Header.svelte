@@ -1,37 +1,56 @@
 <script>
-    import {
-        Navbar,
-        NavbarBrand,
-        Nav,
-        NavItem,
-        NavLink,
-        Dropdown,
-        DropdownToggle,
-        DropdownMenu,
-        DropdownItem,
-    } from "sveltestrap";
+  import {
+    Navbar,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+  } from "sveltestrap";
 </script>
 
-<Navbar color="light" light expand="md">
-    <NavbarBrand href="/">My Website</NavbarBrand>
+<header>
+  <Navbar color="success" dark expand="md">
+    <NavbarBrand href="/"><b> Sistemas Orientados a Servicios</b></NavbarBrand>
+
     <Nav navbar>
-        <NavItem>
-            <NavLink href="#">Home</NavLink>
-        </NavItem>
-        <NavItem>
-            <NavLink href="#">About</NavLink>
-        </NavItem>
-        <NavItem>
-            <NavLink href="#">Contact</NavLink>
-        </NavItem>
-        <Dropdown nav inNavbar>
-            <DropdownToggle nav caret>Options</DropdownToggle>
-            <DropdownMenu end>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+      <NavItem>
+        <NavLink href="/" class="text-white">Home</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#" class="text-white">About</NavLink>
+      </NavItem>
+      <Dropdown nav inNavbar>
+        <DropdownToggle nav caret class="text-white">Frontend</DropdownToggle>
+        <DropdownMenu end>
+          <DropdownItem
+            ><NavLink href="/association-stats" class="text-black"
+              >Asociaciones</NavLink
+            ></DropdownItem
+          >
+
+          <DropdownItem
+            ><NavLink href="/phone-line-stats" class="text-black"
+              >Líneas de teléfono</NavLink
+            ></DropdownItem
+          >
+
+          <DropdownItem
+            ><NavLink href="/projection-homes-stats" class="text-black"
+              >Proyección de hogares</NavLink
+            ></DropdownItem
+          >
+        </DropdownMenu>
+      </Dropdown>
     </Nav>
-</Navbar>
+  </Navbar>
+</header>
+
+<style>
+  header {
+    width: auto;
+  }
+</style>

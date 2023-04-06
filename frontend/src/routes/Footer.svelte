@@ -3,10 +3,11 @@
   </script>
   
   <footer>
-    <Container fluid class="bg-light py-3">
+    <Container fluid dark class="bg-secondary py-3">
       <Row>
         <Col>
-          <p class="text-center">&copy; 2023 My Awesome App</p>
+          <p class="text-center">SOS Grupo 11</p>
+          <p class="text-center">&copy; 2023</p>
         </Col>
       </Row>
     </Container>
@@ -14,10 +15,13 @@
   
   <style>
     footer {
-      margin-top: 2rem;
+      
       position: fixed;
       bottom: 0;
       width: 100%;
+    }
+    p {
+      color: white;
     }
   </style>
   
