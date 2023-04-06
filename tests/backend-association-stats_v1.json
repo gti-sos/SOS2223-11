@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "3179c821-e6a9-40c9-87f7-132a64ace5e8",
-		"name": "Associations-test v2",
+		"_postman_id": "df2edd28-3c74-4906-9b8e-ad31125bdc5d",
+		"name": "Associations-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26035195"
 	},
@@ -28,13 +28,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					]
 				}
@@ -60,13 +60,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -103,13 +103,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					]
 				}
@@ -138,13 +138,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -181,13 +181,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					]
 				}
@@ -221,13 +221,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats?year=3000&province=MADEUPPROVINCE",
+					"raw": "{{HOSTURL}}/api/v1/association-stats?year=3000&province=MADEUPPROVINCE",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					],
 					"query": [
@@ -271,13 +271,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats?limit=1&offset=0",
+					"raw": "{{HOSTURL}}/api/v1/association-stats?limit=1&offset=0",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					],
 					"query": [
@@ -320,13 +320,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE"
 					]
@@ -362,13 +362,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					]
 				}
@@ -403,13 +403,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -446,13 +446,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -489,13 +489,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/300",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/300",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"300"
@@ -532,13 +532,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -577,13 +577,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats?name_contains=MADEUPNAME",
+					"raw": "{{HOSTURL}}/api/v1/association-stats?name_contains=MADEUPNAME",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					],
 					"query": [
@@ -615,13 +615,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -649,13 +649,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"raw": "{{HOSTURL}}/api/v1/association-stats/MADEUPPROVINCE/3000",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
@@ -692,13 +692,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"raw": "{{HOSTURL}}/api/v1/association-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"association-stats"
 					]
 				}

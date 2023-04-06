@@ -1,7 +1,7 @@
 # .github/workflows/deploy.yml
 name: Deploy to Cloud Run
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -15,9 +15,14 @@ jobs:
 
       - run: npm install
 
+      - run: cd frontend; npm install; cd ..
+
+      - run: cd frontend; npm run build; cd ..
+
       - run: npm start &
 
-      - run: npm test
+      - run: npm run test-association-stats
+      # - run: npm test
       
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'

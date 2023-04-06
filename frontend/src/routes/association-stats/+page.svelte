@@ -52,6 +52,16 @@
         resultStatus = status;
     }
 
+    async function loadData() {
+        const res = await fetch(API + "/loadInitialData", {
+            method: "GET",
+        });
+        const status = await res.status;
+        if (status == 200) {
+            getAssociations();
+        }
+    }
+
     async function createAssociation() {
         resultStatus = result = "";
         const res = await fetch(API, {
@@ -69,6 +79,7 @@
                 township_code: newTownshipCode,
             }),
         });
+        let mensajeUsuario = "";
         const status = await res.status;
         resultStatus = status;
         if (status == 201) {
@@ -122,9 +133,9 @@
 </script>
 
 <h2>
-    Asociaciones de andalucía<Button
-        color="danger"
-        on:click={toggle}>Borrar asociaciones</Button
+    Asociaciones de andalucía
+    <Button color="danger" on:click={toggle}
+        >Borrar asociaciones</Button
     >
     <Modal isOpen={open} {toggle}>
         <ModalHeader {toggle}
@@ -132,15 +143,24 @@
         >
         <ModalBody>¿Estás seguro?</ModalBody>
         <ModalFooter>
-            <Button color="primary" on:click={deleteAssociations}>
+            <Button
+                color="primary"
+                on:click={() => {
+                    deleteAssociations();
+                    toggle();
+                }}
+            >
                 Proceder</Button
             >
             <Button color="secondary" on:click={toggle}>Cancelar</Button>
         </ModalFooter>
     </Modal>
+    <Button color="primary" on:click={loadData}
+        >Cargar asociaciones</Button
+    >
 </h2>
 
-<Table bordered striped>
+<Table borderless>
     <thead>
         <tr>
             <th>Nombre</th>
@@ -177,12 +197,13 @@
                 <td>{association.registration_date}</td>
                 <td>{association.creation_date}</td>
                 <td>{association.zip_code}</td>
-                <td
-                    ><a
+                <td>
+                    <!-- <a 
                         href="/association/{association.province}/{association.registration_date}"
-                        >{association.province}</a
-                    ></td
-                >
+                    >-->
+                    {association.province}
+                    <!-- </a> -->
+                </td>
                 <td>{association.township_code}</td>
                 <td
                     ><Button
@@ -206,10 +227,10 @@
 {/if}
 
 <style>
-    a {
+    /* a { 
         text-decoration: none;
         color: white;
-    }
+    }*/
     h2 {
         margin-left: 2%;
         margin-top: 0.5%;
