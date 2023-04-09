@@ -1,26 +1,29 @@
 <script>
 import { onMount } from 'svelte';
 import { dev } from '$app/environment';
-import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle } from 'sveltestrap';
+import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle,Alert} from 'sveltestrap';
 
+let mensaje = "";
+let color = ""
+let visible = true
     onMount(async () => {
             getPhones();
         });
 
-    let API = '/api/v1/phone-line-stats'
+    let API = '/api/v2/phone-line-stats'
     if(dev){
             API = 'http://localhost:12345'+API
     }
     
     let phones = []
-    let newPhoneProvince = 'province';
-    let newPhoneYear = 'year';
-    let newPhoneLandline = 'landline';
-    let newPhonePostPaymentPhoneLine = 'post_payment';
-    let newPhoneWideLandline = "wide_landline";
+    let newPhoneProvince = '';
+    let newPhoneYear = '';
+    let newPhoneLandline = '';
+    let newPhonePostPaymentPhoneLine = '';
+    let newPhoneWideLandline = "";
     let result = "";
     let resultStatus = "";
-
+ 
     async function getPhones () {
             resultStatus = result = "";
             const res = await fetch(API, {
@@ -35,6 +38,10 @@ import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle }
             }
             const status = await res.status;
             resultStatus = status;	
+            // if(status == 200){
+            //     mensaje = "Datos listados correctamente";
+            //     color = "success";
+            // }
         }
 
         async function createPhone () {
@@ -55,10 +62,17 @@ import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle }
             });
             const status = await res.status;
             resultStatus = status;	           
-           /*
             if(status==201){
-                getContacts();
-            }*/
+                getPhones();
+                mensaje = "Se ha creado el dato correctamente";
+                color = "success"
+            }else if (status == 400){
+                mensaje = "Todos los campos deben estar completos y con los datos correctos";
+                color = "danger"
+            }else if (status == 409){
+                mensaje = `El dato ${newPhoneProvince} ${newPhoneYear} ya existe`;
+                color = "danger"
+            }
         }
 
 
@@ -69,13 +83,41 @@ import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle }
             });
             const status = await res.status;
             resultStatus = status;	
+            if (status == 200) {
+            getPhones();
+            mensaje = "Se han borrado todos los recursos"
+            color = "success"
         }
+        }
+
+        async function deletePhone(province, year) {
+        resultStatus = result = "";
+        const res = await fetch(
+            API + "/" + province + "/" + parseInt(year),
+            {
+                method: "DELETE",
+            }
+        );
+        const status = await res.status;
+        resultStatus = status;
+        if (status == 200) {
+            getPhones();
+            mensaje = "El recurso ha sido borrado"
+            color = "success" 
+        }
+    }
 
 
 </script>
 
-<h1> Phone Lines</h1>
-    
+<h1>Lineas de teléfono</h1>
+{#if mensaje != ""}
+       <Alert {color} 
+       isOpen={visible}
+       toggle={() => (visible = false)}
+       >{mensaje}</Alert>
+{/if}
+
     <Table>
         <thead>
           <tr>
@@ -98,31 +140,39 @@ import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle }
                     <DropdownToggle color="primary" caret>Actions</DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem header>Header</DropdownItem>
-                      <DropdownItem on:click={createPhone}>Crear reecurso</DropdownItem>
+                      <DropdownItem on:click={createPhone} on:click={() => (visible = true)}>Crear recurso</DropdownItem>
                       <DropdownItem on:click={getPhones}>Listar Datos</DropdownItem>
                       <DropdownItem divider />
-                      <DropdownItem on:click={deleteAll}>Borrar todo</DropdownItem>
+                      <DropdownItem header>Eliminar</DropdownItem>
+                      <DropdownItem on:click={deleteAll} on:click={()=>(visible=true)}>Borrar datos</DropdownItem>
                     </DropdownMenu>
                   </ButtonDropdown></td>
                 <!-- <td><Button on:click={createPhone}>Create</Button></td> -->
             </tr>
-        {#if resultStatus === 200}
+        <!-- {#if resultStatus === 200} -->
         {#each phones as phone}
           <tr>
-            <td>{phone.province}</td>
+            <td><a href="/phone-line-stats/{phone.province}/{phone.year}">{phone.province}</a></td>
             <td>{phone.year}</td>
             <td>{phone.landline}</td>
             <td>{phone.post_payment_phone_line}</td>
             <td>{phone.wide_landline}</td>
             <!-- <td>&nbsp</td> -->
+            <td><Button
+                color="danger"
+                on:click={deletePhone(
+                    phone.province,
+                    phone.year
+                )} on:click={()=>(visible=true)}>Eliminar</Button
+            ></td>
           </tr>
           {/each}
-          {/if} 
+          <!-- {/if}  -->
         </tbody>
       </Table>
 
       
-    {#if resultStatus != ""}
+    <!-- {#if resultStatus != ""}
         <p>
             Result:
         </p>
@@ -130,4 +180,4 @@ import { Button, Table,ButtonDropdown,DropdownItem,DropdownMenu,DropdownToggle }
 {resultStatus}
 {result}
         </pre>
-    {/if}
+    {/if} -->

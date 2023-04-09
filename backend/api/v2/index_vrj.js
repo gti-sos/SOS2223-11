@@ -78,7 +78,7 @@ function backend_vrj(app) {
     //var apiPhoneData = [];
     app.get(BASE_API_URL_PHONE + "/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
-        res.redirect("https://documenter.getpostman.com/view/26051684/2s93JzMgNi");
+        res.redirect("https://documenter.getpostman.com/view/26051684/2s93XsYRjS");
     });
     app.get(BASE_API_URL_PHONE + "/loadInitialData", (req, res) => {
         db.count({}, (err, count) => {
