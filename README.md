@@ -11,6 +11,11 @@
 - **URL**: [https://sos2223-11.ew.r.appspot.com/](https://sos2223-11.ew.r.appspot.com/)
 
 - **APIs**
-   - [https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs) (developed by Víctor Ruiz Jiménez) 
-   - [https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs) (developed by Ignacio García Rodríguez) 
-   - [https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs) (developed by Christian Asuero Carrellán) 
+   - v1:
+      - [https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs) (developed by Víctor Ruiz Jiménez) 
+      - [https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs) (developed by Ignacio García Rodríguez) 
+      - [https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs) (developed by Christian Asuero Carrellán) 
+   - v2:
+      - [https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats/docs) (developed by Víctor Ruiz Jiménez) 
+      - [https://sos2223-11.ew.r.appspot.com/api/v2/association-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v2/association-stats/docs) (developed by Ignacio García Rodríguez) 
+      - [https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats/docs](https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats/docs) (developed by Christian Asuero Carrellán)
