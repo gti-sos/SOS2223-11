@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4c559bf0-0564-4ed7-ae3c-8cabf76bf8da",
-		"name": "phone-line-test v2",
+		"_postman_id": "d3fcc531-f2c5-4423-91fd-0da62fe467ab",
+		"name": "phone-line-test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26051684"
 	},
@@ -35,13 +35,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats"
 					]
 				}
@@ -77,13 +77,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats"
 					]
 				}
@@ -119,13 +119,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats"
 					]
 				}
@@ -160,13 +160,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -202,13 +202,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						""
 					]
@@ -243,13 +243,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria"
 					]
@@ -285,13 +285,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -331,13 +331,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -373,13 +373,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats?wide_landline_over=3&&landline_over=1&&post_payment_phone_line_over=1&&province=Almeria&&year=2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats?wide_landline_over=3&&landline_over=1&&post_payment_phone_line_over=1&&province=Almeria&&year=2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats"
 					],
 					"query": [
@@ -451,13 +451,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/?limit=1&offset=0",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/?limit=1&offset=0",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						""
 					],
@@ -503,13 +503,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -546,13 +546,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats"
 					]
 				}
@@ -578,13 +578,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -612,13 +612,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
@@ -646,13 +646,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/phone-line-stats/Almeria/2010",
+					"raw": "{{HOSTURL}}/api/v1/phone-line-stats/Almeria/2010",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"phone-line-stats",
 						"Almeria",
 						"2010"
