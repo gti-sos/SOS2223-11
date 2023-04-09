@@ -21,7 +21,7 @@ jobs:
 
       - run: npm start &
 
-      - run: npm run test-association-stats
+      - run: npm run test-association-stats && npm run test-phone-line-stats 
       # - run: npm test
       
       - id: 'auth'
