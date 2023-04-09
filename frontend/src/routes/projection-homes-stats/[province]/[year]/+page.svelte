@@ -23,7 +23,7 @@
     });
 
     let province = $page.params.province;
-    let year = $page.params.year;
+    let year = parseInt($page.params.year);
 
     let API = "/api/v2/projection-homes-stats" + "/" + province + "/" + year;
 
@@ -66,10 +66,10 @@
             result = JSON.stringify(data, null, 2);
 
             provinceUpdate = data.province;
-            yearUpdate = data.year;
-            coupleChildrenUpdate = data.couple_children;
-            coupleNoChildrenUpdate = data.couple_nochildren;
-            singleParentUpdate = data.single_parent;
+            yearUpdate = parseInt(data.year);
+            coupleChildrenUpdate = parseInt(data.couple_children);
+            coupleNoChildrenUpdate = parseInt(data.couple_nochildren);
+            singleParentUpdate = parseInt(data.single_parent);
             
         } 
         
@@ -100,10 +100,10 @@
 
             body: JSON.stringify({
                 province: provinceUpdate,
-                year: yearUpdate,
-                couple_children: coupleChildrenUpdate,
-                couple_nochildren: coupleNoChildrenUpdate,
-                single_parent: singleParentUpdate,
+                year: parseInt(yearUpdate),
+                couple_children: parseInt(coupleChildrenUpdate),
+                couple_nochildren: parseInt(coupleNoChildrenUpdate),
+                single_parent: parseInt(singleParentUpdate),
             }),
         });
 
@@ -145,7 +145,7 @@
                     <Input required
                         id="province"
                         bind:value={provinceUpdate}
-                        placeholder="Province"
+                        placeholder="Provincia"
                     />
 
                     <Label for="year">Año</Label>

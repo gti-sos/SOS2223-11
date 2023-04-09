@@ -44,18 +44,13 @@
 
     let projection = [];
 
-    // Para GET y POST
+    // Para POST
 
     let newProvince = "";
     let newYear = "";
     let newCoupleChildren = "";
     let newCoupleNoChildren = "";
     let newSingleParent = "";
-
-    // Para DELETE
-
-    let provinceDelete = "";
-    let yearDelete = "";
 
     // Alerta de mensajes
 
@@ -175,11 +170,11 @@
             },
 
             body: JSON.stringify({
-                province: newName,
-                year: newGoal,
-                couple_children: newRegistrationDate,
-                couple_nochildren: newCreationDate,
-                single_parent: newSingleParent,
+                province: newProvince,
+                year: parseInt(newYear),
+                couple_children: parseInt(newCoupleChildren),
+                couple_nochildren: parseInt(newCoupleNoChildren),
+                single_parent: parseInt(newSingleParent),
             }),
         });
 
@@ -235,7 +230,7 @@
 
     // Borrar proyecciones
 
-    async function deleteProjection() {
+    async function deleteProjections() {
 
         resultStatus = result = "";
 
@@ -272,13 +267,13 @@
 
     // Borrar una proyección
 
-    async function deleteAssociation(province, year) {
+    async function deleteProjection(province, year) {
 
         resultStatus = result = "";
 
         const res = await fetch(
 
-            API + "/" + province + "/" + year,
+            API + "/" + province + "/" + parseInt(year),
 
             {
                 method: "DELETE",
@@ -296,7 +291,7 @@
 
             messageAlert = true;
 
-            message = `La proyección de ${province} del año ${year} se ha eliminado`;
+            message = `La proyección de ${projection.province} del año ${projection.year} se ha eliminado`;
         }
     }
 </script>
@@ -334,9 +329,9 @@
             <Button
                 color="danger"
                 on:click={() => {
-                    deleteProjection();
+                    deleteProjections();
                     toggle();
-                }}>Borrar</Button
+                }}>Eliminar</Button
             >
             <Button color="secondary" on:click={toggle}>Cancelar</Button>
         </ModalFooter>
@@ -354,9 +349,9 @@
             <Button
                 color="danger"
                 on:click={() => {
-                    deleteProjection(provinceDelete, yearDelete);
+                    deleteProjection(projection.province, projection.year);
                     toggleOne();
-                }}>Borrar</Button
+                }}>Eliminar</Button
             >
             <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
         </ModalFooter>
@@ -380,7 +375,7 @@
                     <Input required
                         id="province"
                         bind:value={newProvince}
-                        placeholder="Province"
+                        placeholder="Provincia"
                     />
 
                     <Label for="year">Año</Label>
@@ -448,18 +443,19 @@
                                 <Button
                                     ><a
                                         class="linkStyleless"
+                                        color="primary"
                                         href="/projection-homes-stats/{projection.province}/{projection.year}">
-                                        Editar</a></Button>
+                                        Actualizar</a></Button>
                                 <br/>
                                 <br/>
 
                                 <Button
                                     color="danger"
                                     on:click={() => {
-                                        provinceDelete = projection.province;
-                                        yearDelete = projection.year;
+                                        projection.province;
+                                        projection.year;
                                         toggleOne();
-                                    }}>Borrar</Button>
+                                    }}>Eliminar</Button>
                             </div>
                         </td>
                     </tr>
