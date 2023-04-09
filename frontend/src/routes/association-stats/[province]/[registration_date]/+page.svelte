@@ -3,7 +3,7 @@
 
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import { Button, Table } from "sveltestrap";
+    import { Button, Table, Container, Alert } from "sveltestrap";
     import { page } from "$app/stores";
 
     onMount(async () => {
@@ -13,7 +13,8 @@
     let province = $page.params.province;
     let registration_date = $page.params.registration_date;
 
-    let API = "/api/v2/association-stats" + "/" + province + "/" + registration_date;
+    let API =
+        "/api/v2/association-stats" + "/" + province + "/" + registration_date;
 
     if (dev) API = "http://localhost:12345" + API;
 
@@ -25,8 +26,15 @@
     let updated_province = province;
     let updated_township_code = "";
 
+    let messageAlert = false;
+    let message = "";
+
     let result = "";
     let resultStatus = "";
+
+    function dismissAlert() {
+        messageAlert = false;
+    }
 
     async function getAssociation() {
         resultStatus = result = "";
@@ -52,6 +60,8 @@
 
     async function updateAssociation() {
         resultStatus = result = "";
+        messageAlert = false;
+        console.log("que buena cortesia");
         const res = await fetch(API, {
             method: "PUT",
             headers: {
@@ -69,54 +79,59 @@
         });
         const status = await res.status;
         resultStatus = status;
-        if (status == 200) {
+        console.log("precheck");
+        console.log(status);
+        if (status == 201) {
             getAssociation();
+            messageAlert = true;
+            message = "Asociación actualizada con éxito";
+        } else {
+            getAssociation();
+            messageAlert = true;
+            message = `Los datos introducidos no son correctos para la asociación de ${province} en el año ${registration_date}`;
         }
     }
 </script>
 
-<h2>Detalles del recurso</h2>
-
-<Table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Objetivo</th>
-            <th>Año de registro</th>
-            <th>Año de creacion</th>
-            <th>Código postal</th>
-            <th>Provincia</th>
-            <th>Código de municipio</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{updated_name}</td>
-            <td>{updated_goal}</td>
-            <td>{updated_registration_date} </td>
-            <td><input bind:value={updated_creation_date} /></td>
-            <td><input bind:value={updated_zip_code} /></td>
-            <td>{updated_province} </td>
-            <td><input bind:value={updated_township_code} /></td>
-            <td><Button color="primary" on:click={updateAssociation}>Actualizar</Button></td>
-        </tr>
-    </tbody>
-</Table>
-
-{#if resultStatus != ""}
-    <h6>Depuración:</h6>    
-    <pre>
-    {resultStatus}
-{result}
-    </pre>
-{/if}
+<h2>Detalles de la asociación</h2>
+<Container>
+    {#if messageAlert}
+        <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
+    {/if}
+    <Table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Objetivo</th>
+                <th>Año de registro</th>
+                <th>Año de creacion</th>
+                <th>Código postal</th>
+                <th>Provincia</th>
+                <th>Código de municipio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input bind:value={updated_name} /></td>
+                <td><input bind:value={updated_goal} /></td>
+                <td><input bind:value={updated_registration_date} /> </td>
+                <td><input bind:value={updated_creation_date} /></td>
+                <td><input bind:value={updated_zip_code} /></td>
+                <td><input bind:value={updated_province} /> </td>
+                <td><input bind:value={updated_township_code} /></td>
+            </tr>
+        </tbody>
+    </Table>
+    <Button color="primary" on:click={updateAssociation}>Actualizar</Button>
+</Container>
 
 <style>
-    h6{
-        margin-left: 1%;
-    }
-    h2{
+    h2 {
         margin-left: 1%;
         margin-top: 0.5%;
+    }
+    td, th {
+        /* padding: 0.25rem 0.25rem; */
+        font-size: 0.9rem;
     }
 </style>

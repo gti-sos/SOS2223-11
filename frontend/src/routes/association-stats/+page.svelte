@@ -10,6 +10,14 @@
         ModalBody,
         ModalFooter,
         ModalHeader,
+        Container,
+        Label,
+        Input,
+        Form,
+        FormGroup,
+        Card,
+        CardTitle,
+        Alert,
     } from "sveltestrap";
 
     let open = false;
@@ -38,8 +46,23 @@
     let provinceDelete = "";
     let registrationDateDelete = "";
 
+    let messageAlert = false;
+    let message = "";
+
     let result = "";
     let resultStatus = "";
+
+    // let showForm = false;
+    let showForm = false;
+
+    function dismissAlert() {
+        messageAlert = false;
+    }
+
+    function toggleForm() {
+        showForm = !showForm;
+        messageAlert = false;
+    }
 
     async function getAssociations() {
         resultStatus = result = "";
@@ -58,17 +81,31 @@
     }
 
     async function loadData() {
+        messageAlert = false;
+        if (associations.length > 0 ) {
+            messageAlert = true;
+            message = "Ya existen asociaciones creadas";
+        }
+        else {
         const res = await fetch(API + "/loadInitialData", {
             method: "GET",
         });
         const status = await res.status;
         if (status == 200) {
             getAssociations();
+            messageAlert = true;
+            message = "Asociaciones cargadas con éxito";
         }
+        else {
+            messageAlert = true;
+            message = "No se han podido cargar las asociaciones";
+        }
+    }
     }
 
     async function createAssociation() {
         resultStatus = result = "";
+        messageAlert = false;
         const res = await fetch(API, {
             method: "POST",
             headers: {
@@ -84,14 +121,16 @@
                 township_code: newTownshipCode,
             }),
         });
-        let mensajeUsuario = "";
         const status = await res.status;
         resultStatus = status;
         if (status == 201) {
             getAssociations();
-            mensajeUsuario = "Se ha creado el nuevo dato introducido";
+            toggleForm();
+            messageAlert = true;
+            message = "Asociación creada con exito";
         } else if (status == 409) {
-            mensajeUsuario = "El dato introducido ya existe";
+            messageAlert = true;
+            message = "La asociación ya existe";
             getAssociations();
             // Poner aqui el 400
         } else if (
@@ -103,10 +142,13 @@
             newProvince == "" ||
             newTownshipCode == ""
         ) {
-            mensajeUsuario = "Faltan propiedades por poner al nuevo dato";
+            messageAlert = true;
+            message = "Faltan campos para crear la asociación";
+            
             //getAssociation();
         } else {
-            mensajeUsuario = "No se ha podido crear el dato introducido";
+            messageAlert = true;
+            message = "No se ha podido crear la asociación";
             getAssociations();
         }
     }
@@ -119,6 +161,13 @@
         resultStatus = status;
         if (status == 200) {
             getAssociations();
+            messageAlert = true;
+            message = "Se han eliminado todas las asociaciones";
+        }
+        else {
+            getAssociations();
+            messageAlert = true;
+            message = "Error eliminando las asociaciones";
         }
     }
     async function deleteAssociation(province, registration_date) {
@@ -133,12 +182,18 @@
         resultStatus = status;
         if (status == 200) {
             getAssociations();
+            messageAlert = true;
+            message = `La asociación de ${province} del año ${registration_date} ha sido eliminada`;
         }
     }
 </script>
 
 <h2>
     Asociaciones de andalucía
+    <Button id="createAssociation" color="success" on:click={toggleForm}
+        >Crear asociación</Button
+    >
+    <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
     <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
     <Modal isOpen={open} {toggle}>
         <ModalHeader {toggle}
@@ -165,90 +220,133 @@
             <Button
                 color="primary"
                 on:click={() => {
-                    deleteAssociation(
-                        provinceDelete,
-                        registrationDateDelete
-                    );
+                    deleteAssociation(provinceDelete, registrationDateDelete);
                     toggleOne();
                 }}>Proceder</Button
             >
-            <Button color="secondary" on:click={toggleOne}
-                >Cancelar</Button
-            >
+            <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
         </ModalFooter>
     </Modal>
-
-    <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
 </h2>
+<Container>
+    {#if messageAlert}
+        <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
+    {/if}
+    {#if showForm}
+        <Card class="w-50 p-3 mb-3 mx-auto">
+            <CardTitle>Crea una asociación</CardTitle>
+            <Form on:submit={createAssociation}>
+                <FormGroup>
+                    <Label for="name">Nombre de la asociación</Label>
+                    <Input required
+                        id="name"
+                        bind:value={newName}
+                        placeholder="Nombre"
+                    />
 
-<Table borderless>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Objetivo</th>
-            <th>Año de registro</th>
-            <th>Año de creacion</th>
-            <th>Código postal</th>
-            <th>Provincia</th>
-            <th>Código de municipio</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input bind:value={newName} /></td>
-            <td><input bind:value={newGoal} /></td>
-            <td><input bind:value={newProvince} /></td>
-            <td><input bind:value={newRegistrationDate} /></td>
-            <td><input bind:value={newCreationDate} /></td>
-            <td><input bind:value={newZipCode} /></td>
-            <td><input bind:value={newTownshipCode} /></td>
-            <td
-                ><Button
-                    id="createAssociation"
-                    color="success"
-                    on:click={createAssociation}>Crear</Button
-                ></td
-            >
-        </tr>
+                    <Label for="goal">Objetivo de la asociación</Label>
+                    <Input required
+                        id="goal"
+                        bind:value={newGoal}
+                        placeholder="Objetivo"
+                    />
 
-        {#each associations as association}
-            
-            <tr>
-                <td>{association.name}</td>
-                <td>{association.goal}</td>
-                <td>{association.registration_date}</td>
-                <td>{association.creation_date}</td>
-                <td>{association.zip_code}</td>
-                <td>{association.province}</td>
-                <td>{association.township_code}</td>
-                <td
-                    ><Button
-                        ><a
-                            class="linkStyleless"
-                            href="/association-stats/{association.province}/{association.registration_date}"
-                        >
-                            Editar</a
-                        ></Button
-                    ></td
-                >
-                <td
-                    ><Button color="danger" on:click={()=>{
-                        provinceDelete = association.province;
-                        registrationDateDelete = association.registration_date;
-                        console.log("hola");
-                        toggleOne()}}>Borrar</Button>
-                </td>
-            </tr>
-        {/each}
-    </tbody>
-</Table>
-{#if resultStatus != ""}
-    <h6>Depuración:</h6>
-    <pre>
-        {resultStatus}
-        {result}
-    </pre>
-{/if}
+                    <Label for="province">Provincia</Label>
+                    <Input required
+                        id="province"
+                        bind:value={newProvince}
+                        placeholder="Provincia"
+                    />
+
+                    <Label for="registration-date">Año de registro</Label>
+                    <Input required
+                        id="registration-date"
+                        bind:value={newRegistrationDate}
+                        placeholder="0000"
+                    />
+
+                    <Label for="creation-date">Año de creación</Label>
+                    <Input required
+                        id="creation-date"
+                        bind:value={newCreationDate}
+                        placeholder="0000"
+                    />
+
+                    <Label for="zip-code">Código postal</Label>
+                    <Input required
+                        id="zip-code"
+                        bind:value={newZipCode}
+                        placeholder="00000"
+                    />
+
+                    <Label for="township-code">Código municipal</Label>
+                    <Input required
+                        id="township-code"
+                        bind:value={newTownshipCode}
+                        placeholder="000"
+                        class="mb-3"
+                    />
+
+                    <Button color="success" type="submit">Crear</Button>
+                </FormGroup>
+            </Form>
+        </Card>
+    {/if}
+    {#if !showForm}
+        <Table striped>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Objetivo</th>
+                    <th>Año de registro</th>
+                    <th>Año de creacion</th>
+                    <th>Código postal</th>
+                    <th>Provincia</th>
+                    <th>Código municipal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each associations as association}
+                    <tr>
+                        <td>{association.name}</td>
+                        <td>{association.goal}</td>
+                        <td>{association.registration_date}</td>
+                        <td>{association.creation_date}</td>
+                        <td>{association.zip_code}</td>
+                        <td>{association.province}</td>
+                        <td>{association.township_code}</td>
+                        <td>
+                            <div>
+                                <Button
+                                    ><a
+                                        class="linkStyleless"
+                                        href="/association-stats/{association.province}/{association.registration_date}"
+                                    >
+                                        Editar</a
+                                    ></Button
+                                >
+                                <br />
+                                <br />
+
+                                <Button
+                                    color="danger"
+                                    on:click={() => {
+                                        provinceDelete = association.province;
+                                        registrationDateDelete =
+                                            association.registration_date;
+                                        console.log("hola");
+                                        toggleOne();
+                                    }}>Borrar</Button
+                                >
+                            </div>
+                        </td>
+                    </tr>
+                {/each}
+            </tbody>
+        </Table>
+    {/if}
+</Container>
 
 <style>
     h2 {
@@ -256,26 +354,8 @@
         margin-top: 0.5%;
     }
 
-    h6 {
-        margin-left: 2%;
-    }
-    
     .linkStyleless {
         text-decoration: none;
         color: white;
-    }
-
-    /* Responsive styles */
-    @media only screen and (max-width: 768px) {
-        h2 {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        input {
-            width: 100%;
-            margin-bottom: 0.5rem;
-        }
     }
 </style>

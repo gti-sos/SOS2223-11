@@ -8,6 +8,5 @@
     
         <slot class="slot"></slot>
     
-    <Footer/>
+    <!-- <Footer/> -->
 </main>
-
