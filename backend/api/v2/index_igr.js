@@ -100,10 +100,15 @@ function backend_igr(app) {
     // Base url declaration
     const BASE_API_URL_ASSOC = "/api/v2/association-stats";
 
+    app.get("/api/v1/association-stats/docs", (req, res) => {
+        console.log("Redirection to Postman documentation");
+        res.redirect("https://documenter.getpostman.com/view/26035195/2s93Jxt2eg");
+    });
+
     // Redirection to documentation
     app.get(BASE_API_URL_ASSOC + "/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
-        res.redirect("https://documenter.getpostman.com/view/26035195/2s93Jxt2eg");
+        res.redirect("https://documenter.getpostman.com/view/26035195/2s93XsYRab");
     });
 
     // Load initial data route
