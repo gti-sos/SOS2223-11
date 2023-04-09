@@ -76,6 +76,11 @@ function backend_vrj(app) {
 
     const BASE_API_URL_PHONE = "/api/v2/phone-line-stats";
     //var apiPhoneData = [];
+    app.get("/api/v1/phone-line-stats/docs", (req, res) => {
+        console.log("Redirection to Postman documentation");
+        res.redirect("https://documenter.getpostman.com/view/26051684/2s93JzMgNi");
+    });
+
     app.get(BASE_API_URL_PHONE + "/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
         res.redirect("https://documenter.getpostman.com/view/26051684/2s93XsYRjS");
