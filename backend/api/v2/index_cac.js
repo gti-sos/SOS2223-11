@@ -44,7 +44,7 @@ app.get(BASE_API_URL_PROJECT + "/docs", (request, response) => {
 
     console.log("Redirection to the collection of calls Postman");
 
-    response.redirect("https://documenter.getpostman.com/view/26061381/2s93JzN1UZ");
+    response.redirect("https://documenter.getpostman.com/view/26061381/2s93XsYRtF");
 
 })
 

@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "07519235-5c18-4bf0-924b-da3e80a2055e",
-		"name": "Projection-homes-stats (FrontEnd)",
+		"_postman_id": "6bf0572a-1284-420c-b1e2-15d2f8386472",
+		"name": "Projection-home-stats",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26061381"
 	},
@@ -49,13 +49,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					]
 				}
@@ -92,13 +92,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					]
 				}
@@ -146,13 +146,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Huelva/2015",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Huelva/2015",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Huelva",
 						"2015"
@@ -202,13 +202,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					]
 				}
@@ -240,13 +240,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					]
 				}
@@ -291,13 +291,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz"
 					]
@@ -333,13 +333,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz/2002",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz",
 						"2002"
@@ -386,13 +386,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats?year=2002",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?year=2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					],
 					"query": [
@@ -437,13 +437,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz/2002",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz",
 						"2002"
@@ -478,13 +478,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats?offset=0&limit=1",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?offset=0&limit=1",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					],
 					"query": [
@@ -520,13 +520,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz/2015",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2015",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz",
 						"2015"
@@ -563,13 +563,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Huelva/2018",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Huelva/2018",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Huelva",
 						"2018"
@@ -606,13 +606,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats"
 					]
 				}
@@ -638,13 +638,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz/2002",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz",
 						"2002"
@@ -672,13 +672,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{HOSTURL}}/api/v2/projection-homes-stats/Cádiz/2002",
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
 					"host": [
 						"{{HOSTURL}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"projection-homes-stats",
 						"Cádiz",
 						"2002"
