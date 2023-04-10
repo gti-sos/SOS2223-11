@@ -291,7 +291,7 @@
 
             messageAlert = true;
 
-            message = `La proyección de ${projection.province} del año ${projection.year} se ha eliminado`;
+            message = `La proyección de ${province} del año ${year} se ha eliminado`;
         }
     }
 </script>

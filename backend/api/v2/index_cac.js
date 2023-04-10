@@ -36,6 +36,16 @@ var projectionHomes = [
 
 ];
 
+// Redirigir al enlace /docs para la colección de llamadas de postman (v1)
+
+app.get("/api/v1/projection-homes-stats" + "/docs", (request, response) => {
+
+    console.log("Redirection to the collection of calls Postman");
+
+    response.redirect("https://documenter.getpostman.com/view/26061381/2s93JzN1UZ");
+
+})
+
 const BASE_API_URL_PROJECT = "/api/v2/projection-homes-stats";
 
 // Redirigir al enlace /docs para la colección de llamadas de postman
@@ -47,6 +57,8 @@ app.get(BASE_API_URL_PROJECT + "/docs", (request, response) => {
     response.redirect("https://documenter.getpostman.com/view/26061381/2s93XsYRtF");
 
 })
+
+
 
 // Cargar datos en la base de datos
 

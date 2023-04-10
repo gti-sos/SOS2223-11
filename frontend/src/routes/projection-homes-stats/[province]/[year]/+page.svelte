@@ -31,8 +31,8 @@
     
         API = "https://sos2223-11.ew.r.appspot.com" + API;
 
-    let provinceUpdate = "";
-    let yearUpdate = "";
+    let provinceUpdate = province;
+    let yearUpdate = year;
     let coupleChildrenUpdate = "";
     let coupleNoChildrenUpdate = "";
     let singleParentUpdate = "";
@@ -66,10 +66,10 @@
             result = JSON.stringify(data, null, 2);
 
             provinceUpdate = data.province;
-            yearUpdate = parseInt(data.year);
-            coupleChildrenUpdate = parseInt(data.couple_children);
-            coupleNoChildrenUpdate = parseInt(data.couple_nochildren);
-            singleParentUpdate = parseInt(data.single_parent);
+            yearUpdate = data.year;
+            coupleChildrenUpdate = data.couple_children;
+            coupleNoChildrenUpdate = data.couple_nochildren;
+            singleParentUpdate = data.single_parent;
             
         } 
         
@@ -80,6 +80,7 @@
         }
 
         const status = await res.status;
+
         resultStatus = status;
 
     }
@@ -119,8 +120,15 @@
             message = "Proyección actualizada";
 
         } 
+
+        if (status == 404) {
+
+            message = `El recurso ${province} ${year} no existe`;
+
+        }
         
         else {
+
             getProjection();
 
             messageAlert = true;
@@ -128,7 +136,9 @@
             message = `Datos introducidos incorrectos para la proyección de ${province} en el año ${year}`;
 
         }
+        
     }
+
 </script>
 
 <Container>
@@ -142,35 +152,35 @@
             <Form on:submit={updateProjection}>
                 <FormGroup>
                     <Label for="province">Provincia</Label>
-                    <Input required
+                    <Input
                         id="province"
                         bind:value={provinceUpdate}
                         placeholder="Provincia"
                     />
 
                     <Label for="year">Año</Label>
-                    <Input required
+                    <Input
                         id="year"
                         bind:value={yearUpdate}
                         placeholder="Año"
                     />
 
                     <Label for="couple_children">Parejas con hijos</Label>
-                    <Input required
+                    <Input
                         id="couple_children"
                         bind:value={coupleChildrenUpdate}
                         placeholder="Número de parejas con hijos"
                     />
 
                     <Label for="couple_nochildren">Parejas sin hijos</Label>
-                    <Input required
+                    <Input
                         id="couple_nochildren"
                         bind:value={coupleNoChildrenUpdate}
                         placeholder="Número de parejas sin hijos"
                     />
 
                     <Label for="single_parent">Personas solteras</Label>
-                    <Input required
+                    <Input
                         id="single_parent"
                         bind:value={singleParentUpdate}
                         placeholder="Número de personas solteras"
