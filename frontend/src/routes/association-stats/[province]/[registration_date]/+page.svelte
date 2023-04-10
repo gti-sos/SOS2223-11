@@ -36,6 +36,8 @@
         messageAlert = false;
     }
 
+    let right = true;
+
     async function getAssociation() {
         resultStatus = result = "";
         const res = await fetch(API, {
@@ -51,7 +53,11 @@
             updated_zip_code = data.zip_code;
             updated_province = data.province;
             updated_township_code = data.township_code;
+            right = true;
         } catch (error) {
+            right = false;
+            messageAlert = true;
+            message = "La asociación no existe";
             console.log(`Error parsing result: ${error}`);
         }
         const status = await res.status;
@@ -98,31 +104,36 @@
     {#if messageAlert}
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
     {/if}
-    <Table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Objetivo</th>
-                <th>Año de registro</th>
-                <th>Año de creacion</th>
-                <th>Código postal</th>
-                <th>Provincia</th>
-                <th>Código de municipio</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input bind:value={updated_name} /></td>
-                <td><input bind:value={updated_goal} /></td>
-                <td><input bind:value={updated_registration_date} /> </td>
-                <td><input bind:value={updated_creation_date} /></td>
-                <td><input bind:value={updated_zip_code} /></td>
-                <td><input bind:value={updated_province} /> </td>
-                <td><input bind:value={updated_township_code} /></td>
-            </tr>
-        </tbody>
-    </Table>
-    <Button color="primary" on:click={updateAssociation}>Actualizar</Button>
+{#if right}
+<Table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Objetivo</th>
+            <th>Año de registro</th>
+            <th>Año de creacion</th>
+            <th>Código postal</th>
+            <th>Provincia</th>
+            <th>Código de municipio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input bind:value={updated_name} /></td>
+            <td><input bind:value={updated_goal} /></td>
+            <td><input bind:value={updated_registration_date} /> </td>
+            <td><input bind:value={updated_creation_date} /></td>
+            <td><input bind:value={updated_zip_code} /></td>
+            <td><input bind:value={updated_province} /> </td>
+            <td><input bind:value={updated_township_code} /></td>
+        </tr>
+    </tbody>
+</Table>
+<Button color="primary" on:click={updateAssociation}>Actualizar</Button>
+{/if}
+{#if !right}
+{/if}
+    
 </Container>
 
 <style>
