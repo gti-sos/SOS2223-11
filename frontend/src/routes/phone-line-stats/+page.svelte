@@ -106,6 +106,26 @@ let visible = true
             color = "success" 
         }
     }
+    async function loadPhones () {
+        if (phones.length > 0 ) {
+            mensaje = "Ya existen telefonos creados";
+            color = "danger"
+        }
+        else {
+        const res = await fetch(API + "/loadInitialData", {
+            method: "GET",
+        });
+        const status = await res.status;
+        if (status == 200) {
+            getPhones();
+            mensaje = "Asociaciones cargadas con éxito";
+            color = "success"
+        }
+        else {
+            mensaje = "No se han podido cargar las asociaciones";
+        }
+    }
+        }
 
 
 </script>
@@ -141,7 +161,7 @@ let visible = true
                     <DropdownMenu>
                       <DropdownItem header>Header</DropdownItem>
                       <DropdownItem on:click={createPhone} on:click={() => (visible = true)}>Crear recurso</DropdownItem>
-                      <DropdownItem on:click={getPhones}>Listar Datos</DropdownItem>
+                      <DropdownItem on:click={loadPhones}>Cargar telefonos</DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem header>Eliminar</DropdownItem>
                       <DropdownItem on:click={deleteAll} on:click={()=>(visible=true)}>Borrar datos</DropdownItem>
