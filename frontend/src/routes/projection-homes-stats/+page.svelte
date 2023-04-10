@@ -1,5 +1,4 @@
 <script>
-
     // Importamos todo lo que nos hace falta y todos los objetos para los estilos
 
     import { onMount } from "svelte";
@@ -36,9 +35,7 @@
 
     let API = "/api/v2/projection-homes-stats";
 
-    if (dev) 
-        
-        API = "https://sos2223-11.ew.r.appspot.com" + API;
+    if (dev) API = "https://sos2223-11.ew.r.appspot.com" + API;
 
     // Variable global
 
@@ -76,96 +73,68 @@
     // Obtener proyecciones
 
     async function getProjection() {
-
         resultStatus = result = "";
 
         const res = await fetch(API, {
-
             method: "GET",
         });
 
         try {
-
             const data = await res.json();
 
             result = JSON.stringify(data, null, 2);
 
             projection = data;
-
-        } 
-        
-        catch (error) {
-
+        } catch (error) {
             console.log(`Error parsing result: ${error}`);
-
         }
 
         const status = await res.status;
 
         resultStatus = status;
-
     }
 
     // Cargar los datos
 
     async function loadData() {
-
         messageAlert = false;
 
-        if (projection.length > 0 ) {
-
+        if (projection.length > 0) {
             messageAlert = true;
 
             message = "Las proyecciones ya existen";
+        } else {
+            const res = await fetch(API + "/loadInitialData", {
+                method: "GET",
+            });
 
+            const status = await res.status;
+
+            if (status == 200) {
+                getProjection();
+
+                messageAlert = true;
+
+                message = "Proyecciones cargadas";
+            } else {
+                messageAlert = true;
+
+                message = "No se han podido cargar las proyecciones";
+            }
         }
-
-        else {
-
-        const res = await fetch(API + "/loadInitialData", {
-
-            method: "GET",
-
-        });
-
-        const status = await res.status;
-
-        if (status == 200) {
-
-            getProjection();
-
-            messageAlert = true;
-
-            message = "Proyecciones cargadas";
-
-        }
-
-        else {
-
-            messageAlert = true;
-
-            message = "No se han podido cargar las proyecciones";
-
-        }
-
-    }
-
     }
 
     // Crear una proyección
 
     async function createProjection() {
-
         resultStatus = result = "";
 
         messageAlert = false;
 
         const res = await fetch(API, {
-
             method: "POST",
-            
-            headers: {
 
+            headers: {
                 "Content-Type": "application/json",
             },
 
@@ -183,7 +152,6 @@
         resultStatus = status;
 
         if (status == 201) {
-
             getProjection();
 
             toggleForm();
@@ -191,53 +159,37 @@
             messageAlert = true;
 
             message = "Proyección creada con éxito";
-
-        } 
-        
-        else if (status == 409) {
-
+        } else if (status == 409) {
             messageAlert = true;
 
             message = "La proyección ya existe";
 
             getProjection();
-            
-        } 
-        
-        else if (status == 400) {
-
+        } else if (status == 400) {
             newProvince == "" ||
-            newYear == "" ||
-            newCoupleChildren == "" ||
-            newCoupleNoChildren == "" ||
-            newSingleParent == ""
+                newYear == "" ||
+                newCoupleChildren == "" ||
+                newCoupleNoChildren == "" ||
+                newSingleParent == "";
 
             messageAlert = true;
             message = "Faltan campos para crear la proyección";
-            
-        } 
-        
-        else {
-
+        } else {
             messageAlert = true;
 
             message = "No se ha podido crear la proyección";
 
             getProjection();
-
         }
     }
 
     // Borrar proyecciones
 
     async function deleteProjections() {
-
         resultStatus = result = "";
 
         const res = await fetch(API, {
-
             method: "DELETE",
-
         });
 
         const status = await res.status;
@@ -245,40 +197,31 @@
         resultStatus = status;
 
         if (status == 200) {
-
             getProjection();
 
             messageAlert = true;
 
             message = "Se eliminaron todas las proyecciones";
-
-        }
-
-        else {
-
+        } else {
             getProjection();
 
             messageAlert = true;
 
             message = "No se han eliminado las proyecciones";
-
         }
     }
 
     // Borrar una proyección
 
     async function deleteProjection(province, year) {
-
         resultStatus = result = "";
 
         const res = await fetch(
-
             API + "/" + province + "/" + parseInt(year),
 
             {
                 method: "DELETE",
             }
-
         );
 
         const status = await res.status;
@@ -286,7 +229,6 @@
         resultStatus = status;
 
         if (status == 200) {
-
             getProjection();
 
             messageAlert = true;
@@ -297,31 +239,30 @@
 </script>
 
 <h2>
-
     <center><p>Proyección de hogares</p></center>
 
     <!--Crear proyeccion -->
 
     <center>
+        <Button id="createProjection" color="primary" on:click={toggleForm}
+            >Crear Proyección</Button
+        >
 
-    <Button id="createProjection" color = "primary" on:click={toggleForm}>Crear Proyección</Button>
+        <!--Cargar proyeccion -->
 
-    <!--Cargar proyeccion -->
+        <Button color="success" on:click={loadData}>Cargar proyecciones</Button>
 
-    <Button color="success" on:click={loadData}>Cargar proyecciones</Button>
+        <!--Borrar proyecciones -->
 
-    <!--Borrar proyecciones -->
+        <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
 
-    <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
-
-    <!-- Alertas proyecciones -->
-
+        <!-- Alertas proyecciones -->
     </center>
 
     <Modal isOpen={open} {toggle}>
-
         <ModalHeader {toggle}
-            >Atención: Vas a borrar todos los recursos de la base de datos</ModalHeader>
+            >Atención: Vas a borrar todos los recursos de la base de datos</ModalHeader
+        >
 
         <ModalBody>¿Estás seguro?</ModalBody>
 
@@ -335,13 +276,13 @@
             >
             <Button color="secondary" on:click={toggle}>Cancelar</Button>
         </ModalFooter>
-    
-    <!-- Alertas proyeccion -->
 
+        <!-- Alertas proyeccion -->
     </Modal>
     <Modal isOpen={openOne} {toggleOne}>
         <ModalHeader {toggleOne}
-            >Atención: Vas a borrar el recurso seleccionado de la base de datos</ModalHeader>
+            >Atención: Vas a borrar el recurso seleccionado de la base de datos</ModalHeader
+        >
 
         <ModalBody>¿Estás seguro?</ModalBody>
 
@@ -361,10 +302,8 @@
 <!-- Formulario para crear una proyección -->
 
 <Container>
-
     {#if messageAlert}
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
-
     {/if}
     {#if showForm}
         <Card class="w-50 p-3 mb-3 mx-auto">
@@ -372,50 +311,53 @@
             <Form on:submit={createProjection}>
                 <FormGroup>
                     <Label for="province">Provincia</Label>
-                    <Input required
+                    <Input
+                        required
                         id="province"
                         bind:value={newProvince}
                         placeholder="Provincia"
                     />
 
                     <Label for="year">Año</Label>
-                    <Input required
+                    <Input
+                        required
                         id="year"
                         bind:value={newYear}
                         placeholder="Año"
                     />
 
                     <Label for="couple_children">Parejas con hijos</Label>
-                    <Input required
+                    <Input
+                        required
                         id="couple_children"
                         bind:value={newCoupleChildren}
                         placeholder="Número de parejas con hijos"
                     />
 
                     <Label for="couple_nochildren">Parejas sin hijos</Label>
-                    <Input required
+                    <Input
+                        required
                         id="couple_nochildren"
                         bind:value={newCoupleNoChildren}
                         placeholder="Número de parejas sin hijos"
                     />
 
                     <Label for="single_parent">Personas solteras</Label>
-                    <Input required
+                    <Input
+                        required
                         id="single_parent"
                         bind:value={newSingleParent}
                         placeholder="Número de personas solteras"
                     />
 
                     <center>
-                    <p>
-                    <Button color="success" type="submit">Crear</Button>
-                    </p>
+                        <p>
+                            <Button color="success" type="submit">Crear</Button>
+                        </p>
                     </center>
-
                 </FormGroup>
             </Form>
         </Card>
-
     {/if}
     {#if !showForm}
         <Table bordered>
@@ -428,7 +370,7 @@
                     <th>Personas solteras</th>
                 </tr>
             </thead>
-            
+
             <tbody>
                 {#each projection as projections}
                     <tr>
@@ -438,16 +380,18 @@
                         <td>{projections.couple_nochildren}</td>
                         <td>{projections.single_parent}</td>
                         <td>
-
-                                <div>
+                            <div>
                                 <Button
                                     ><a
                                         class="linkStyleless"
                                         color="primary"
-                                        href="/projection-homes-stats/{projection.province}/{projection.year}">
-                                        Actualizar</a></Button>
-                                <br/>
-                                <br/>
+                                        href="/projection-homes-stats/{projection.province}/{projection.year}"
+                                    >
+                                        Actualizar</a
+                                    ></Button
+                                >
+                                <br />
+                                <br />
 
                                 <Button
                                     color="danger"
@@ -455,7 +399,8 @@
                                         projection.province;
                                         projection.year;
                                         toggleOne();
-                                    }}>Eliminar</Button>
+                                    }}>Eliminar</Button
+                                >
                             </div>
                         </td>
                     </tr>
@@ -466,7 +411,6 @@
 </Container>
 
 <style>
-
     h2 {
         margin-left: 2%;
         margin-top: 0.5%;

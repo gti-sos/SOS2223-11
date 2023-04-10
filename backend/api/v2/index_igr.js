@@ -216,8 +216,14 @@ function backend_igr(app) {
                 res.sendStatus(500);
             }
             else {
-                console.log(`Deleted ${numRemoved} association(s)`);
-                res.sendStatus(200);
+                if (numRemoved == 0) {
+                    console.log(`No associations to delete`);
+                    res.sendStatus(404);
+                }
+                else {
+                    console.log(`Deleted ${numRemoved} association(s)`);
+                    res.sendStatus(200);
+                }
             }
         });
     });
@@ -328,7 +334,7 @@ function backend_igr(app) {
                 res.sendStatus(500);
             } else {
                 if (numRemoved === 0) {
-                    console.log(`Removed ${numRemoved} association(s)`);
+                    console.log(`Association not found`);
                     res.sendStatus(404);
                 } else {
                     console.log(`Removed ${numRemoved} association(s)`);

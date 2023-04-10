@@ -82,25 +82,23 @@
 
     async function loadData() {
         messageAlert = false;
-        if (associations.length > 0 ) {
+        if (associations.length > 0) {
             messageAlert = true;
             message = "Ya existen asociaciones creadas";
+        } else {
+            const res = await fetch(API + "/loadInitialData", {
+                method: "GET",
+            });
+            const status = await res.status;
+            if (status == 200) {
+                getAssociations();
+                messageAlert = true;
+                message = "Asociaciones cargadas con éxito";
+            } else {
+                messageAlert = true;
+                message = "No se han podido cargar las asociaciones";
+            }
         }
-        else {
-        const res = await fetch(API + "/loadInitialData", {
-            method: "GET",
-        });
-        const status = await res.status;
-        if (status == 200) {
-            getAssociations();
-            messageAlert = true;
-            message = "Asociaciones cargadas con éxito";
-        }
-        else {
-            messageAlert = true;
-            message = "No se han podido cargar las asociaciones";
-        }
-    }
     }
 
     async function createAssociation() {
@@ -144,7 +142,7 @@
         ) {
             messageAlert = true;
             message = "Faltan campos para crear la asociación";
-            
+
             //getAssociation();
         } else {
             messageAlert = true;
@@ -163,8 +161,10 @@
             getAssociations();
             messageAlert = true;
             message = "Se han eliminado todas las asociaciones";
-        }
-        else {
+        } else if (status == 404) {
+            messageAlert = true;
+            message = `No existen asociaciones que eliminar`;
+        } else {
             getAssociations();
             messageAlert = true;
             message = "Error eliminando las asociaciones";
@@ -184,6 +184,10 @@
             getAssociations();
             messageAlert = true;
             message = `La asociación de ${province} del año ${registration_date} ha sido eliminada`;
+        } else if (status == 404) {
+            messageAlert = true;
+            message = `La asociación de ${province} del año ${registration_date} no ha podido ser eliminada`;
+        } else {
         }
     }
 </script>
@@ -238,49 +242,56 @@
             <Form on:submit={createAssociation}>
                 <FormGroup>
                     <Label for="name">Nombre de la asociación</Label>
-                    <Input required
+                    <Input
+                        required
                         id="name"
                         bind:value={newName}
                         placeholder="Nombre"
                     />
 
                     <Label for="goal">Objetivo de la asociación</Label>
-                    <Input required
+                    <Input
+                        required
                         id="goal"
                         bind:value={newGoal}
                         placeholder="Objetivo"
                     />
 
                     <Label for="province">Provincia</Label>
-                    <Input required
+                    <Input
+                        required
                         id="province"
                         bind:value={newProvince}
                         placeholder="Provincia"
                     />
 
                     <Label for="registration-date">Año de registro</Label>
-                    <Input required
+                    <Input
+                        required
                         id="registration-date"
                         bind:value={newRegistrationDate}
                         placeholder="0000"
                     />
 
                     <Label for="creation-date">Año de creación</Label>
-                    <Input required
+                    <Input
+                        required
                         id="creation-date"
                         bind:value={newCreationDate}
                         placeholder="0000"
                     />
 
                     <Label for="zip-code">Código postal</Label>
-                    <Input required
+                    <Input
+                        required
                         id="zip-code"
                         bind:value={newZipCode}
                         placeholder="00000"
                     />
 
                     <Label for="township-code">Código municipal</Label>
-                    <Input required
+                    <Input
+                        required
                         id="township-code"
                         bind:value={newTownshipCode}
                         placeholder="000"
