@@ -18,13 +18,10 @@
 
     <Nav navbar>
       <NavItem>
-        <NavLink href="/" class="text-white">Home</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href="#" class="text-white">About</NavLink>
+        <NavLink href="/" class="text-white">Inicio</NavLink>
       </NavItem>
       <Dropdown nav inNavbar>
-        <DropdownToggle nav caret class="text-white">Frontend</DropdownToggle>
+        <DropdownToggle nav caret class="text-white">Interfaces</DropdownToggle>
         <DropdownMenu end>
           <DropdownItem
             ><NavLink href="/association-stats" class="text-black"
