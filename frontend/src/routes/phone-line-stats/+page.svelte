@@ -114,11 +114,11 @@ let visible = true
         const status = await res.status;
         if (status == 200) {
             getPhones();
-            mensaje = "Asociaciones cargadas con éxito";
+            mensaje = "telefonos cargadas con éxito";
             color = "success"
         }
         else {
-            mensaje = "No se han podido cargar las asociaciones";
+            mensaje = "No se han podido cargar las telefonos";
         }
     }
         }
