@@ -20,7 +20,6 @@
       <NavItem>
         <NavLink href="/" class="text-white">Inicio</NavLink>
       </NavItem>
-      
       <Dropdown nav inNavbar>
         <DropdownToggle nav caret class="text-white">Interfaces</DropdownToggle>
         <DropdownMenu end>
