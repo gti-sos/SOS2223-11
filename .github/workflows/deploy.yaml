@@ -21,9 +21,9 @@ jobs:
 
       - run: npm start &
 
-      - run: npm run test-association-stats && npm run test-phone-line-stats && npm run test-projection-homes-stats
+      #- run: npm run test-association-stats && npm run test-phone-line-stats && npm run test-projection-homes-stats
       
-      # - run: npm test
+      - run: npm test
       
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
