@@ -187,7 +187,6 @@ let visible = true
             ></td>
           </tr>
           {/each}
-          <!-- {/if}  -->
         </tbody>
       </Table>
 
