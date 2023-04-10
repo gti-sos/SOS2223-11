@@ -167,7 +167,6 @@ let visible = true
                       <DropdownItem on:click={deleteAll} on:click={()=>(visible=true)}>Borrar datos</DropdownItem>
                     </DropdownMenu>
                   </ButtonDropdown></td>
-                <!-- <td><Button on:click={createPhone}>Create</Button></td> -->
             </tr>
         <!-- {#if resultStatus === 200} -->
         {#each phones as phone}
