@@ -100,6 +100,17 @@
             }
         }
     }
+    async function reload() {
+        messageAlert = false;
+        try {
+            getAssociations();
+            messageAlert = true;
+            message = "Lista de asociaciones recargada con éxito";
+        } catch (error) {
+            messageAlert = true;
+            message = "No se ha podido recargar la lista de asociaciones";
+        }
+    }
 
     async function createAssociation() {
         resultStatus = result = "";
@@ -125,10 +136,10 @@
             getAssociations();
             toggleForm();
             messageAlert = true;
-            message = "Asociación creada con exito";
+            message = `La asociación de ${newProvince} del año ${newRegistrationDate} ha sido creada con exito`;
         } else if (status == 409) {
             messageAlert = true;
-            message = "La asociación ya existe";
+            message = `La asociación de ${newProvince} del año ${newRegistrationDate} ya existe`;
             getAssociations();
             // Poner aqui el 400
         } else if (
@@ -198,6 +209,7 @@
         >Crear asociación</Button
     >
     <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
+    <Button color="primary" on:click={reload}>Recargar asociaciones</Button>
     <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
     <Modal isOpen={open} {toggle}>
         <ModalHeader {toggle}
