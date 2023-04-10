@@ -1,7 +1,7 @@
 {
   "name": "sos2223-11",
   "version": "1.0.0",
-  "description": "This is a project for Feedback F07",
+  "description": "This is a project for Feedback F09",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,12 @@
     "test-association-stats": "npx newman run ./tests/backend-association-stats.json -e ./tests/env/gcloud-env.json",
     "test-projection-homes-stats": "npx newman run ./tests/backend-projection-homes-stats.json -e ./tests/env/gcloud-env.json",
     "test-phone-line-stats": "npx newman run ./tests/backend-phone-line-stats.json -e ./tests/env/gcloud-env.json",
-    "test": "npm run test-association-stats && npm run test-projection-homes-stats && npm run test-phone-line-stats"
+    "test": "npm run test-association-stats && npm run test-projection-homes-stats && npm run test-phone-line-stats",
+    "start-v1-local": "node indexv1",
+    "test-association-stats-local": "npx newman run ./tests/backend-association-stats_v1.json -e ./tests/env/localhost-env.json",
+    "test-projection-homes-stats-local": "npx newman run ./tests/backend-projection-homes-stats_v1.json -e ./tests/env/localhost-env.json",
+    "test-phone-line-stats-local": "npx newman run ./tests/backend-phone-line-stats_v1.json -e ./tests/env/localhost-env.json",
+    "test-v1-local": "npm run test-association-stats-local && npm run test-projection-homes-stats-local && npm run test-phone-line-stats-local"
   },
   "repository": {
     "type": "git",
