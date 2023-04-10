@@ -61,6 +61,7 @@
             coupleChildrenUpdate = data.couple_children;
             coupleNoChildrenUpdate = data.couple_nochildren;
             singleParentUpdate = data.single_parent;
+            
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
