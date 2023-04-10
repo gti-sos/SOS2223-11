@@ -188,8 +188,6 @@ let visible = true
           {/each}
         </tbody>
       </Table>
-
-      
     <!-- {#if resultStatus != ""}
         <p>
             Result:
