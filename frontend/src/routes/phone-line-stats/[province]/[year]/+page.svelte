@@ -89,7 +89,8 @@ if(dev){
        toggle={() => (visible = false)}
        >{mensaje}</Alert>
 {/if}
-{#if resultStatus !== "404"}
+
+{#if resultStatus != 404}
     <Table>
         <thead>
           <tr>
