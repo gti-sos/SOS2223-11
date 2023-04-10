@@ -38,10 +38,6 @@ let visible = true
             }
             const status = await res.status;
             resultStatus = status;	
-            // if(status == 200){
-            //     mensaje = "Datos listados correctamente";
-            //     color = "success";
-            // }
         }
 
         async function createPhone () {
