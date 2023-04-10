@@ -157,7 +157,7 @@ let visible = true
                 <td><input bind:value={newPhonePostPaymentPhoneLine}></td>
                 <td><input bind:value={newPhoneWideLandline}></td>
                 <td><ButtonDropdown>
-                    <DropdownToggle color="primary" caret>Actions</DropdownToggle>
+                    <DropdownToggle color="primary" caret>Acciones</DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem header>Header</DropdownItem>
                       <DropdownItem on:click={createPhone} on:click={() => (visible = true)}>Crear recurso</DropdownItem>
