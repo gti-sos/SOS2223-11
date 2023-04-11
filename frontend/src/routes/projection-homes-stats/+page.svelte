@@ -1,4 +1,5 @@
 <script>
+
     // Importamos todo lo que nos hace falta y todos los objetos para los estilos
 
     import { onMount } from "svelte";
@@ -30,12 +31,16 @@
     // Obtener proyección de hogares
 
     onMount(async () => {
+
         getProjection();
+
     });
 
     let API = "/api/v2/projection-homes-stats";
 
-    if (dev) API = "https://sos2223-11.ew.r.appspot.com" + API;
+    if (dev) 
+    
+        API = "https://sos2223-11.ew.r.appspot.com" + API;
 
     // Variable global
 
@@ -49,6 +54,11 @@
     let newCoupleNoChildren = "";
     let newSingleParent = "";
 
+    // Para DELETE 
+
+    let provinceDelete = "";
+    let yearDelete = "";
+
     // Alerta de mensajes
 
     let messageAlert = false;
@@ -57,66 +67,95 @@
     // Mostrar resultados
 
     let result = "";
+
     let resultStatus = "";
 
     let showForm = false;
 
     function dismissAlert() {
+
         messageAlert = false;
+
     }
 
     function toggleForm() {
+
         showForm = !showForm;
+
         messageAlert = false;
+
     }
 
     // Obtener proyecciones
 
     async function getProjection() {
+
         resultStatus = result = "";
 
         const res = await fetch(API, {
+
             method: "GET",
+
         });
 
         try {
+
             const data = await res.json();
 
             result = JSON.stringify(data, null, 2);
 
             projection = data;
-        } catch (error) {
+
+        } 
+        
+        catch (error) {
+
             console.log(`Error parsing result: ${error}`);
+
         }
 
         const status = await res.status;
 
         resultStatus = status;
+
     }
 
     // Cargar los datos
 
     async function loadData() {
+
         messageAlert = false;
 
         if (projection.length > 0) {
+
             messageAlert = true;
 
             message = "Las proyecciones ya existen";
-        } else {
+
+        } 
+        
+        else {
+
             const res = await fetch(API + "/loadInitialData", {
+
                 method: "GET",
+
             });
 
             const status = await res.status;
 
             if (status == 200) {
+
                 getProjection();
 
                 messageAlert = true;
 
                 message = "Proyecciones cargadas";
-            } else {
+
+            } 
+            
+            else {
+
                 messageAlert = true;
 
                 message = "No se han podido cargar las proyecciones";
@@ -127,11 +166,13 @@
     // Crear una proyección
 
     async function createProjection() {
+
         resultStatus = result = "";
 
         messageAlert = false;
 
         const res = await fetch(API, {
+
             method: "POST",
 
             headers: {
@@ -152,6 +193,7 @@
         resultStatus = status;
 
         if (status == 201) {
+
             getProjection();
 
             toggleForm();
@@ -159,37 +201,48 @@
             messageAlert = true;
 
             message = "Proyección creada con éxito";
-        } else if (status == 409) {
+
+        } 
+        
+        else if (status == 409) {
+
             messageAlert = true;
 
             message = "La proyección ya existe";
 
             getProjection();
-        } else if (status == 400) {
-            newProvince == "" ||
-                newYear == "" ||
-                newCoupleChildren == "" ||
-                newCoupleNoChildren == "" ||
-                newSingleParent == "";
+
+        } 
+        
+        else if (status == 400) {
 
             messageAlert = true;
+
             message = "Faltan campos para crear la proyección";
-        } else {
+
+        } 
+        
+        else {
+
             messageAlert = true;
 
             message = "No se ha podido crear la proyección";
 
             getProjection();
+
         }
     }
 
     // Borrar proyecciones
 
     async function deleteProjections() {
+
         resultStatus = result = "";
 
         const res = await fetch(API, {
+
             method: "DELETE",
+
         });
 
         const status = await res.status;
@@ -197,45 +250,72 @@
         resultStatus = status;
 
         if (status == 200) {
+
+            location.reload();
+
             getProjection();
 
             messageAlert = true;
 
             message = "Se eliminaron todas las proyecciones";
-        } else {
+
+        } 
+        
+        else {
+
             getProjection();
 
             messageAlert = true;
 
             message = "No se han eliminado las proyecciones";
+
         }
+
     }
 
     // Borrar una proyección
 
     async function deleteProjection(province, year) {
+
         resultStatus = result = "";
 
-        const res = await fetch(
-            API + "/" + province + "/" + parseInt(year),
+        const res = await fetch(API + "/" + province + "/" + year, {
 
-            {
-                method: "DELETE",
-            }
-        );
+        method: "DELETE",
+
+    });
 
         const status = await res.status;
 
         resultStatus = status;
 
         if (status == 200) {
-            getProjection();
 
             messageAlert = true;
 
-            message = `La proyección de ${province} del año ${year} se ha eliminado`;
+            message = `La proyección de ${province} del año ${year} ha sido eliminada`;
+        
+            getProjection();
+
+        }
+
+        else if (status == 500) {
+
+            messageAlert = true;
+
+            message = "Error interno";
+
+        }
+
+        else if(status == 404) {
+
+            messageAlert = true;
+
+            message = `La proyección de ${province} del año ${year} no ha podido ser eliminada`;
+            
         }
     }
+    
 </script>
 
 <h2>
@@ -257,6 +337,7 @@
         <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
 
         <!-- Alertas proyecciones -->
+
     </center>
 
     <Modal isOpen={open} {toggle}>
@@ -278,6 +359,7 @@
         </ModalFooter>
 
         <!-- Alertas proyeccion -->
+
     </Modal>
     <Modal isOpen={openOne} {toggleOne}>
         <ModalHeader {toggleOne}
@@ -290,7 +372,7 @@
             <Button
                 color="danger"
                 on:click={() => {
-                    deleteProjection(projection.province, projection.year);
+                    deleteProjection(provinceDelete, yearDelete);
                     toggleOne();
                 }}>Eliminar</Button
             >
@@ -385,7 +467,7 @@
                                     ><a
                                         class="linkStyleless"
                                         color="primary"
-                                        href="/projection-homes-stats/{projection.province}/{projection.year}"
+                                        href="/projection-homes-stats/{projections.province}/{projections.year}"
                                     >
                                         Actualizar</a
                                     ></Button
@@ -396,8 +478,8 @@
                                 <Button
                                     color="danger"
                                     on:click={() => {
-                                        projection.province;
-                                        projection.year;
+                                        provinceDelete = projections.province;
+                                        yearDelete = projections.year;
                                         toggleOne();
                                     }}>Eliminar</Button
                                 >

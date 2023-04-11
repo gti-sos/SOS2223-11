@@ -9,7 +9,7 @@ jobs:
   deploy:
     name: Deploy to Google Cloud Run
     runs-on: ubuntu-latest
-    environment: production
+    environment: D01
     steps:
       - uses: actions/checkout@v2
 

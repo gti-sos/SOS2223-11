@@ -18,94 +18,143 @@
     import { page } from "$app/stores";
 
     onMount(async () => {
+
         getProjection();
+
     });
 
+    let API = "/api/v2/projection-homes-stats";
+
+    if (dev) 
+    
+        API = "https://sos2223-11.ew.r.appspot.com" + API;
+
+    let messageAlert = false;
+    let message = "";
+
+    let dato = [];
+    let result = "";
+    let resultStatus = "";
+
+    function dismissAlert() {
+
+        messageAlert = false;
+
+    }
+
     let province = $page.params.province;
-    let year = parseInt($page.params.year);
-
-    let API = "/api/v2/projection-homes-stats" + "/" + province + "/" + year;
-
-    if (dev) API = "https://sos2223-11.ew.r.appspot.com" + API;
-
+    let year = $page.params.year;
     let provinceUpdate = province;
     let yearUpdate = year;
     let coupleChildrenUpdate = "";
     let coupleNoChildrenUpdate = "";
     let singleParentUpdate = "";
 
-    let messageAlert = false;
-    let message = "";
-
-    let result = "";
-    let resultStatus = "";
-
-    function dismissAlert() {
-        messageAlert = false;
-    }
-
     async function getProjection() {
+
         resultStatus = result = "";
 
-        const res = await fetch(API, {
+        const res = await fetch(API + "/" + province + "/" + year, {
+
             method: "GET",
+
         });
 
         try {
+
             const data = await res.json();
 
             result = JSON.stringify(data, null, 2);
 
-            provinceUpdate = data.province;
-            yearUpdate = data.year;
-            coupleChildrenUpdate = data.couple_children;
-            coupleNoChildrenUpdate = data.couple_nochildren;
-            singleParentUpdate = data.single_parent;
+            dato = data;
+            provinceUpdate = dato.province;
+            yearUpdate = dato.year;
+            coupleChildrenUpdate = dato.couple_children;
+            coupleNoChildrenUpdate = dato.couple_nochildren;
+            singleParentUpdate = dato.single_parent;
             
-        } catch (error) {
+        } 
+        
+        catch (error) {
+
             console.log(`Error parsing result: ${error}`);
+
         }
 
         const status = await res.status;
 
         resultStatus = status;
+
+        if(status == 404) {
+
+            message = `La provincia ${province} del año ${year} no ha sido encontrada`;
+
+        }
+
+        if(status == 500) {
+
+            message = "Error interno";
+
+        }
+
     }
 
     async function updateProjection() {
+
         resultStatus = result = "";
 
         messageAlert = false;
 
-        const res = await fetch(API, {
+        const res = await fetch(API + "/" + province + "/" + year, {
+
             method: "PUT",
 
             headers: {
+
                 "Content-Type": "application/json",
+
             },
 
             body: JSON.stringify({
+
                 province: provinceUpdate,
-                year: parseInt(yearUpdate),
-                couple_children: parseInt(coupleChildrenUpdate),
-                couple_nochildren: parseInt(coupleNoChildrenUpdate),
-                single_parent: parseInt(singleParentUpdate),
+                year: yearUpdate,
+                couple_children: coupleChildrenUpdate,
+                couple_nochildren: coupleNoChildrenUpdate,
+                single_parent: singleParentUpdate,
+
             }),
+
         });
 
         const status = await res.status;
+
         resultStatus = status;
 
-        if (status == 201) {
+        if (status == 200) {
+
             getProjection();
 
             messageAlert = true;
 
             message = "Proyección actualizada";
+
         }
 
-        if (status == 404) {
-            message = `El recurso ${province} ${year} no existe`;
-        } else {
+        else if (status == 400) {
+
+            message = "Rellena todos los campos";
+
+        } 
+
+        else if (status == 500) {
+
+            message = "Error interno";
+            
+        }
+        
+        else {
+
             getProjection();
 
             messageAlert = true;
@@ -113,6 +162,7 @@
             message = `Datos introducidos incorrectos para la proyección de ${province} en el año ${year}`;
         }
     }
+
 </script>
 
 <Container>
@@ -121,7 +171,7 @@
     {/if}
     <Card class="w-50 p-3 mb-3 mx-auto">
         <CardTitle><center>Descripción de la proyección</center></CardTitle>
-        <Form on:submit={updateProjection}>
+        <Form on:submit={getProjection}>
             <FormGroup>
                 <Label for="province">Provincia</Label>
                 <Input
