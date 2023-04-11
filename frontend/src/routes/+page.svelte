@@ -15,7 +15,7 @@
         {
             name: "Christian Asuero Carrellán",
             github: "https://github.com/chrasucar342",
-            dataname: "projection-home-stats",
+            dataname: "projection-homes-stats",
         },
     ];
 </script>
@@ -125,7 +125,7 @@
         </Row>
         <Row>
             <Col>
-                <p><strong>Documentacion de Postman</strong></p>
+                <p><strong>Documentación de Postman</strong></p>
                 <ul>
                     <li>
                         v1

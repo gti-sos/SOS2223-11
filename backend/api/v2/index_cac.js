@@ -6,7 +6,7 @@ var db = new Datastore();
 
 // Modularizar la app
 
-function backend_cac(app) {
+function backend_cacv2(app) {
 
 // ------------------------------Array datos con los tipos de familiares-------------------------------
 
@@ -36,17 +36,19 @@ var projectionHomes = [
 
 ];
 
-// Redirigir al enlace /docs para la colección de llamadas de postman (v1)
+const BASE_API_URL_PROJECT_V1 = "/api/v1/projection-homes-stats";
 
-app.get("/api/v1/projection-homes-stats" + "/docs", (request, response) => {
+const BASE_API_URL_PROJECT = "/api/v2/projection-homes-stats";
+
+// Redirigir al enlace /docs para la colección de llamadas de postman
+
+app.get(BASE_API_URL_PROJECT_V1 + "/docs", (request, response) => {
 
     console.log("Redirection to the collection of calls Postman");
 
     response.redirect("https://documenter.getpostman.com/view/26061381/2s93JzN1UZ");
 
-})
-
-const BASE_API_URL_PROJECT = "/api/v2/projection-homes-stats";
+});
 
 // Redirigir al enlace /docs para la colección de llamadas de postman
 
@@ -56,9 +58,7 @@ app.get(BASE_API_URL_PROJECT + "/docs", (request, response) => {
 
     response.redirect("https://documenter.getpostman.com/view/26061381/2s93XsYRtF");
 
-})
-
-
+});
 
 // Cargar datos en la base de datos
 
@@ -466,4 +466,4 @@ app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 });
 }
 
-export { backend_cac };
+export { backend_cacv2 };
