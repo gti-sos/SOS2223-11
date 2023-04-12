@@ -3,7 +3,7 @@
 
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import { Button, Table, Container, Alert } from "sveltestrap";
+    import { Button, Table, Container, Alert, Card, CardTitle, Form, FormGroup, Input, Label,  } from "sveltestrap";
     import { page } from "$app/stores";
 
     onMount(async () => {
@@ -99,41 +99,83 @@
     }
 </script>
 
-<h2>Detalles de la asociación</h2>
+<h2>Detalles de la asociación <Button color="primary" href="/association-stats">Volver a asociaciones</Button></h2>
+
 <Container>
     {#if messageAlert}
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
     {/if}
-{#if right}
-<Table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Objetivo</th>
-            <th>Año de registro</th>
-            <th>Año de creacion</th>
-            <th>Código postal</th>
-            <th>Provincia</th>
-            <th>Código de municipio</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input bind:value={updated_name} /></td>
-            <td><input bind:value={updated_goal} /></td>
-            <td><input bind:value={updated_registration_date} /> </td>
-            <td><input bind:value={updated_creation_date} /></td>
-            <td><input bind:value={updated_zip_code} /></td>
-            <td><input bind:value={updated_province} /> </td>
-            <td><input bind:value={updated_township_code} /></td>
-        </tr>
-    </tbody>
-</Table>
-<Button color="primary" on:click={updateAssociation}>Actualizar</Button>
-{/if}
-{#if !right}
-{/if}
-    
+    {#if right}
+    <Card class="w-50 p-3 mb-3 mx-auto">
+        <CardTitle>Actualiza la asociación de {province} en el año {registration_date} </CardTitle>
+        <Form on:submit={updateAssociation}>
+            <FormGroup>
+                <Label for="name">Nombre de la asociación</Label>
+                <Input
+                    required
+                    id="name"
+                    bind:value={updated_name}
+                    placeholder="Nombre"
+                />
+
+                <Label for="goal">Objetivo de la asociación</Label>
+                <Input
+                    required
+                    id="goal"
+                    bind:value={updated_goal}
+                    placeholder="Objetivo"
+                />
+
+                <Label for="province">Provincia</Label>
+                <Input
+                    required
+                    id="province"
+                    bind:value={updated_province}
+                    placeholder="Provincia"
+                />
+
+                <Label for="registration-date">Año de registro</Label>
+                <Input
+                    type="number"
+                    required
+                    id="registration-date"
+                    bind:value={updated_registration_date}
+                    placeholder="0000"
+                />
+
+                <Label for="creation-date">Año de creación</Label>
+                <Input
+                    type="number"
+                    required
+                    id="creation-date"
+                    bind:value={updated_creation_date}
+                    placeholder="0000"
+                />
+
+                <Label for="zip-code">Código postal</Label>
+                <Input
+                    type="number"
+                    required
+                    id="zip-code"
+                    bind:value={updated_zip_code}
+                    placeholder="00000"
+                />
+
+                <Label for="township-code">Código municipal</Label>
+                <Input
+                    type="number"
+                    required
+                    id="township-code"
+                    bind:value={updated_township_code}
+                    placeholder="000"
+                    class="mb-3"
+                />
+
+                <Button color="primary" type="submit">Actualizar</Button>
+            </FormGroup>
+        </Form>
+    </Card>
+    {/if}
 </Container>
 
 <style>
@@ -141,7 +183,8 @@
         margin-left: 1%;
         margin-top: 0.5%;
     }
-    td, th {
+    td,
+    th {
         /* padding: 0.25rem 0.25rem; */
         font-size: 0.9rem;
     }

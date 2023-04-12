@@ -6,7 +6,7 @@ var db = new Datastore();
 
 // Modularizar la app
 
-function backend_cacv2(app) {
+function backend_cac(app) {
 
 // ------------------------------Array datos con los tipos de familiares-------------------------------
 
@@ -466,4 +466,4 @@ app.delete(BASE_API_URL_PROJECT + "/:province/:year", (request, response) => {
 });
 }
 
-export { backend_cacv2 };
+export { backend_cac };

@@ -1,7 +1,7 @@
 import Datastore from 'nedb';
 var db = new Datastore();
 
-function backend_igrv2(app) {
+function backend_igr(app) {
 
     let associationData = [
         {
@@ -192,7 +192,7 @@ function backend_igrv2(app) {
                     console.log("Association already exists");
                     res.sendStatus(409);
                 } else {
-                    console.log("Created new association");
+                    console.log(`Created new association with province ${newAssociation.province} and registration date ${newAssociation.registration_date}`);
                     db.insert(newAssociation);
                     // APIAssocData.push(newAssociation);
                     res.sendStatus(201);
@@ -266,6 +266,7 @@ function backend_igrv2(app) {
             if (err) {
                 console.log('Error retrieving data');
             } else {
+                console.log(data);
                 data ? res.json(data) : res.sendStatus(404);
             }
         });
@@ -346,4 +347,4 @@ function backend_igrv2(app) {
 
 }
 
-export { backend_igrv2 };
+export { backend_igr };

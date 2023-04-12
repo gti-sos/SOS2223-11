@@ -1,6 +1,6 @@
 import Datastore from 'nedb';
 var db = new Datastore();
-function backend_vrjv2(app) {
+function backend_vrj(app) {
 
     var phoneArray = [{
         year: 2021,
@@ -328,4 +328,4 @@ function backend_vrjv2(app) {
 
 }
 
-export { backend_vrjv2 };
+export { backend_vrj };

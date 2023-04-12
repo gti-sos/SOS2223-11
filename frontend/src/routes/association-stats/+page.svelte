@@ -279,6 +279,7 @@
 
                     <Label for="registration-date">Año de registro</Label>
                     <Input
+                        type="number"
                         required
                         id="registration-date"
                         bind:value={newRegistrationDate}
@@ -287,6 +288,7 @@
 
                     <Label for="creation-date">Año de creación</Label>
                     <Input
+                        type="number"
                         required
                         id="creation-date"
                         bind:value={newCreationDate}
@@ -295,6 +297,7 @@
 
                     <Label for="zip-code">Código postal</Label>
                     <Input
+                        type="number"
                         required
                         id="zip-code"
                         bind:value={newZipCode}
@@ -303,6 +306,7 @@
 
                     <Label for="township-code">Código municipal</Label>
                     <Input
+                        type="number"
                         required
                         id="township-code"
                         bind:value={newTownshipCode}

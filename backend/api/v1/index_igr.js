@@ -1,7 +1,7 @@
 import Datastore from 'nedb';
 var db = new Datastore();
 
-function backend_igr(app) {
+function backend_igrv1(app) {
 
     let associationData = [
         {
@@ -335,4 +335,4 @@ function backend_igr(app) {
 
 }
 
-export { backend_igr };
+export { backend_igrv1 };
