@@ -72,7 +72,7 @@
                 </p>
             </Col>
         </Row>
-        
+
         <Row>
             <Col>
                 <p><strong>Interfaces</strong></p>
@@ -103,22 +103,50 @@
                 <p><strong>APIs</strong></p>
                 <ul>
                     <li>
-                        <a
-                            href="https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats"
-                            >https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats</a
-                        > (desarrollada por Víctor Ruiz Jiménez)
+                        v1
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats</a
+                                > (desarrollada por Víctor Ruiz Jiménez)
+                            </li>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/association-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v1/association-stats</a
+                                > (desarrollada por Ignacio García Rodríguez)
+                            </li>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats</a
+                                > (desarrollada por Christian Asuero Carrellán)
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a
-                            href="https://sos2223-11.ew.r.appspot.com/api/v2/association-stats"
-                            >https://sos2223-11.ew.r.appspot.com/api/v2/association-stats</a
-                        > (desarrollada por Ignacio García Rodríguez)
-                    </li>
-                    <li>
-                        <a
-                            href="https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats"
-                            >https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats</a
-                        > (desarrollada por Christian Asuero Carrellán)
+                        v2
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats</a
+                                > (desarrollada por Víctor Ruiz Jiménez)
+                            </li>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/association-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v2/association-stats</a
+                                > (desarrollada por Ignacio García Rodríguez)
+                            </li>
+                            <li>
+                                <a
+                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats"
+                                    >https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats</a
+                                > (desarrollada por Christian Asuero Carrellán)
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </Col>
