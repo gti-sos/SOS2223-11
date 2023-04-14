@@ -124,6 +124,40 @@
             }
         }
     }
+
+    async function searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline){
+        /*
+        var url = "/api/v2/phone-line-stats";
+        
+        if(year!= "undefined"){
+            year = "";
+        }
+        if(province!="undifend"){
+            province = "";
+        }
+        if(landline!="undifend"){
+            landline = "";
+        }
+        if (post_payment!="undifend"){
+            post_payment = "";
+        }
+        if (wide_landline!="undefined"){
+            wide_landline = "";
+        }
+*/
+        const res = await fetch(API+"?year="+newPhoneYear+"&province="+newPhoneProvince+"&landline_over="+newPhoneLandline+"&post_payment_phone_line_over="+newPhonePostPaymentPhoneLine+"&wide_landline_over="+newPhoneWideLandline,{
+            method: "GET",
+        });
+        const status = await res.status;
+        
+        if (status == 200){
+            const data = await res.json();
+            result = JSON.stringify(data, null, 2);
+            phones = data;
+            mensaje = `Numero de datos encontrados ${phones.length}`;
+        }
+
+    }
 </script>
 
 <h1>Lineas de teléfono</h1>
@@ -166,6 +200,10 @@
                         <DropdownItem on:click={loadPhones}
                             >Cargar telefonos</DropdownItem
                         >
+                        <DropdownItem on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
+                            >Buscar telefonos</DropdownItem
+                        >
+                        
                         <DropdownItem divider />
                         <DropdownItem header>Eliminar</DropdownItem>
                         <DropdownItem
