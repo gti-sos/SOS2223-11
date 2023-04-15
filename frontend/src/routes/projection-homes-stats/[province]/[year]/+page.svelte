@@ -163,6 +163,12 @@
         }
     }
 
+    async function view() {
+
+        window.location.href = "https://sos2223-11.appspot.com/projection-homes-stats";
+
+    }
+
 </script>
 
 <Container>
@@ -205,11 +211,16 @@
                 />
 
                 <center>
-                    <p>
+                    
                         <Button color="success" on:click={updateProjection}
-                            >Actualizar</Button
-                        >
-                    </p>
+                            >Actualizar</Button>
+
+
+                    <div class="atrás">
+
+                        <Button color="info" on:click={view}>Atrás</Button>
+
+                    </div>  
                 </center>
             </FormGroup>
         </Form>

@@ -1,6 +1,6 @@
 <script>
 
-    // Importamos todo lo que nos hace falta y todos los objetos para los estilos
+    // Importaciones
 
     import { onMount } from "svelte";
 
@@ -59,10 +59,21 @@
     let provinceDelete = "";
     let yearDelete = "";
 
+    // Para páginación y búsqueda de recursos
+
+    let offset = 0;
+    let limit = 10;
+    let province = "";
+    let year = "";
+    let couple_children = "";
+    let couple_nochildren = "";
+    let single_parent = "";
+    
     // Alerta de mensajes
 
     let messageAlert = false;
     let message = "";
+    let color = "";
 
     // Mostrar resultados
 
@@ -72,11 +83,33 @@
 
     let showForm = false;
 
+    // Paginación
+
+    function nextPage() {
+
+        offset += limit;
+
+        getProjection();
+
+    }
+
+    function previousPage() {
+
+        offset = Math.max(offset - limit, 0);
+
+        getProjection();
+
+    }
+
+    // Alerta de mensaje desactivado
+
     function dismissAlert() {
 
         messageAlert = false;
 
     }
+
+    // Formulario
 
     function toggleForm() {
 
@@ -92,9 +125,9 @@
 
         resultStatus = result = "";
 
-        const res = await fetch(API, {
+        const res = await fetch(API + `?offset=${offset}&limit=${limit}`, {
 
-            method: "GET",
+            method: "GET"
 
         });
 
@@ -110,7 +143,79 @@
         
         catch (error) {
 
-            console.log(`Error parsing result: ${error}`);
+            console.log(`Error al parsear el resultado: ${error}`);
+
+        }
+
+        const status = await res.status;
+
+        resultStatus = status;
+        
+        if (status == 500) {
+
+            message = "Error interno del servidor";
+
+            color = "danger";
+
+        }
+
+    }
+
+    // Filtros: Buscar por cualquier campo
+
+    async function getProjectionFilters() {
+
+        const consult = {}; 
+
+        if (province) { 
+
+            consult.province = province; 
+
+        }
+
+        if (year) { 
+
+            consult.year = year; 
+
+        }
+
+        if (couple_children) { 
+
+            consult.couple_children = couple_children; 
+                
+        }
+
+        if (couple_nochildren) { 
+
+            consult.couple_nochildren = couple_nochildren; 
+
+        }
+
+        if (single_parent) { 
+
+            consult.single_parent = single_parent; 
+
+        }
+
+        const res = await fetch(API + `?${new URLSearchParams(consult).toString()}`, {
+
+        method: "GET",
+
+        });
+            
+        try {
+
+            const data = await res.json();
+
+            result = JSON.stringify(data, null, 2);
+
+            projection = data;
+
+        }
+            
+        catch (error) {
+
+            console.log(`Error parseando el resultado: ${error}`);
 
         }
 
@@ -118,7 +223,71 @@
 
         resultStatus = status;
 
+        if(status == 200) {
+
+             messageAlert = true;
+
+             message = "Datos mostrados del filtro introducido";
+
+             color = "success";
+
+        }
+
+        else if (status == 404) {
+
+            messageAlert = true;
+
+            message = `El elemento: ${province} ${year} no encontrado`;
+
+            color = "danger";
+
+        }
+            
+        else {
+
+            messageAlert = true;
+
+            message = "No se han podido encontrar los datos";
+
+            color = "danger";
+                
+        }
     }
+
+    // Limpiar todos los filtros
+
+    async function getDeleteFilters() {
+
+        resultStatus = result = "";
+
+        if(province != "" || year != "" || couple_children != "" 
+           || couple_nochildren != "" || single_parent != "") {
+
+            province = "";
+            year = "";
+            couple_children = "";
+            couple_nochildren = "";
+            single_parent = "";
+
+        }
+
+        const status = await res.status;
+
+        resultStatus = status;
+
+        if(status == 201) {
+
+            messageAlert = true;
+
+            message = "Filtros eliminados";
+
+        }   
+
+        getProjection();
+
+        return;
+        
+        }
 
     // Cargar los datos
 
@@ -131,6 +300,8 @@
             messageAlert = true;
 
             message = "Las proyecciones ya existen";
+
+            color = "warning";
 
         } 
         
@@ -152,6 +323,8 @@
 
                 message = "Proyecciones cargadas";
 
+                color = "success";
+
             } 
             
             else {
@@ -159,11 +332,16 @@
                 messageAlert = true;
 
                 message = "No se han podido cargar las proyecciones";
+
+                color = "danger";
+
             }
         }
     }
 
     // Crear una proyección
+
+    let dataInserted = [];
 
     async function createProjection() {
 
@@ -171,21 +349,41 @@
 
         messageAlert = false;
 
+        const newProjection = {
+        province: newProvince,
+        year: parseInt(newYear),
+        couple_children: parseInt(newCoupleChildren),
+        couple_nochildren: parseInt(newCoupleNoChildren),
+        single_parent: parseInt(newSingleParent),
+        };
+
+        const existingData = dataInserted.find(
+                            (data) =>
+        data.province === newProvince &&
+        data.year === newYear &&
+        data.couple_children === newCoupleChildren &&
+        data.couple_nochildren === newCoupleNoChildren &&
+        data.single_parent === newSingleParent);
+
+        if (existingData) {
+
+            message = "Ya existe el dato";
+        
+            return;
+
+        }
+
         const res = await fetch(API, {
 
             method: "POST",
 
             headers: {
+
                 "Content-Type": "application/json",
+
             },
 
-            body: JSON.stringify({
-                province: newProvince,
-                year: parseInt(newYear),
-                couple_children: parseInt(newCoupleChildren),
-                couple_nochildren: parseInt(newCoupleNoChildren),
-                single_parent: parseInt(newSingleParent),
-            }),
+            body: JSON.stringify(newProjection),
         });
 
         const status = await res.status;
@@ -202,15 +400,17 @@
 
             message = "Proyección creada con éxito";
 
+            color = "success";
+
         } 
         
         else if (status == 409) {
 
             messageAlert = true;
 
-            message = "La proyección ya existe";
+            message = `Los campos Provincia: ${newProvince} y Año: ${newYear} ya existen`;
 
-            getProjection();
+            color = "warning";
 
         } 
         
@@ -219,6 +419,8 @@
             messageAlert = true;
 
             message = "Faltan campos para crear la proyección";
+
+            color = "warning";
 
         } 
         
@@ -229,6 +431,8 @@
             message = "No se ha podido crear la proyección";
 
             getProjection();
+
+            color = "danger";
 
         }
     }
@@ -251,13 +455,23 @@
 
         if (status == 200) {
 
-            location.reload();
-
             getProjection();
 
             messageAlert = true;
 
             message = "Se eliminaron todas las proyecciones";
+
+            color = "success";
+
+        } 
+        
+        else if (status == 404) {
+
+            messageAlert = true;
+
+            message = "No hay proyecciones para eliminar";
+
+            color = "warning";
 
         } 
         
@@ -267,7 +481,9 @@
 
             messageAlert = true;
 
-            message = "No se han eliminado las proyecciones";
+            message = "Error eliminando las proyecciones";
+
+            color = "danger";
 
         }
 
@@ -294,6 +510,8 @@
             messageAlert = true;
 
             message = `La proyección de ${province} del año ${year} ha sido eliminada`;
+
+            color = "success";
         
             getProjection();
 
@@ -303,7 +521,9 @@
 
             messageAlert = true;
 
-            message = "Error interno";
+            message = "Error interno del servidor";
+
+            color = "danger";
 
         }
 
@@ -312,136 +532,181 @@
             messageAlert = true;
 
             message = `La proyección de ${province} del año ${year} no ha podido ser eliminada`;
+
+            color = "danger";
             
         }
+    }
+
+    async function view() {
+
+        window.location.href = "https://sos2223-11.appspot.com/projection-homes-stats";
+
     }
     
 </script>
 
 <h2>
-    <center><p>Proyección de hogares</p></center>
 
-    <!--Crear proyeccion -->
-
-    <center>
-        <Button id="createProjection" color="primary" on:click={toggleForm}
-            >Crear Proyección</Button
-        >
-
-        <!--Cargar proyeccion -->
-
-        <Button color="success" on:click={loadData}>Cargar proyecciones</Button>
-
-        <!--Borrar proyecciones -->
-
-        <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
-
-        <!-- Alertas proyecciones -->
-
-    </center>
+    <!-- Alertas proyecciones: Borrar todos los recursos -->
 
     <Modal isOpen={open} {toggle}>
-        <ModalHeader {toggle}
-            >Atención: Vas a borrar todos los recursos de la base de datos</ModalHeader
-        >
-
-        <ModalBody>¿Estás seguro?</ModalBody>
-
-        <ModalFooter>
-            <Button
-                color="danger"
-                on:click={() => {
-                    deleteProjections();
-                    toggle();
-                }}>Eliminar</Button
-            >
-            <Button color="secondary" on:click={toggle}>Cancelar</Button>
-        </ModalFooter>
-
-        <!-- Alertas proyeccion -->
-
+    <ModalHeader {toggle}>Atención: Vas a borrar todos los recursos de la base de datos</ModalHeader>
+    <ModalBody>¿Estás seguro?</ModalBody>
+    <ModalFooter>
+    <Button color="danger" on:click={() => {
+        deleteProjections();
+        toggle();
+        }}>Eliminar
+    </Button>
+    <Button color="secondary" on:click={toggle}>Cancelar</Button>
+    </ModalFooter>
     </Modal>
+
+    <!-- Alertas proyecciones: Borrar un recurso -->
+
     <Modal isOpen={openOne} {toggleOne}>
-        <ModalHeader {toggleOne}
-            >Atención: Vas a borrar el recurso seleccionado de la base de datos</ModalHeader
-        >
-
-        <ModalBody>¿Estás seguro?</ModalBody>
-
-        <ModalFooter>
-            <Button
-                color="danger"
-                on:click={() => {
-                    deleteProjection(provinceDelete, yearDelete);
-                    toggleOne();
-                }}>Eliminar</Button
-            >
-            <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
-        </ModalFooter>
+    <ModalHeader {toggleOne}>Atención: Vas a borrar el recurso seleccionado de la base de datos</ModalHeader>
+    <ModalBody>¿Estás seguro?</ModalBody>
+    <ModalFooter>
+    <Button color="danger" on:click={() => {
+        deleteProjection(provinceDelete, yearDelete);
+        toggleOne();
+        }}>Eliminar
+    </Button>
+    <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
+    </ModalFooter>
     </Modal>
 </h2>
 
 <!-- Formulario para crear una proyección -->
 
 <Container>
+
     {#if messageAlert}
-        <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
+
+        <Alert dismissible on:dismiss={dismissAlert} color={color}>{message}</Alert>
+
     {/if}
+
     {#if showForm}
+
         <Card class="w-50 p-3 mb-3 mx-auto">
-            <CardTitle><center>Cree una proyección</center></CardTitle>
-            <Form on:submit={createProjection}>
+
+        <CardTitle><center>Cree una proyección</center></CardTitle>
+
+        <Form on:submit={createProjection}>
+
                 <FormGroup>
                     <Label for="province">Provincia</Label>
                     <Input
                         required
                         id="province"
                         bind:value={newProvince}
-                        placeholder="Provincia"
-                    />
+                        placeholder="Provincia"/>
 
                     <Label for="year">Año</Label>
                     <Input
                         required
                         id="year"
                         bind:value={newYear}
-                        placeholder="Año"
-                    />
+                        placeholder="Año"/>
 
                     <Label for="couple_children">Parejas con hijos</Label>
                     <Input
                         required
                         id="couple_children"
                         bind:value={newCoupleChildren}
-                        placeholder="Número de parejas con hijos"
-                    />
+                        placeholder="Número de parejas con hijos"/>
 
                     <Label for="couple_nochildren">Parejas sin hijos</Label>
                     <Input
                         required
                         id="couple_nochildren"
                         bind:value={newCoupleNoChildren}
-                        placeholder="Número de parejas sin hijos"
-                    />
+                        placeholder="Número de parejas sin hijos"/>
 
                     <Label for="single_parent">Personas solteras</Label>
                     <Input
                         required
                         id="single_parent"
                         bind:value={newSingleParent}
-                        placeholder="Número de personas solteras"
-                    />
+                        placeholder="Número de personas solteras"/>
 
                     <center>
-                        <p>
-                            <Button color="success" type="submit">Crear</Button>
-                        </p>
+
+                    <div class="buttons">
+
+                        <Button color="success" type="submit">Crear</Button>
+
+                        <Button color="info" on:click={view}>Atrás</Button>
+                    
+                     </div>
+                       
+
                     </center>
-                </FormGroup>
-            </Form>
+        </FormGroup>
+        </Form>
         </Card>
     {/if}
+
     {#if !showForm}
+
+    <h2><center><p>Proyección de hogares: {projection.length}</p></center></h2>
+
+    <!--Crear proyeccion -->
+
+    <center>
+
+    <Button id="createProjection" color="primary" on:click={toggleForm}>Crear Proyección</Button>
+
+    <!--Cargar proyeccion -->
+
+    <Button color="success" on:click={loadData}>Cargar proyecciones</Button>
+
+    <!--Borrar proyecciones -->
+
+    <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
+
+    </center>
+
+    <!--Filtros -->
+
+    <div class="filtros">
+
+    <label class="columna">
+    Provincia:
+    <input bind:value={province} type="text"/>
+    </label>
+
+    <label class="columna">
+    Año:
+    <input bind:value={year} type="text"/>
+    </label>
+    
+    <label class="columna">
+    Parejas con hijos:
+    <input bind:value={couple_children} type="text"/>
+    </label>
+
+    <label class="columna">
+    Parejas sin hijos:
+    <input bind:value={couple_nochildren} type="text"/>
+    </label>
+
+    <label class="columna">
+    Personas solteras:
+    <input bind:value={single_parent} type="text"/>
+    </label>
+    </div>
+
+    <div style="text-align: center; word-spacing: 15px;">
+    <Button color = "primary" on:click={getProjectionFilters}>Filtrar</Button>
+    <Button color = "danger" on:click={getDeleteFilters}>Limpiar Filtros</Button>
+    </div>
+        
+    <!-- Tabla con los datos de la BD -->
+
         <Table bordered>
             <thead>
                 <tr>
@@ -462,34 +727,35 @@
                         <td>{projections.couple_nochildren}</td>
                         <td>{projections.single_parent}</td>
                         <td>
-                            <div>
-                                <Button
-                                    ><a
-                                        class="linkStyleless"
-                                        color="primary"
-                                        href="/projection-homes-stats/{projections.province}/{projections.year}"
-                                    >
-                                        Actualizar</a
-                                    ></Button
-                                >
-                                <br />
-                                <br />
-
-                                <Button
-                                    color="danger"
-                                    on:click={() => {
-                                        provinceDelete = projections.province;
-                                        yearDelete = projections.year;
-                                        toggleOne();
-                                    }}>Eliminar</Button
-                                >
-                            </div>
+                        <div>
+                        <Button>
+                        <a class="linkStyleless" color="primary" 
+                        href="/projection-homes-stats/{projections.province}/{projections.year}"
+                        >Actualizar</a>
+                        </Button>
+                        <br/>
+                        <br/>      
+                                
+                        <Button color="danger" on:click={() => {
+                            provinceDelete = projections.province;
+                            yearDelete = projections.year;
+                            toggleOne();
+                            }}>Eliminar</Button>
+                                
+                        </div>
                         </td>
-                    </tr>
-                {/each}
-            </tbody>
-        </Table>
+                        </tr>
+                        {/each}
+                        </tbody>
+                        </Table>
+
+        <!-- Paginación: 10 resultados por página -->
+
+        <button on:click={previousPage}>Anterior</button>
+        <button on:click={nextPage}>Siguiente</button>
+
     {/if}
+
 </Container>
 
 <style>

@@ -34,7 +34,7 @@
                     {#each teamMembers as member}
                         <li>
                             <a href={member.github}>{member.name}:</a> Fuente de
-                            datos:<i>{member.dataname}</i>
+                            datos: <i>{member.dataname}</i>
                         </li>
                     {/each}
                 </ul>
