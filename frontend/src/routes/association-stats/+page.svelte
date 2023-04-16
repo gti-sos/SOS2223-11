@@ -210,6 +210,9 @@
     >
     <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
     <Button color="primary" on:click={reload}>Recargar asociaciones</Button>
+    <Button color="primary" href="/association-stats/search"
+        >Filtrar asociaciones</Button
+    >
     <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
     <Modal isOpen={open} {toggle}>
         <ModalHeader {toggle}
