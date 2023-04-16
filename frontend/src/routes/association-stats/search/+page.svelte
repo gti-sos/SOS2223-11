@@ -107,7 +107,9 @@
 
     async function getAssociations() {
         resultStatus = result = "";
-
+        if (isNaN(totalPages)) {
+            totalPages = 1;
+        } 
         const queryParams = {};
         if (limit !== null && limit !== undefined) {
             queryParams.limit = limit;
@@ -156,6 +158,9 @@
         else {
             totalPages = Math.ceil(totalLength / limit);
         }
+        if (isNaN(totalPages)) {
+            totalPages = 1;
+        } 
         const status = await res.status;
         resultStatus = status;
     }
