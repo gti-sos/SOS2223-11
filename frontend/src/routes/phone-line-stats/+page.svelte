@@ -89,6 +89,7 @@
         const status = await res.status;
         resultStatus = status;
         if (status == 200) {
+            offset = 0;
             getPhones();
             mensaje = "Se han borrado todos los recursos";
             color = "success";
