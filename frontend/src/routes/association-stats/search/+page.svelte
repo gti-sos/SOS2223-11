@@ -158,8 +158,6 @@
     function updateSearch() {
         limit = updatedLimit;
         offset = updatedOffset;
-        console.log("totalpages " + totalPages);
-        console.log("offset " + offset);
         if (offset == 0) {
             currentPage = 1;
         } else {
