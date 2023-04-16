@@ -55,7 +55,7 @@
         messageAlert = false;
     }
 
-    let totalPages;
+    let totalPages = 1;
     let currentPage = 1;
 
     let totalLength;
