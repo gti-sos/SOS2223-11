@@ -150,7 +150,12 @@
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
-        totalPages = Math.ceil(totalLength / limit);
+        if (totalLength === 0) {
+            totalPages = 1;
+        }
+        else {
+            totalPages = Math.ceil(totalLength / limit);
+        }
         const status = await res.status;
         resultStatus = status;
     }
