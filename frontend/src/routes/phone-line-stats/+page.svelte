@@ -10,6 +10,7 @@
         DropdownToggle,
         Alert,
     } from "sveltestrap";
+    import { Pagination, PaginationItem, PaginationLink } from 'sveltestrap';
 
     let mensaje = "";
     let color = "";
@@ -29,12 +30,13 @@
     let newPhoneLandline = "";
     let newPhonePostPaymentPhoneLine = "";
     let newPhoneWideLandline = "";
+    let offset = 0
     let result = "";
     let resultStatus = "";
 
     async function getPhones() {
         resultStatus = result = "";
-        const res = await fetch(API, {
+        const res = await fetch(API+"?limit="+10+"&offset="+offset, {
             method: "GET",
         });
         try {
@@ -125,39 +127,72 @@
         }
     }
 
-    async function searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline){
-        /*
-        var url = "/api/v2/phone-line-stats";
-        
-        if(year!= "undefined"){
-            year = "";
-        }
-        if(province!="undifend"){
-            province = "";
-        }
-        if(landline!="undifend"){
-            landline = "";
-        }
-        if (post_payment!="undifend"){
-            post_payment = "";
-        }
-        if (wide_landline!="undefined"){
-            wide_landline = "";
-        }
-*/
-        const res = await fetch(API+"?year="+newPhoneYear+"&province="+newPhoneProvince+"&landline_over="+newPhoneLandline+"&post_payment_phone_line_over="+newPhonePostPaymentPhoneLine+"&wide_landline_over="+newPhoneWideLandline,{
-            method: "GET",
+    async function searchPhones(){
+      
+        const res = await fetch(API+"?year="+newPhoneYear+"&province="+newPhoneProvince+"&landline_over="+newPhoneLandline+"&post_payment_phone_line_over="+newPhonePostPaymentPhoneLine+"&wide_landline_over="+newPhoneWideLandline+"&limit="+10+"&offset="+offset,{
+            method: "GET"
         });
         const status = await res.status;
-        
+        const data = await res.json(); 
+        console.log("Tamaño de datos "+phones.length)
         if (status == 200){
-            const data = await res.json();
-            result = JSON.stringify(data, null, 2);
-            phones = data;
+            if(data.length!==0 && offset>=0){
+            phones = data; 
+            result = JSON.stringify(data, null, 2);   
+            }else if (data.length===0 && offset!==0){
+                offset -= 10
+                console.log(`Ya no hay mas datos, llegaste a la ultima pagina`);
+                mensaje = `Ya no hay mas datos, llegaste a la ultima pagina`;    
+                color = "danger"; 
+            }
+            else if(data.length == 0){
+            mensaje = `No se encontro ninguna dato con estas caracteristicas`;
+            color = "danger";    
+            }else
+            {
+
             mensaje = `Numero de datos encontrados ${phones.length}`;
+            color = "success";
+        }
         }
 
     }
+    /*
+    async function getPaginacion(offset){
+        const res = await fetch (API+"?limit="+10+"&offset="+offset,{
+            method: "GET"
+        });
+        const status = await res.status;
+        result = JSON.stringify(data, null, 2);
+        phones = data;
+    }
+    */
+    async function siguiente(){
+        //let patata = phones.length
+        offset +=10;
+        console.log("tamaño de los telefonos: "+phones.length);
+        console.log("tamaño offset: "+offset);
+        
+        searchPhones();
+       
+        /*
+        if(phones.length === 10){
+            console.log(phones.length);
+            offset = offset + 10;
+            searchPhones();
+            console.log(offset)
+    }
+     */
+    }
+    async function anterior(){
+        if (offset >= 10){
+            offset = offset-10;
+            console.log("Tamaño del offset: "+ offset);
+            searchPhones();
+        }
+
+    }
+
 </script>
 
 <h1>Lineas de teléfono</h1>
@@ -166,8 +201,13 @@
         >{mensaje}</Alert
     >
 {/if}
-
+<Button on:click={siguiente}>Siguiente</Button>
+<Button on:click={anterior}>Anterior</Button>
 <Table>
+    <!-- <thead>
+        <td><Button></Button></td>
+        <td><Button on:click={anterior}>Anterior</Button></td>
+    </thead> -->
     <thead>
         <tr>
             <th>Province</th>
@@ -200,11 +240,11 @@
                         <DropdownItem on:click={loadPhones}
                             >Cargar telefonos</DropdownItem
                         >
-                        <DropdownItem on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
+                        <DropdownItem on:click={searchPhones}
                             >Buscar telefonos</DropdownItem
                         >
                         
-                        <DropdownItem divider />
+                        <DropdownItem divider/>
                         <DropdownItem header>Eliminar</DropdownItem>
                         <DropdownItem
                             on:click={deleteAll}
