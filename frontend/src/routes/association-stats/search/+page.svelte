@@ -389,8 +389,8 @@
         margin-top: 0.5%;
     }
 
-    .linkStyleless {
+    /* .linkStyleless {
         text-decoration: none;
         color: white;
-    }
+    } */
 </style>
