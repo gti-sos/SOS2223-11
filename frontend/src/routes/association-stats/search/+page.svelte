@@ -109,7 +109,7 @@
         resultStatus = result = "";
         if (isNaN(totalPages)) {
             totalPages = 1;
-        } 
+        }
         const queryParams = {};
         if (limit !== null && limit !== undefined) {
             queryParams.limit = limit;
@@ -154,13 +154,12 @@
         }
         if (totalLength === 0) {
             totalPages = 1;
-        }
-        else {
+        } else {
             totalPages = Math.ceil(totalLength / limit);
         }
         if (isNaN(totalPages)) {
             totalPages = 1;
-        } 
+        }
         const status = await res.status;
         resultStatus = status;
     }
@@ -216,7 +215,6 @@
     //     } else {
     //     }
     // }
-
 </script>
 
 <h2>
@@ -243,7 +241,6 @@
             <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
         </ModalFooter>
     </Modal> -->
-
 </h2>
 <Container>
     {#if messageAlert}
@@ -271,6 +268,8 @@
                     id="creation_date"
                     bind:value={searchCreationDate}
                 />
+            </div>
+            <div class="d-flex align-items-center">
                 <Label class="mr-2" for="zip_code">Código postal:</Label>
                 <Input type="number" id="zip_code" bind:value={searchZipCode} />
                 <Label class="mr-2" for="province">Provincia:</Label>
@@ -302,41 +301,48 @@
                     step="1"
                 /> -->
             </div>
-
-            <Button color="primary" type="submit">Filtrar</Button>
-        </Form>
-        <div>
-            <div class="d-flex align-items-center">
-                <Button
-                    color="primary"
-                    disabled={currentPage === 1}
-                    on:click={() => {
-                        currentPage -= 1;
-                        offset -= limit;
-                        getAssociations();
-                        getAssociationsNumber();
-                    }}
-                >
-                    Anterior
-                </Button>
-                <Label class="mx-3">
-                    {currentPage} de {totalPages}
-                </Label>
-                <Button
-                    color="primary"
-                    disabled={currentPage === totalPages}
-                    on:click={() => {
-                        currentPage += 1;
-                        offset += limit;
-                        getAssociations();
-                        getAssociationsNumber();
-                    }}
-                >
-                    Siguiente
-                </Button>
+            <div>
+                <Button color="primary" type="submit">Filtrar</Button>
             </div>
+
+            <br />
+            <!-- <div class="d-flex align-items-center"> -->
+                <div>
+
+                
+            <Button
+                color="primary"
+                disabled={currentPage === 1}
+                on:click={() => {
+                    currentPage -= 1;
+                    offset -= limit;
+                    getAssociations();
+                    getAssociationsNumber();
+                }}
+            >
+                Anterior
+            </Button>
+            <Label class="mx-3">
+                {currentPage} de {totalPages}
+            </Label>
+            <Button
+                color="primary"
+                disabled={currentPage === totalPages}
+                on:click={() => {
+                    currentPage += 1;
+                    offset += limit;
+                    getAssociations();
+                    getAssociationsNumber();
+                }}
+            >
+                Siguiente
+            </Button>
         </div>
+            <!-- </div> -->
+        </Form>
     </div>
+    
+
     <Table striped>
         <thead>
             <tr>
