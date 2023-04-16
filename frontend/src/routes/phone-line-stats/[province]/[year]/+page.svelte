@@ -114,11 +114,11 @@
                     ></td>
             </tr>
             <tr>
-                <!-- <td>{phone.province}</td>
+                <td>{phone.province}</td>
                 <td>{phone.year}</td>
                 <td>{phone.landline}</td>
                 <td>{phone.post_payment_phone_line}</td>
-                <td>{phone.wide_landline}</td> -->
+                <td>{phone.wide_landline}</td>
             </tr>
         </tbody>
     </Table>
