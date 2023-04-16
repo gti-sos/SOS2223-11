@@ -127,14 +127,15 @@
         }
     }
 
-    async function searchPhones(){
+    async function searchPhones(province,year,landline,post_payment_phone_line,wide_landline){
       
-        const res = await fetch(API+"?year="+newPhoneYear+"&province="+newPhoneProvince+"&landline_over="+newPhoneLandline+"&post_payment_phone_line_over="+newPhonePostPaymentPhoneLine+"&wide_landline_over="+newPhoneWideLandline+"&limit="+10+"&offset="+offset,{
+        const res = await fetch(API+"?year="+year+"&province="+province+"&landline_over="+landline+"&post_payment_phone_line_over="+post_payment_phone_line+"&wide_landline_over="+wide_landline+"&limit="+10+"&offset="+offset,{
             method: "GET"
         });
         const status = await res.status;
         const data = await res.json(); 
-        console.log("Tamaño de datos "+phones.length)
+        //console.log("Tamaño de datos "+phones.length)
+        console.log("El parametro provincia es :  "+newPhoneProvince)
         if (status == 200){
             if(data.length!==0 && offset>=0){
             phones = data; 
@@ -173,7 +174,7 @@
         console.log("tamaño de los telefonos: "+phones.length);
         console.log("tamaño offset: "+offset);
         
-        searchPhones();
+        searchPhones("","","","","");
        
         /*
         if(phones.length === 10){
@@ -188,7 +189,7 @@
         if (offset >= 10){
             offset = offset-10;
             console.log("Tamaño del offset: "+ offset);
-            searchPhones();
+            searchPhones("","","","","");
         }
 
     }
@@ -240,7 +241,7 @@
                         <DropdownItem on:click={loadPhones}
                             >Cargar telefonos</DropdownItem
                         >
-                        <DropdownItem on:click={searchPhones}
+                        <DropdownItem on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
                             >Buscar telefonos</DropdownItem
                         >
                         
