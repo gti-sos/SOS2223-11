@@ -6,6 +6,8 @@
 
     import { dev } from "$app/environment";
 
+    import {} from "./projection-homes-stats.css";
+
     import {
         Button,
         Table,
@@ -233,24 +235,14 @@
 
         }
 
-        else if (status == 404) {
-
-            messageAlert = true;
-
-            message = `El elemento: ${province} ${year} no encontrado`;
-
-            color = "danger";
-
-        }
-            
-        else {
+        else if(data.length == 0) {
 
             messageAlert = true;
 
             message = "No se han podido encontrar los datos";
 
             color = "danger";
-                
+
         }
     }
 
@@ -271,18 +263,6 @@
 
         }
 
-        const status = await res.status;
-
-        resultStatus = status;
-
-        if(status == 201) {
-
-            messageAlert = true;
-
-            message = "Filtros eliminados";
-
-        }   
-
         getProjection();
 
         return;
@@ -295,49 +275,36 @@
 
         messageAlert = false;
 
-        if (projection.length > 0) {
+        const res = await fetch(API + "/loadInitialData", {
+
+        method: "GET"
+
+        });
+
+        const status = await res.status;
+
+        if (status == 200) {
+
+            getProjection();
 
             messageAlert = true;
 
-            message = "Las proyecciones ya existen";
+            message = "Proyecciones cargadas";
 
-            color = "warning";
+            color = "success";
 
         } 
-        
+            
         else {
 
-            const res = await fetch(API + "/loadInitialData", {
+            messageAlert = true;
 
-                method: "GET",
+            message = "No se han podido cargar las proyecciones o ya están cargadas";
 
-            });
+            color = "danger";
 
-            const status = await res.status;
-
-            if (status == 200) {
-
-                getProjection();
-
-                messageAlert = true;
-
-                message = "Proyecciones cargadas";
-
-                color = "success";
-
-            } 
-            
-            else {
-
-                messageAlert = true;
-
-                message = "No se han podido cargar las proyecciones";
-
-                color = "danger";
-
-            }
         }
-    }
+        }
 
     // Crear una proyección
 
@@ -384,6 +351,7 @@
             },
 
             body: JSON.stringify(newProjection),
+
         });
 
         const status = await res.status;
@@ -464,16 +432,16 @@
             color = "success";
 
         } 
-        
-        else if (status == 404) {
+
+        else if(status == 404) {
 
             messageAlert = true;
 
-            message = "No hay proyecciones para eliminar";
+            message = "No existen proyecciones";
 
-            color = "warning";
+            color = "danger";
 
-        } 
+        }
         
         else {
 
@@ -537,6 +505,8 @@
             
         }
     }
+
+    // Volver a la API principal
 
     async function view() {
 
@@ -635,7 +605,7 @@
 
                     <center>
 
-                    <div class="buttons">
+                    <div class="buttons" style = "text-align: center">
 
                         <Button color="success" type="submit">Crear</Button>
 
@@ -652,7 +622,7 @@
 
     {#if !showForm}
 
-    <h2><center><p>Proyección de hogares: {projection.length}</p></center></h2>
+    <h2><center><p>Proyecciones de hogares: {projection.length}</p></center></h2>
 
     <!--Crear proyeccion -->
 
@@ -667,6 +637,14 @@
     <!--Borrar proyecciones -->
 
     <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
+
+    <!--Filtrar campos -->
+
+    <Button color = "warning" on:click={getProjectionFilters}>Filtrar</Button>
+
+    <!--Limpiar filtros -->
+
+    <Button color = "dark" on:click={getDeleteFilters}>Limpiar Filtros</Button>
 
     </center>
 
@@ -699,11 +677,6 @@
     <input bind:value={single_parent} type="text"/>
     </label>
     </div>
-
-    <div style="text-align: center; word-spacing: 15px;">
-    <Button color = "primary" on:click={getProjectionFilters}>Filtrar</Button>
-    <Button color = "danger" on:click={getDeleteFilters}>Limpiar Filtros</Button>
-    </div>
         
     <!-- Tabla con los datos de la BD -->
 
@@ -728,10 +701,9 @@
                         <td>{projections.single_parent}</td>
                         <td>
                         <div>
-                        <Button>
-                        <a class="linkStyleless" color="primary" 
-                        href="/projection-homes-stats/{projections.province}/{projections.year}"
-                        >Actualizar</a>
+                        <Button
+                        color="primary" 
+                        href="/projection-homes-stats/{projections.province}/{projections.year}">Actualizar
                         </Button>
                         <br/>
                         <br/>      
@@ -751,21 +723,13 @@
 
         <!-- Paginación: 10 resultados por página -->
 
-        <button on:click={previousPage}>Anterior</button>
-        <button on:click={nextPage}>Siguiente</button>
+        <center>
+
+        <Button color = "danger" on:click={previousPage}>Anterior</Button>
+        <Button color = "success" on:click={nextPage}>Siguiente</Button>
+
+        </center>
 
     {/if}
 
 </Container>
-
-<style>
-    h2 {
-        margin-left: 2%;
-        margin-top: 0.5%;
-    }
-
-    .linkStyleless {
-        text-decoration: none;
-        color: white;
-    }
-</style>
