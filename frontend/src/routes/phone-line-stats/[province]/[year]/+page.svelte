@@ -18,11 +18,13 @@
     let updatedPhoneWideLandline = "";
     let result = "";
     let resultStatus = "";
+    let phone = {};
     if (dev) {
         API = "http://localhost:12345" + API;
     }
 
     async function getPhone() {
+        console.log(updatedPhoneLandline)
         resultStatus = result = "";
         const res = await fetch(API, {
             method: "GET",
@@ -30,8 +32,7 @@
         try {
             const data = await res.json();
             result = JSON.stringify(data, null, 2);
-            phones = data;
-            updatedPhoneLandline = data.landline;
+            phone = data;
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
@@ -103,15 +104,21 @@
             <tr>
                 <td>{province}</td>
                 <td>{year}</td>
-                <td><input bind:value={updatedPhoneLandline} /></td>
+                <td><input bind:value={updatedPhoneLandline}/></td>
                 <td><input bind:value={updatedPhonePostPaymentPhoneLine} /></td>
                 <td><input bind:value={updatedPhoneWideLandline} /></td>
                 <td
                     ><Button
                         on:click={updatePhone}
                         on:click={() => (visible = true)}>Actualizar</Button
-                    ></td
-                >
+                    ></td>
+            </tr>
+            <tr>
+                <!-- <td>{phone.province}</td>
+                <td>{phone.year}</td>
+                <td>{phone.landline}</td>
+                <td>{phone.post_payment_phone_line}</td>
+                <td>{phone.wide_landline}</td> -->
             </tr>
         </tbody>
     </Table>
