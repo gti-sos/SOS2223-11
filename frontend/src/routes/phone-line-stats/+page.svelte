@@ -232,7 +232,7 @@
             <td><input bind:value={searchLandline} /></td>
             <td><input bind:value={searchPostPaymentPhoneLine} /></td>
             <td><input bind:value={searchWideLandline} /></td>
-            <td><Button on:click={searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)}>Buscar</Button></td>
+            <td><Button on:click={searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)} on:click={() => (visible = true)}>Buscar</Button></td>
         </tr>
         <tr>
             <td><input bind:value={newPhoneProvince} /></td>
