@@ -176,32 +176,15 @@
 
             messageAlert = true;
 
-            message = "Rellena todos los campos";
+            message = "Se ha intentado cambiar provincia y año o faltan campos por rellenar";
 
             color = "warning";
 
-        } 
-
-        else if (status == 500) {
-
-            message = "Error interno";
-
-            color = "danger";
-            
-        }
-        
-        else {
-
-            messageAlert = true;
-
-            message = `Datos introducidos incorrectos para la proyección de ${province} en el año ${year}`;
-
-            color = "danger";
-
             getProjection();
 
+        } 
+
         }
-    }
 
     // Volver a la API principal
 

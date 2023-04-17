@@ -91,7 +91,7 @@
 
         offset += limit;
 
-        getProjectionFilters();
+        getProjection();
 
     }
 
@@ -99,7 +99,7 @@
 
         offset = Math.max(offset - limit, 0);
 
-        getProjectionFilters();
+        getProjection();
 
     }
 
@@ -225,7 +225,7 @@
 
         resultStatus = status;
 
-        if(status == 200) {
+        if(projection.length > 0) {
 
              messageAlert = true;
 
@@ -235,9 +235,7 @@
 
         }
 
-        else if(data.length == 0 && !offset == 0) {
-
-            offset -= 10;
+        else {
 
             messageAlert = true;
 
@@ -435,7 +433,7 @@
 
         } 
 
-        else if(status == 404) {
+        else {
 
             messageAlert = true;
 
@@ -443,21 +441,9 @@
 
             color = "danger";
 
-        }
-        
-        else {
-
-            getProjection();
-
-            messageAlert = true;
-
-            message = "Error eliminando las proyecciones";
-
-            color = "danger";
-
-        }
-
     }
+
+}
 
     // Borrar una proyección
 
