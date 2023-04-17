@@ -62,7 +62,7 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                province: newPhoneProvince,
+                province: newPhoneProvince.trim(),
                 year: parseInt(newPhoneYear),
                 landline: parseInt(newPhoneLandline),
                 post_payment_phone_line: parseInt(newPhonePostPaymentPhoneLine),
