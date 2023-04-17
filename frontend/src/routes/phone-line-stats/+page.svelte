@@ -33,7 +33,11 @@
     let offset = 0
     let result = "";
     let resultStatus = "";
-
+    let searchProvince = "";
+    let searchYear = "";
+    let searchLandline = "";
+    let searchPostPaymentPhoneLine = "";
+    let searchWideLandline = "";
     async function getPhones() {
         resultStatus = result = "";
         const res = await fetch(API+"?limit="+10+"&offset="+offset, {
@@ -177,7 +181,7 @@
         console.log("tamaño de los telefonos: "+phones.length);
         console.log("tamaño offset: "+offset);
         
-        searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline);
+        searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline);
        
         /*
         if(phones.length === 10){
@@ -192,13 +196,12 @@
         if (offset >= 10){
             offset = offset-10;
             console.log("Tamaño del offset: "+ offset);
-            searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline);
-        }
+            searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline);  
+            }
 
     }
 
 </script>
-
 <h1>Lineas de teléfono</h1>
 {#if mensaje != ""}
     <Alert {color} isOpen={visible} toggle={() => (visible = false)}
@@ -223,6 +226,14 @@
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td><input bind:value={searchProvince} /></td>
+            <td><input bind:value={searchYear} /></td>
+            <td><input bind:value={searchLandline} /></td>
+            <td><input bind:value={searchPostPaymentPhoneLine} /></td>
+            <td><input bind:value={searchWideLandline} /></td>
+            <td><Button on:click={searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)}>Buscar</Button></td>
+        </tr>
         <tr>
             <td><input bind:value={newPhoneProvince} /></td>
             <td><input bind:value={newPhoneYear} /></td>
