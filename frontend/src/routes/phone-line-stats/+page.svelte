@@ -141,6 +141,8 @@
             if(data.length!==0 && offset>=0){
             phones = data; 
             result = JSON.stringify(data, null, 2);   
+            mensaje = "Operacion realizada con exito";
+            color = "success";
             }else if (data.length===0 && offset!==0){
                 offset -= 10
                 console.log(`Ya no hay mas datos, llegaste a la ultima pagina`);
@@ -203,8 +205,8 @@
         >{mensaje}</Alert
     >
 {/if}
-<Button on:click={siguiente}>Siguiente</Button>
-<Button on:click={anterior}>Anterior</Button>
+<Button on:click={siguiente} on:click={() => (visible = true)}>Siguiente</Button>
+<Button on:click={anterior} on:click={() => (visible = true)}>Anterior</Button>
 <Table>
     <!-- <thead>
         <td><Button></Button></td>
@@ -239,10 +241,10 @@
                             on:click={() => (visible = true)}
                             >Crear recurso</DropdownItem
                         >
-                        <DropdownItem on:click={loadPhones}
+                        <DropdownItem  on:click={loadPhones}
                             >Cargar telefonos</DropdownItem
                         >
-                        <DropdownItem on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
+                        <DropdownItem on:click={() => (visible = true)} on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
                             >Buscar telefonos</DropdownItem
                         >
                         
