@@ -91,7 +91,7 @@
 
         offset += limit;
 
-        getProjection();
+        getProjectionFilters();
 
     }
 
@@ -99,7 +99,7 @@
 
         offset = Math.max(offset - limit, 0);
 
-        getProjection();
+        getProjectionFilters();
 
     }
 
@@ -235,7 +235,9 @@
 
         }
 
-        else if(data.length == 0) {
+        else if(data.length == 0 && !offset == 0) {
+
+            offset -= 10;
 
             messageAlert = true;
 

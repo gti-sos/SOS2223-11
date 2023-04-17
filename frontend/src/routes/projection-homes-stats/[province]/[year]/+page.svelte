@@ -248,7 +248,7 @@
 
         <div class="buttons" style = "text-align: center">        
                     
-        <Button color="success" href="/projection-homes-stats" on:click={updateProjection}>Actualizar</Button>
+        <Button color="success" on:click={updateProjection}>Actualizar</Button>
 
         <Button color="info" on:click={view}>Atrás</Button>
     
