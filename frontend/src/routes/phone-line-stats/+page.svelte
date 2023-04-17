@@ -176,7 +176,7 @@
     }
     */
     async function siguiente(){
-      
+      //comentario
         offset +=10;
         console.log("tamaño de los telefonos: "+phones.length);
         console.log("tamaño offset: "+offset);
