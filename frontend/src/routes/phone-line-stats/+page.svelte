@@ -175,7 +175,7 @@
         console.log("tamaño de los telefonos: "+phones.length);
         console.log("tamaño offset: "+offset);
         
-        searchPhones("","","","","");
+        searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline);
        
         /*
         if(phones.length === 10){
@@ -190,7 +190,7 @@
         if (offset >= 10){
             offset = offset-10;
             console.log("Tamaño del offset: "+ offset);
-            searchPhones("","","","","");
+            searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline);
         }
 
     }
