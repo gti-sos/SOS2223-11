@@ -1,12 +1,12 @@
 <script>
     import { onMount } from "svelte";
-    import { dev } from "$app/environment";
+    // import { dev } from "$app/environment";
     import { Button, Container } from "sveltestrap";
     import * as d3 from "d3";
   
     let API = "/api/v2/association-stats";
   
-    if (dev) API = "http://localhost:12345" + API;
+    // if (dev) API = "http://localhost:12345" + API;
   
     let associations = [];
   

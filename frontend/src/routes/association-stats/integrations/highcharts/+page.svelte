@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { dev } from "$app/environment";
+    // import { dev } from "$app/environment";
     import { Button, Container } from "sveltestrap";
     import Highcharts from "highcharts";
     // import highchartsMore from 'highcharts/highcharts-more';
@@ -8,7 +8,7 @@
 
     let API = "/api/v2/association-stats";
 
-    if (dev) API = "http://localhost:12345" + API;
+    // if (dev) API = "http://localhost:12345" + API;
 
     let associations = [];
 
