@@ -23,7 +23,6 @@ function backend_igr(app) {
             township_code: 139
         },
         {
-            id: 38131,
             name: `JUVENIL TEATROAK`,
             goal: `DIFUSION CULTURAL. - - - - - -`,
             registration_date: 2002,

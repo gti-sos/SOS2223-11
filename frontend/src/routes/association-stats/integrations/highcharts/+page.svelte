@@ -35,36 +35,38 @@
         resultStatus = status;
     }
 
-    function mapNameToCreationDate(arr) {
-        return arr.reduce((acc, obj) => {
+    function mapAndOrder(arr) {
+        const result = arr.reduce((acc, obj) => {
             acc[obj.name] = obj.creation_date;
             return acc;
         }, {});
+
+        return Object.fromEntries(
+            Object.entries(result).sort((a, b) => a[1] - b[1])
+        );
     }
 
     function createChart(data) {
         // Convert the data to an array of values
-        console.log(data);
         const values = Object.values(data);
 
         // Create the chart using Highcharts
         Highcharts.chart("chart-container", {
             chart: {
-                type: "column",
+                type: "spline",
             },
             title: {
                 text: "Asociaciones de Andalucía por fecha de creación",
             },
             xAxis: {
                 categories: Object.keys(data),
-                
             },
             yAxis: {
                 title: {
                     text: "Values",
                 },
-                min: 1900,
-                max: 2020,
+                min: 1950,
+                max: 2025,
             },
             series: [
                 {
@@ -78,10 +80,10 @@
 
 <Container>
     <div class="my-3">
-
         <Button
-        color="primary"
-        on:click={createChart(mapNameToCreationDate(associations))}>Cargar gráfica</Button
+            color="primary"
+            on:click={createChart(mapAndOrder(associations))}
+            >Cargar gráfica</Button
         >
     </div>
     <div id="chart-container" />
