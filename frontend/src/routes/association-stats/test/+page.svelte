@@ -46,11 +46,12 @@
     }
 
     function createChart(data) {
-        // Convert the data to an array of values
+    //     // Convert the data to an array of values
         console.log(data);
         const values = Object.values(data);
 
-        // Create the chart using Highcharts
+    //     // Create the chart using Highcharts
+    try {
         Highcharts.chart("chart-container", {
             chart: {
                 type: "column",
@@ -77,6 +78,11 @@
             ],
         });
     }
+    catch (error){
+        console.log(error);
+
+    }
+    }
 </script>
 
 <Container>
@@ -84,8 +90,8 @@
 
         <Button
         color="primary"
-        on:click={createChart(mapNameToCreationDate(associations))}>Cargar gráfica</Button
-        >
+        on:click={createChart(mapNameToCreationDate(associations))}>Cargar gráfica</Button>
+        <!-- >Cargar Gráfica</Button> -->
     </div>
     <div id="chart-container" />
 </Container>
