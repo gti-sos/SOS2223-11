@@ -16,10 +16,7 @@
     let resultStatus = "";
 
     onMount(async () => {
-        console.log("test");
-
         getAssociations();
-        console.log("test2");
     });
 
     async function getAssociations() {
