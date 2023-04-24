@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function Home() {
   return <h1>Welcome to the home page!</h1>;
@@ -36,7 +36,7 @@ const teamMembers = [
 function App() {
   return (
     <Router>
-      <Switch>
+      <Routes>
         <Route exact path="/react/">
           {/* Your default component */}
         </Route>
@@ -46,7 +46,7 @@ function App() {
         <Route path="/react/contact">
           {/* Your contact component */}
         </Route>
-      </Switch>
+      </Routes>
       <Container>
       <div className="pageContainer">
         <br />
