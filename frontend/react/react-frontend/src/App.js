@@ -1,4 +1,17 @@
 import { Container, Row, Col } from "reactstrap";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+function Home() {
+  return <h1>Welcome to the home page!</h1>;
+}
+
+function About() {
+  return <h1>About us</h1>;
+}
+
+function Contact() {
+  return <h1>Contact us</h1>;
+}
 
 const url = "https://sos2223-11.ew.r.appspot.com/";
 
@@ -22,7 +35,19 @@ const teamMembers = [
 
 function App() {
   return (
-    <Container>
+    <Router>
+      <Switch>
+        <Route exact path="/react/">
+          {/* Your default component */}
+        </Route>
+        <Route path="/react/about">
+          {/* Your about component */}
+        </Route>
+        <Route path="/react/contact">
+          {/* Your contact component */}
+        </Route>
+      </Switch>
+      <Container>
       <div className="pageContainer">
         <br />
 
@@ -160,6 +185,8 @@ function App() {
         <br />
       </div>
     </Container>
+    </Router>
+    
   );
 }
 
