@@ -9,7 +9,8 @@
     "test-association-stats": "npx newman run ./tests/backend-association-stats.json -e ./tests/env/gcloud-env.json",
     "test-projection-homes-stats": "npx newman run ./tests/backend-projection-homes-stats.json -e ./tests/env/gcloud-env.json",
     "test-phone-line-stats": "npx newman run ./tests/backend-phone-line-stats.json -e ./tests/env/gcloud-env.json",
-    "test": "npm run test-association-stats && npm run test-projection-homes-stats && npm run test-phone-line-stats"
+    "test": "npm run test-association-stats && npm run test-projection-homes-stats && npm run test-phone-line-stats",
+    "jest": "jest"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "d3": "^7.8.4",
     "express": "^4.18.2",
     "highcharts": "^10.3.3",
+    "jest": "^29.5.0",
     "nedb": "^1.8.0",
     "newman": "^5.3.2",
     "svelte": "^3.58.0"
