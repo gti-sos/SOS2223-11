@@ -1,5 +1,6 @@
 import { Container, Row, Col } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from "./components/Header";
 
 function Home() {
   return <h1>Welcome to the home page!</h1>;
@@ -47,8 +48,9 @@ function App() {
           {/* Your contact component */}
         </Route>
       </Routes>
-      <Container>
-      <div className="pageContainer">
+      <Header />
+      <Container className="bg-light border">
+        {/* <div className="pageContainer"> */}
         <br />
 
         <h2 id="sos2223-11">SOS2223-11</h2>
@@ -183,10 +185,10 @@ function App() {
         </Row>
 
         <br />
-      </div>
-    </Container>
+        {/* </div> */}
+      </Container>
     </Router>
-    
+
   );
 }
 

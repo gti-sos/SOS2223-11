@@ -62,7 +62,9 @@
   "scripts": {
     "start": "CI=false node scripts/start.js",
     "build": "CI=false node scripts/build.js",
-    "test": "CI=false node scripts/test.js"
+    "test": "CI=false node scripts/test.js",
+    "build-local": "node scripts/build.js",
+    "start-local": "node scripts/start.js"
   },
   "eslintConfig": {
     "extends": [

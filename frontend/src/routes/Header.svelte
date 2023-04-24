@@ -13,7 +13,7 @@
 </script>
 
 <header>
-  <Navbar color="success" dark expand="md" container="fluid">
+  <Navbar dark expand="md" container="fluid" style="background-color: #ff4700">
     <NavbarBrand href="/"><b> Sistemas Orientados a Servicios</b></NavbarBrand>
 
     <Nav navbar>
@@ -49,9 +49,5 @@
 <style>
   header {
     width: 100%;
-  
-  
-}
-
-
+  }
 </style>
