@@ -1,5 +1,6 @@
 ## SOS2223-11
 
+![](https://img.shields.io/badge/Powered%20by-Svelte-orange)
 ![Known Vulnerabilities](https://snyk.io/test/github/gti-sos/SOS2223-11/badge.svg)
 <img alt="Coverage Status" src="/coverage/badge-lines.svg">
 
