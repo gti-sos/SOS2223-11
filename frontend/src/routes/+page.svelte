@@ -1,6 +1,8 @@
 <script>
     import { Container, Row, Col } from "sveltestrap";
 
+    let url = "https://sos2223-11.ew.r.appspot.com/";
+
     const teamMembers = [
         {
             name: "Víctor Ruiz Jiménez",
@@ -66,8 +68,8 @@
             <Col>
                 <p>
                     <strong>URL del proyecto</strong>:
-                    <a href="https://sos2223-11.ew.r.appspot.com/"
-                        >https://sos2223-11.ew.r.appspot.com/</a
+                    <a href={url}
+                        >{url}</a
                     >
                 </p>
             </Col>
@@ -77,24 +79,15 @@
             <Col>
                 <p><strong>Interfaces</strong></p>
                 <ul>
+                    {#each teamMembers as member}
                     <li>
                         <a
-                            href="https://sos2223-11.ew.r.appspot.com/phone-line-stats"
-                            >https://sos2223-11.ew.r.appspot.com/phone-line-stats</a
-                        > (desarrollada por Víctor Ruiz Jiménez)
+                            href="{url}{member.dataname}"
+                            >{url}{member.dataname}</a
+                        > (desarrollada por {member.name})
                     </li>
-                    <li>
-                        <a
-                            href="https://sos2223-11.ew.r.appspot.com/association-stats"
-                            >https://sos2223-11.ew.r.appspot.com/association-stats</a
-                        > (desarrollada por Ignacio García Rodríguez)
-                    </li>
-                    <li>
-                        <a
-                            href="https://sos2223-11.ew.r.appspot.com/projection-homes-stats"
-                            >https://sos2223-11.ew.r.appspot.com/projection-homes-stats</a
-                        > (desarrollada por Christian Asuero Carrellán)
-                    </li>
+                    {/each}
+                    
                 </ul>
             </Col>
         </Row>
@@ -105,47 +98,29 @@
                     <li>
                         v1
                         <ul>
+                            {#each teamMembers as member}
                             <li>
                                 <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats</a
-                                > (desarrollada por Víctor Ruiz Jiménez)
+                                    href="{url}api/v1/{member.dataname}"
+                                    >{url}api/v1/{member.dataname}</a
+                                > (desarrollada por {member.name})
                             </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/association-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/association-stats</a
-                                > (desarrollada por Ignacio García Rodríguez)
-                            </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats</a
-                                > (desarrollada por Christian Asuero Carrellán)
-                            </li>
+                            {/each}
+                            
                         </ul>
                     </li>
                     <li>
                         v2
                         <ul>
+                            {#each teamMembers as member}
                             <li>
                                 <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats</a
-                                > (desarrollada por Víctor Ruiz Jiménez)
+                                    href="{url}api/v2/{member.dataname}"
+                                    >{url}api/v2/{member.dataname}</a
+                                > (desarrollada por {member.name})
                             </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/association-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/association-stats</a
-                                > (desarrollada por Ignacio García Rodríguez)
-                            </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats</a
-                                > (desarrollada por Christian Asuero Carrellán)
-                            </li>
+                            {/each}
+                            
                         </ul>
                     </li>
                 </ul>
@@ -158,47 +133,29 @@
                     <li>
                         v1
                         <ul>
+                            {#each teamMembers as member}
                             <li>
                                 <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/phone-line-stats/docs</a
+                                    href="{url}api/v1/{member.dataname}/docs"
+                                    >{url}api/v1/{member.dataname}/docs</a
                                 >
                             </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/association-stats/docs</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v1/projection-homes-stats/docs</a
-                                >
-                            </li>
+                            {/each}
+                            
                         </ul>
                     </li>
                     <li>
                         v2
                         <ul>
+                            {#each teamMembers as member}
                             <li>
                                 <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/phone-line-stats/docs</a
+                                    href="{url}api/v2/{member.dataname}/docs"
+                                    >{url}api/v2/{member.dataname}/docs</a
                                 >
                             </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/association-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/association-stats/docs</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats/docs"
-                                    >https://sos2223-11.ew.r.appspot.com/api/v2/projection-homes-stats/docs</a
-                                >
-                            </li>
+                            {/each}
+                            
                         </ul>
                     </li>
                 </ul>
