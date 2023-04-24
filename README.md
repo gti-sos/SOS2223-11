@@ -1,8 +1,8 @@
 ## SOS2223-11
 
 ![Known Vulnerabilities](https://snyk.io/test/github/gti-sos/SOS2223-11/badge.svg)
+<img alt="Coverage Status" src="/coverage/badge-lines.svg">
 
-(https://snyk.io/test/github/gti-sos/SOS2223-11)
 -------------------------
 - **Team**
    - [Víctor Ruiz Jiménez](https://github.com/vicruijim)
