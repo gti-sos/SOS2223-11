@@ -31,7 +31,7 @@ const Header = () => {
             <DropdownToggle nav caret className="text-white">Interfaces</DropdownToggle>
             <DropdownMenu end>
               <DropdownItem>
-                <NavLink href="/react/associations" className="text-black">
+                <NavLink href="/react/association-stats" className="text-black">
                   Asociaciones
                 </NavLink>
               </DropdownItem>

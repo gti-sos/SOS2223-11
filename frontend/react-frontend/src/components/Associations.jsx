@@ -204,7 +204,7 @@ const Associations = () => {
                 <Button id="createAssociation" color="success" onClick={toggleForm}>Crear asociación</Button>
                 <Button color="primary" onClick={loadData}>Cargar asociaciones</Button>
                 <Button color="primary" onClick={reload}>Recargar asociaciones</Button>
-                <Button color="primary" href="/association-stats/search">Filtrar asociaciones</Button>
+                <Button color="primary" href="/react/association-stats/search">Filtrar asociaciones</Button>
                 <Button color="danger" onClick={toggle}>Borrar asociaciones</Button>
                 <Modal isOpen={open} toggle={toggle}>
                     <ModalHeader toggle={toggle}>Vas a borrar todos los recursos de la base de datos</ModalHeader>
@@ -336,7 +336,7 @@ const Associations = () => {
                                             <Button>
                                                 <a
                                                     className="linkStyleless"
-                                                    href={`/association-stats/${association.province}/${association.registration_date}`}
+                                                    href={`/react/association-stats/${association.province}/${association.registration_date}`}
                                                 >
                                                     Editar
                                                 </a>
@@ -347,9 +347,8 @@ const Associations = () => {
                                             <Button
                                                 color="danger"
                                                 onClick={() => {
-                                                    provinceDelete = association.province;
-                                                    registrationDateDelete = association.registration_date;
-                                                    console.log("hola");
+                                                    setProvinceDelete(association.province);
+                                                    setRegistrationDateDelete(association.registration_date);
                                                     toggleOne();
                                                 }}
                                             >

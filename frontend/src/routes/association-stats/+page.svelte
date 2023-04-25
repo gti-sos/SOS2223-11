@@ -365,7 +365,7 @@
                                         provinceDelete = association.province;
                                         registrationDateDelete =
                                             association.registration_date;
-                                        console.log("hola");
+                                        
                                         toggleOne();
                                     }}>Borrar</Button
                                 >
