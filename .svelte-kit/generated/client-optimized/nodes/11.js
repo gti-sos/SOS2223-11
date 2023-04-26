@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/phone-line-stats/+page.svelte";

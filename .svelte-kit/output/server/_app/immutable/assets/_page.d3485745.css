@@ -1,0 +1,41 @@
+th {
+
+    font-weight: bolder;
+
+}
+
+.linkStyleless {
+
+    text-decoration: none;
+
+    color: white;
+
+}
+
+Button {
+
+    text-decoration: none;
+
+    margin-bottom: 10px;
+
+}
+
+div.filtros {
+
+    display: grid;
+
+    margin: 0 auto;
+
+    justify-content: center;
+
+    align-items: center;
+
+    width: 50px;
+
+}
+
+Table {
+
+    margin-top: 10px;
+
+}
