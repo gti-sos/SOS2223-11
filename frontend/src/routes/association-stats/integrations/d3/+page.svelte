@@ -53,7 +53,9 @@
   let chartCreated = false;
 
   function createChart(data) {
+    
     buttonVisibility = true;
+
     if (chartCreated) {
       console.log("La gráfica ya ha sido creada");
     } else {
