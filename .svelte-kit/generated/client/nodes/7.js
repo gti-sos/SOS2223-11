@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/association-stats/integrations/d3/+page.svelte";

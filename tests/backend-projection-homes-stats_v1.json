@@ -1,0 +1,686 @@
+{
+	"info": {
+		"_postman_id": "6bf0572a-1284-420c-b1e2-15d2f8386472",
+		"name": "Projection-home-stats",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26061381"
+	},
+	"item": [
+		{
+			"name": "Nuevo dato (POST)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Projection successfully created\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"province\":\"Cádiz\",\r\n    \"year\":2002,\r\n    \"couple_children\":894148,\r\n    \"couple_nochildren\":341796,\r\n    \"single_parent\":150083\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Nuevo dato existente (POST, Error 409)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"province\":\"Cádiz\",\"year\":2002,\"couple_children\":894148,\"couple_nochildren\":341796,\"single_parent\":150083}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Nuevo dato erróneo (POST, Error 405)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Method Not Allowed\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"province\": \"Almería\",\r\n        \"year\": 2002,\r\n        \"couple_children\": 894148,\r\n        \"couple_nochildren\": 341796,\r\n        \"single_parent\": 150083\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Huelva/2015",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Huelva",
+						"2015"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Nuevo dato erróneo (POST, Error 400)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"province\": \"Almería\",\r\n        \"year\": 2002,\r\n        \"couple_children\": 894148,\r\n        \"couple_nochildren\": 341796,\r\n        \"single_parent\": 150083,\r\n        \"ej\": \"ej\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response is array\", function () {\r",
+							"    var datas = pm.response.json();\r",
+							"    pm.expect(datas).to.be.an(\"array\").but.not.an(\"object\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos por provincia (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response is array\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response length equal to 1\", function () {\r",
+							"\tvar data = pm.response.json();\r",
+							"\tpm.expect(data.length).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de Dato (PUT)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Updated projection\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"province\":\"Cádiz\",\"year\":2002,\"couple_children\":810278,\"couple_nochildren\":409156,\"single_parent\":220004}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos por año (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response is array\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cádiz is updated\", function () {\r",
+							"\tvar data = pm.response.json()[0];\r",
+							"\tpm.expect(data.province).to.eql(\"Cádiz\");\r",
+							"\t});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?year=2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos por provincia y año (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response is object\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cádiz is updated\", function () {\r",
+							"\tvar data = pm.response.json();\r",
+							"\tpm.expect(data.province).to.eql(\"Cádiz\");\r",
+							"\t});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Muestra de datos de un punto a otro (GET)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response is array\", function () {\r",
+							"    var datas = pm.response.json();\r",
+							"    pm.expect(datas).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats?offset=0&limit=1",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener dato erróneo (GET, Error 404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2015",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2015"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de datos erróneo (PUT, Error 400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"province\":\"Huelva\",\"year\":2018}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Huelva/2018",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Huelva",
+						"2018"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización de datos erróneo (PUT, Error 405)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"province\":\"Huelva\",\"year\":2018,\"couple_children\":810278,\"couple_nochildren\":409156,\"single_parent\":220004}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar dato por provincia y año (DELETE)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar dato por provincia y año (DELETE, Error 404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOSTURL}}/api/v1/projection-homes-stats/Cádiz/2002",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"projection-homes-stats",
+						"Cádiz",
+						"2002"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

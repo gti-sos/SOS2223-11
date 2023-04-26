@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/association-stats/[province]/[registration_date]/+page.svelte";

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage lines-valid="2" lines-covered="2" line-rate="1" branches-valid="0" branches-covered="0" branch-rate="1" timestamp="1682376014120" complexity="0" version="0.1">
+  <sources>
+    <source>C:\Users\nacho\OneDrive - UNIVERSIDAD DE SEVILLA\Desktop\SOS\SOS2223-11</source>
+  </sources>
+  <packages>
+    <package name="main" line-rate="1" branch-rate="1">
+      <classes>
+        <class name="codeCover.js" filename="codeCover.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="sum" hits="1" signature="()V">
+              <lines>
+                <line number="1" hits="1"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="2" hits="1" branch="false"/>
+            <line number="5" hits="1" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
