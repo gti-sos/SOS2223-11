@@ -54,23 +54,28 @@
         Highcharts.chart("chart-container", {
             chart: {
                 type: "spline",
+                zoomType: "x",
             },
             title: {
                 text: "Asociaciones de Andalucía por fecha de creación",
             },
             xAxis: {
                 categories: Object.keys(data),
+                title: {
+                    text: "Nombre de la asociación",
+                },
             },
             yAxis: {
                 title: {
-                    text: "Values",
+                    text: "Año de creación",
                 },
+                tickInterval: 10, // set the tick interval to 10
                 min: 1950,
-                max: 2025,
+                max: 2050,
             },
             series: [
                 {
-                    name: "Asociaciones de Andalucía por fecha de creación",
+                    name: "Fecha de creación",
                     data: values,
                 },
             ],

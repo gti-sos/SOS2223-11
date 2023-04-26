@@ -183,9 +183,4 @@
         margin-left: 1%;
         margin-top: 0.5%;
     }
-    td,
-    th {
-        /* padding: 0.25rem 0.25rem; */
-        font-size: 0.9rem;
-    }
 </style>

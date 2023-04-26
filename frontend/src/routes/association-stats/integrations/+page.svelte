@@ -50,21 +50,21 @@
         // Create the chart using Highcharts
         Highcharts.chart("chart-container", {
             chart: {
-                type: "column",
+                type: "spline",
             },
             title: {
                 text: "Asociaciones de Andalucía por fecha de creación",
             },
             xAxis: {
                 categories: Object.keys(data),
-                
             },
             yAxis: {
                 title: {
                     text: "Values",
                 },
-                min: 1900,
-                max: 2020,
+                tickInterval: 10, // set the tick interval to 10
+                min: 1950,
+                max: 2050,
             },
             series: [
                 {
@@ -78,10 +78,10 @@
 
 <Container>
     <div class="my-3">
-
         <Button
-        color="primary"
-        on:click={createChart(mapNameToCreationDate(associations))}>Cargar gráfica</Button
+            color="primary"
+            on:click={createChart(mapNameToCreationDate(associations))}
+            >Cargar gráfica</Button
         >
     </div>
     <div id="chart-container" />
