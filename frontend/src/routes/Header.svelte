@@ -13,11 +13,11 @@
   import SvelteIcon from './SvelteIcon.svelte'
 </script>
 
-<header>
-  <Navbar dark expand="md" container="fluid" style="background-color: #222222">
+<header id="head">
+  <Navbar dark expand="md" color="dark">
     <NavbarBrand href="/"><SvelteIcon /> &nbsp; <b> Sistemas Orientados a Servicios</b></NavbarBrand>
 
-    <Nav navbar>
+    <Nav navbar class="ml-auto">
       <NavItem>
         <NavLink href="/" class="text-white">Inicio</NavLink>
       </NavItem>
@@ -48,7 +48,7 @@
 </header>
 
 <style>
-  header {
+  #head {
     width: 100%;
   }
 </style>

@@ -34,7 +34,7 @@ function Home() {
                 <ul>
                     {teamMembers.map((member) => (
                         <li key={member.github}>
-                            <a href={member.github}>{member.name}:</a> Fuente de datos:{" "}
+                            <a href={member.github}>{member.name}</a>{" "}Fuente de datos:{" "}
                             <i>{member.dataname}</i>
                         </li>
                     ))}
@@ -55,7 +55,7 @@ function Home() {
         <Row>
             <Col>
                 <p>
-                    <strong>Repositorio</strong>:
+                    <strong>Repositorio: </strong>
                     <a href="https://github.com/gti-sos/SOS2223-11">gti-sos/SOS2223-11</a>
                 </p>
             </Col>
@@ -64,7 +64,7 @@ function Home() {
         <Row>
             <Col>
                 <p>
-                    <strong>URL del proyecto</strong>:{" "}
+                    <strong>URL del proyecto: </strong>
                     <a href={url}>{url}</a>
                 </p>
             </Col>

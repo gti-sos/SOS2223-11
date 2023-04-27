@@ -19,6 +19,7 @@
         CardTitle,
         Alert,
     } from "sveltestrap";
+    import ReactIcon from '../ReactIcon.svelte';
 
     let open = false;
     let openOne = false;
@@ -203,50 +204,61 @@
     }
 </script>
 
-<h2>
-    Asociaciones de andalucía
-    <Button id="createAssociation" color="success" on:click={toggleForm}
-        >Crear asociación</Button
-    >
+<div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">
+    <h2 class="my-4">Asociaciones de andalucía</h2>
+    <Button color="dark" href="/react" class="mr-0 p-3"><div>Versión en React &nbsp<ReactIcon/></div></Button>
+</div>
+  
+<div class="my-2 px-5 justify-content-center align-items-center">
+    &nbsp
+    <Button id="createAssociation" color="success" on:click={toggleForm}>
+        Crear asociación
+    </Button>
+    &nbsp
     <Button color="primary" on:click={loadData}>Cargar asociaciones</Button>
+    &nbsp
     <Button color="primary" on:click={reload}>Recargar asociaciones</Button>
-    <Button color="primary" href="/association-stats/search"
-        >Filtrar asociaciones</Button
-    >
+    &nbsp
+    <Button color="primary" href="/association-stats/search">
+        Filtrar asociaciones
+    </Button>
+    &nbsp
     <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
-    <Modal isOpen={open} {toggle}>
-        <ModalHeader {toggle}
-            >Vas a borrar todos los recursos de la base de datos</ModalHeader
+    
+</div>
+<Modal isOpen={open} {toggle}>
+    <ModalHeader {toggle}
+        >Vas a borrar todos los recursos de la base de datos</ModalHeader
+    >
+    <ModalBody>¿Estás seguro?</ModalBody>
+    <ModalFooter>
+        <Button
+            color="primary"
+            on:click={() => {
+                deleteAssociations();
+                toggle();
+            }}>Proceder</Button
         >
-        <ModalBody>¿Estás seguro?</ModalBody>
-        <ModalFooter>
-            <Button
-                color="primary"
-                on:click={() => {
-                    deleteAssociations();
-                    toggle();
-                }}>Proceder</Button
-            >
-            <Button color="secondary" on:click={toggle}>Cancelar</Button>
-        </ModalFooter>
-    </Modal>
-    <Modal isOpen={openOne} {toggleOne}>
-        <ModalHeader {toggleOne}
-            >Vas a borrar el recurso seleccionado de la base de datos</ModalHeader
+        <Button color="secondary" on:click={toggle}>Cancelar</Button>
+    </ModalFooter>
+</Modal>
+<Modal isOpen={openOne} {toggleOne}>
+    <ModalHeader {toggleOne}
+        >Vas a borrar el recurso seleccionado de la base de datos</ModalHeader
+    >
+    <ModalBody>¿Estás seguro?</ModalBody>
+    <ModalFooter>
+        <Button
+            color="primary"
+            on:click={() => {
+                deleteAssociation(provinceDelete, registrationDateDelete);
+                toggleOne();
+            }}>Proceder</Button
         >
-        <ModalBody>¿Estás seguro?</ModalBody>
-        <ModalFooter>
-            <Button
-                color="primary"
-                on:click={() => {
-                    deleteAssociation(provinceDelete, registrationDateDelete);
-                    toggleOne();
-                }}>Proceder</Button
-            >
-            <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
-        </ModalFooter>
-    </Modal>
-</h2>
+        <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
+    </ModalFooter>
+</Modal>
+
 <Container>
     {#if messageAlert}
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
@@ -365,7 +377,7 @@
                                         provinceDelete = association.province;
                                         registrationDateDelete =
                                             association.registration_date;
-                                        
+
                                         toggleOne();
                                     }}>Borrar</Button
                                 >

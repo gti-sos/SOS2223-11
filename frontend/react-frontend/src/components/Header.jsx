@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <div>
-      <Navbar dark expand="md" container="fluid" style={{ backgroundColor: "#222222" }}>
+      <Navbar dark expand="md" container="fluid" color="dark">
         
         <NavbarBrand href="/react/home"><ReactIcon/> &nbsp; <b> Sistemas Orientados a Servicios</b></NavbarBrand>
 
