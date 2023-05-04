@@ -99,7 +99,7 @@ function backend_igr(app) {
     // Base url declaration
     const BASE_API_URL_ASSOC = "/api/v2/association-stats";
 
-    app.use('/react-igr', (req, res) => {
+    app.get('/react-igr', (req, res) => {
         res.redirect('https://sos2223-11-react.vercel.app/');
       });
 
