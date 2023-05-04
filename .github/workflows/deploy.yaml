@@ -19,11 +19,6 @@ jobs:
 
       - run: cd frontend; npm run build; cd ..
 
-      #- commands for react
-      # - run: cd frontend; cd react-frontend; npm install; cd ..; cd ..
-
-      # - run: cd frontend; cd react-frontend; npm run build; cd ..; cd ..
-
       - run: npm start &
 
       #- run: npm run test-association-stats && npm run test-phone-line-stats && npm run test-projection-homes-stats
