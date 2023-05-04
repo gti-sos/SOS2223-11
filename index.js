@@ -52,8 +52,6 @@ backend_vrj(app);
 
 app.use(handler);
 
-app.use('/react', express.static(path.join(process.cwd(), 'frontend/react/react-frontend/build')));
-
 app.listen(port, () => {
 
     console.log(`Server ready in port ${port}`);
