@@ -20,9 +20,9 @@ jobs:
       - run: cd frontend; npm run build; cd ..
 
       #- commands for react
-      - run: cd frontend; cd react-frontend; npm install; cd ..; cd ..
+      # - run: cd frontend; cd react-frontend; npm install; cd ..; cd ..
 
-      - run: cd frontend; cd react-frontend; npm run build; cd ..; cd ..
+      # - run: cd frontend; cd react-frontend; npm run build; cd ..; cd ..
 
       - run: npm start &
 
