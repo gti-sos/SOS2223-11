@@ -6,7 +6,7 @@
 
     import { dev } from "$app/environment";
 
-    import { Button, Container } from "sveltestrap";
+    //import { Button, Container } from "sveltestrap";
 
     import billboard from 'billboard.js';
 
