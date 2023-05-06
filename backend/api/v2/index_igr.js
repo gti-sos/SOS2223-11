@@ -141,7 +141,7 @@ function backend_igr(app) {
         res.redirect('https://sos2223-11-react.vercel.app/');
     });
 
-    app.get("/api/v1/association-stats/docs", (req, res) => {
+    app.get("/api/v2/association-stats/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
         res.redirect("https://documenter.getpostman.com/view/26035195/2s93Jxt2eg");
     });

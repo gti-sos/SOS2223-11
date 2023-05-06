@@ -6,6 +6,9 @@
     // import highchartsMore from 'highcharts/highcharts-more';
     // highchartsMore(Highcharts); // enable highcharts-more module
 
+    import io from "socket.io-client";
+
+    
     let API = "/api/v2/association-stats";
 
     if (dev) API = "http://localhost:12345" + API;
@@ -16,6 +19,13 @@
     let resultStatus = "";
 
     onMount(async () => {
+        getAssociations();
+    });
+
+    const socket = io("http://localhost:4444", {path: '/socket'});
+
+    socket.on('data-updated', (updatedData) => {
+        console.log("Database changed:");
         getAssociations();
     });
 
@@ -84,7 +94,9 @@
 </script>
 
 <Container>
-    <div class="my-3"><h2>Asociaciones de Andalucía por fecha de creación</h2></div>
+    <div class="my-3">
+        <h2>Asociaciones de Andalucía por fecha de creación</h2>
+    </div>
     <div class="my-3">
         <Button
             color="primary"
