@@ -10,8 +10,6 @@
 
     import billboard from 'billboard.js';
 
-    import 'billboard.js/dist/billboard.css';
-
     let API = "/api/v2/projection-homes-stats";
 
     if (dev) 
