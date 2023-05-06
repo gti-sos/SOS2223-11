@@ -1,7 +1,44 @@
 import Datastore from 'nedb';
 var db = new Datastore();
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+import { config } from 'dotenv';
+const client_secret = process.env.CLIENT_SECRET;
 
 function backend_igr(app) {
+
+
+    // Initialize Passport and restore authentication state, if any, from the session
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // Configure Google OAuth strategy
+    passport.use(
+        new GoogleStrategy(
+            {
+                clientID: '1075536099779-48tm3hrbvbil2hp0066oem6d3a0lrmkm.apps.googleusercontent.com',
+                clientSecret: client_secret,
+                callbackURL: '/auth/google/callback',
+            },
+            (accessToken, refreshToken, profile, done) => {
+                // Here, you could check if the user is already registered in your database
+                // based on their Google ID (profile.id), and create a new user if necessary
+                return done(null, profile);
+            }
+        )
+    );
+
+    // Define routes for Google OAuth
+    app.get('/association-stats/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+    app.get(
+        'association-stats/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        (req, res) => {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        }
+    );
 
     let associationData = [
         {
@@ -101,7 +138,7 @@ function backend_igr(app) {
 
     app.get('/react-igr', (req, res) => {
         res.redirect('https://sos2223-11-react.vercel.app/');
-      });
+    });
 
     app.get("/api/v1/association-stats/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
