@@ -19,7 +19,7 @@ function backend_igr(app) {
             {
                 clientID: '1075536099779-48tm3hrbvbil2hp0066oem6d3a0lrmkm.apps.googleusercontent.com',
                 clientSecret: client_secret,
-                callbackURL: 'association-stats/auth/google/callback',
+                callbackURL: '/association-stats/auth/google/callback',
             },
             (accessToken, refreshToken, profile, done) => {
                 // Here, you could check if the user is already registered in your database
