@@ -87,6 +87,7 @@ function backend_vrj(app) {
     });
     app.get(BASE_API_URL_PHONE + "/loadInitialData", (req, res) => {
         db.count({}, (err, count) => {
+            console.log("alfhksdhfkasdghñdlkhgkljadhgks")
             if (err) {
                 console.log("Error count");
                 res.sendStatus(500);
