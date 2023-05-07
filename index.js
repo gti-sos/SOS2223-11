@@ -36,6 +36,9 @@ import { handler } from "./frontend/build/handler.js";
 
 // --- Versión 1 ---
 
+import {backend_firebase} from "./backend/api/firebase/phone-line-stats-firebase.js";
+
+
 backend_igrv1(app);
 
 backend_cacv1(app);
@@ -49,6 +52,8 @@ backend_igr(app);
 backend_cac(app);
 
 backend_vrj(app);
+
+backend_firebase(app);
 
 app.use(handler);
 
