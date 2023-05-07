@@ -1,11 +1,12 @@
-import admin from 'firebase-admin';
-import serviceAccount from './creds.json' assert {type: 'json'};
+import db from '../firebase/firebase.js';
+import serviceAccount from '../firebase/creds.json' assert {type: 'json'};
 
+/*
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://sos2223-11-bbc8a-default-rtdb.europe-west1.firebasedatabase.app'
   });
-
+*/
 
 
 
@@ -83,7 +84,7 @@ var phoneArray = [{
 }
 ];
 
-var db = admin.database();
+//var db = admin.database();
 const apiUrl = "/api/firebase/phone-line-stats";
 
 

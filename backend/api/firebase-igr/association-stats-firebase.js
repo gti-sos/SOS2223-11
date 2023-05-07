@@ -1,7 +1,5 @@
-import express from 'express';
-import cors from 'cors';
-import admin from 'firebase-admin';
-import serviceAccount from './creds.json' assert {type: 'json'};
+import db from '../firebase/firebase.js';
+import serviceAccount from '../firebase/creds.json' assert {type: 'json'};
 /*
 const app = express();
 app.use(cors());
@@ -16,12 +14,12 @@ app.listen(port, () => {
 */
 //var port = process.env.PORT || 12345;
 
-
+/*
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://sos2223-11-bbc8a-default-rtdb.europe-west1.firebasedatabase.app'
 });
-
+*/
 
 
 
@@ -29,7 +27,7 @@ function backend_firebase_igr(app) {
 
 
 
-    var db = admin.database();
+   // var db = admin.database();
     const apiUrl = "/api/firebase/phone-line-stats";
 
 

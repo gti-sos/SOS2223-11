@@ -36,7 +36,7 @@ import { handler } from "./frontend/build/handler.js";
 
 // --- Versión 1 ---
 
-import {backend_firebase} from "./backend/api/firebase/phone-line-stats-firebase.js";
+import {backend_firebase} from "./backend/api/firebase-vrj/phone-line-stats-firebase.js";
 
 import {backend_firebase_igr} from "./backend/api/firebase-igr/association-stats-firebase.js";
 
