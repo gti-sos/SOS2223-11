@@ -107,3 +107,5 @@ dist
 config.env
 
 backend/api/firebase-igr/creds.json
+
+backend/api/firebase/creds.json
