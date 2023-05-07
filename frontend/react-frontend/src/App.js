@@ -6,6 +6,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
 import Phones from "./components/Phones";
 import Phone from "./components/Phone";
+import Projections from "./components/Projections";
+import Projection from "./components/Projection";
+
 function About() {
   return <h1>About us</h1>;
 }
@@ -13,8 +16,6 @@ function About() {
 function Contact() {
   return <h1>Contact us</h1>;
 }
-
-
 
 function App() {
   return (
@@ -37,6 +38,12 @@ function App() {
           {/* Your contact component */}
         </Route>
         <Route path="/react/phone-line-stats/:province/:year" element={<Phone />}>
+          {/* Your contact component */}
+        </Route>
+        <Route path="/react/projection-homes-stats" element={<Projections />}>
+          {/* Your contact component */}
+        </Route>
+        <Route path="/react/projection-homes-stats/:province/:year" element={<Projection />}>
           {/* Your contact component */}
         </Route>
         <Route path="/contact" element={<Contact />}>
