@@ -37,7 +37,7 @@ function App() {
           {/* Your contact component */}
         </Route>
         <Route path="/react/phone-line-stats/:province/:year" element={<Phone />}>
-          {/* Your about component */}
+          {/* Your contact component */}
         </Route>
         <Route path="/contact" element={<Contact />}>
           {/* Your contact component */}

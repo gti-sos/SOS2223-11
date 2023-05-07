@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 console.log("Su puta madre");
 
 let Phone = ()=>{
-  const { province, year } = useParams();  
+    console.log("hello mai frend");
+  const { province } = useParams(); 
+  const {year} = useParams(); 
   const [mensaje, setMensaje] = useState('');
   const [color, setColor] = useState('');
   const [visible, setVisible] = useState(true);
@@ -18,7 +20,6 @@ let Phone = ()=>{
   let API = "/api/v2/phone-line-stats/" + province + "/" + year;
 
   async function getPhone() {
-    console.log("hello mai frend");
     setResultStatus(""); 
     setResult("");
     const res = await fetch(API, {
@@ -65,8 +66,8 @@ async function updatePhone() {
     setResultStatus (status);
 
     if (status == 200) {
-        mensaje = "Dato actualizado";
-        color = "success";
+        setMensaje( "Dato actualizado");
+        setColor("success");
         getPhone();
     } else if (status == 400) {
         setMensaje( "Los datos introducidos son incorrectos ");
@@ -77,8 +78,8 @@ async function updatePhone() {
 return (
 <>
 { mensaje != ""&&(
-    <Alert color={color} isOpen={visible} toggle={() => (setVisible=false)}
-    >{mensaje}</Alert>
+    <Alert color={color} isOpen={visible} toggle={() => (setVisible(false))}>
+        {mensaje}</Alert>
 )}
     
 

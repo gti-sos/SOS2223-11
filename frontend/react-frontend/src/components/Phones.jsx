@@ -160,15 +160,7 @@ return (
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td><input value={searchProvince} /></td>
-            <td><input value={searchYear}  /></td>
-            <td><input value={searchLandline} /></td>
-            <td><input value={searchPostPaymentPhoneLine} /></td>
-            <td><input value={searchWideLandline} /></td>
-            <td><Button onClick={() =>{setVisible(true); /*searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)*/}}>Buscar</Button></td>
-        </tr>
-        <tr>
+        <tr >
             <td><input value={newPhoneProvince} onChange={(p)=> setNewPhoneProvince(p.target.value)}/></td>
             <td><input value={newPhoneYear} onChange={(p)=> setNewPhoneYear(p.target.value)}/></td>
             <td><input value={newPhoneLandline} onChange={(p)=> setNewPhoneLandline(p.target.value)}/></td>
@@ -204,10 +196,10 @@ return (
                 </ButtonDropdown></td>
         </tr>
         {phones.map((phone)=>(
-            <tr>
-                <td
-                    ><a href={`/phone-line-stats/react/${phone.province}/${phone.year}`}
-                        >{phone.province}</a>
+            <tr key={`${phone.province}-${phone.year}`}>
+                <td>
+                    <a href={`/react/phone-line-stats/${phone.province}/${phone.year}`}>
+                        {phone.province}</a>
                 </td>
                 <td>{phone.year}</td>
                 <td>{phone.landline}</td>
@@ -226,6 +218,6 @@ return (
     </div>
 );
 
-};
+}
 
 export default Phones
