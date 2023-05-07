@@ -21,14 +21,10 @@ admin.initializeApp({
 });
 */
 
-
-
 function backend_firebase_igr(app) {
 
-
-
    // var db = admin.database();
-    const apiUrl = "/api/firebase/phone-line-stats";
+    const apiUrl = "/api/firebase/association-stats";
 
 
     app.get(apiUrl + "/loadInitialData", (req, res) => {
