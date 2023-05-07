@@ -29,7 +29,6 @@ function backend_igr(app) {
     //     )
     // );
     
-
     // // Define routes for Google OAuth
     // app.get('/igr/auth/google', passport.authenticate('google', { scope: ['profile'] }));
     // app.get(
