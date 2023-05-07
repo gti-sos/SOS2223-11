@@ -17,7 +17,7 @@ import {
     CardTitle,
     Alert,
 } from 'reactstrap';
-
+  
 // Variables
 
 const Projections = () => {
@@ -29,8 +29,41 @@ const Projections = () => {
     const [newCoupleChildren, setNewCoupleChildren] = useState('');
     const [newCoupleNoChildren, setNewCoupleNoChildren] = useState('');
     const [newSingleParent, setNewSingleParent] = useState('');
-
+    const [provinceDelete, setProvinceDelete] = useState('');
+    const [yearDelete, setYearDelete] = useState('');
+    const [searchProvince, setSearchProvince] = useState("");
+    const [searchYear, setSearchYear] = useState("");
+    const [searchCoupleChildren, setSearchCoupleChildren] = useState("");
+    const [searchCoupleNoChildren, setSearchCoupleNoChildren] = useState("");
+    const [searchSingleParent, setSearchSingleParent] = useState("");
+    const [limit, setLimit] = useState("");
+    const [offset, setOffset] = useState(0);
+    const [messageAlert, setMessageAlert] = useState(false);
+    const [message, setMessage] = useState("");
+    const [Color, setColor] = useState("");
+    const [result, setResult] = useState("");
+    const [resultStatus, setResultStatus] = useState("");
     const [showForm, setShowForm] = useState(false);
+
+    // Paginación
+
+    function nextPage() {
+
+        offset += limit;
+
+        getProjection();
+
+    }
+
+    function previousPage() {
+
+        offset = Math.max(offset - limit, 0);
+
+        getProjection();
+
+    }
+
+    // Desactivar alerta de mensaje
 
     function dismissAlert() {
 
@@ -38,18 +71,19 @@ const Projections = () => {
 
     }
 
+    // Enseñar o no datos
+
     function toggleForm() {
 
         setShowForm(!showForm);
+
         setMessageAlert(false);
 
     }
 
     // Enlace web
 
-    const API = '/api/v2/projection-homes-stats';
-
-    const dev = false;
+    let API = '/api/v2/projection-homes-stats';
 
     useEffect(() => {
         getProjection();
@@ -91,6 +125,112 @@ const Projections = () => {
         setResultStatus(status);
 
     };
+
+    // Filtros: Buscar por cualquier campo
+
+    async function getProjectionFilters() {
+
+        const consult = {}; 
+
+        if (setSearchProvince) { 
+
+            consult.province = setSearchProvince; 
+
+        }
+
+        if (setSearchYear) { 
+
+            consult.year = setSearchYear; 
+
+        }
+
+        if (setSearchCoupleChildren) { 
+
+            consult.couple_children = setSearchCoupleChildren; 
+                
+        }
+
+        if (setSearchCoupleNoChildren) { 
+
+            consult.couple_nochildren = setSearchCoupleNoChildren; 
+
+        }
+
+        if (setSearchSingleParent) { 
+
+            consult.single_parent = setSearchSingleParent; 
+
+        }
+
+        const res = await fetch(API + `?${new URLSearchParams(consult).toString()}`, {
+
+        method: "GET",
+
+        });
+            
+        try {
+
+            const data = await res.json();
+
+            result = JSON.stringify(data, null, 2);
+
+            projections = data;
+
+        }
+            
+        catch (error) {
+
+            console.log(`Error parseando el resultado: ${error}`);
+
+        }
+
+        const status = await res.status;
+
+        resultStatus = status;
+
+        if(projections.length > 0) {
+
+             setMessageAlert(true);
+
+             setMessage("Datos mostrados del filtro introducido");
+
+             setColor("success");
+
+        }
+
+        else {
+
+            setMessageAlert(true);
+
+            setMessage("No se han podido encontrar los datos");
+
+            setColor("danger");
+
+        }
+    }
+
+    // Limpiar todos los filtros
+
+    async function getDeleteFilters() {
+
+        resultStatus = result = "";
+
+        if(setSearchProvince != "" || setSearchYear != "" || setSearchCoupleChildren != "" 
+           || setSearchCoupleNoChildren != "" || setSearchSingleParent != "") {
+
+            setSearchProvince = "";
+            setSearchYear = "";
+            setSearchCoupleChildren = "";
+            setSearchCoupleNoChildren = "";
+            setSearchSingleParent = "";
+
+        }
+
+        getProjection();
+
+        return;
+        
+        }
 
     // Cargar los datos
 
@@ -200,7 +340,7 @@ const Projections = () => {
 
             setMessage("Proyección creada con éxito");
 
-            color = "success";
+            setColor("success");
 
         } 
         
@@ -210,7 +350,7 @@ const Projections = () => {
 
             setMessage(`Los campos Provincia: ${newProvince} y Año: ${newYear} ya existen`);
 
-            color = "warning";
+            setColor("warning");
 
         } 
         
@@ -220,7 +360,7 @@ const Projections = () => {
 
             setMessage("Faltan campos para crear la proyección");
 
-            color = "warning";
+            setColor("warning");
 
         } 
         
@@ -232,7 +372,7 @@ const Projections = () => {
 
             getProjection();
 
-            color = "danger";
+            setColor("danger");
 
         }
     }
@@ -265,7 +405,7 @@ const Projections = () => {
 
             setMessage("Se eliminaron todas las proyecciones");
 
-            color = "success";
+            setColor("success");
 
         } 
 
@@ -275,7 +415,7 @@ const Projections = () => {
 
             setMessage("No existen proyecciones");
 
-            color = "danger";
+            setColor("danger");
 
     }
 
@@ -307,7 +447,7 @@ const Projections = () => {
 
             setMessage(`La proyección de ${province} del año ${year} ha sido eliminada`);
 
-            color = "success";
+            setColor("success");
         
             getProjection();
 
@@ -319,7 +459,7 @@ const Projections = () => {
 
             setMessage("Error interno del servidor");
 
-            color = "danger";
+            setColor("danger");
 
         }
 
@@ -329,7 +469,7 @@ const Projections = () => {
 
             setMessage(`La proyección de ${province} del año ${year} no ha podido ser eliminada`);
 
-            color = "danger";
+            setColor("danger");
             
         }
     }
@@ -354,12 +494,12 @@ return (
     <ModalHeader toggle={toggle}>Atención: Vas a borrar todos los recursos de la base de datos</ModalHeader>
     <ModalBody>¿Estás seguro?</ModalBody>
     <ModalFooter>
-    <Button color="danger" on:click={() => {
+    <Button color = "danger" onClick={() => {
         deleteProjections();
         toggle();
         }}>Eliminar
     </Button>
-    <Button color="secondary" on:click={toggle}>Cancelar</Button>
+    <Button color = "secondary" onClick={toggle}>Cancelar</Button>
     </ModalFooter>
     </Modal>
     
@@ -369,12 +509,12 @@ return (
     <ModalHeader toggle={toggleOne}>Atención: Vas a borrar el recurso seleccionado de la base de datos</ModalHeader>
     <ModalBody>¿Estás seguro?</ModalBody>
     <ModalFooter>
-    <Button color="danger" on:click={() => {
+    <Button color = "danger" onClick={() => {
         deleteProjection(provinceDelete, yearDelete);
         toggleOne();
         }}>Eliminar
     </Button>
-    <Button color="secondary" on:click={toggleOne}>Cancelar</Button>
+    <Button color = "secondary" onClick={toggleOne}>Cancelar</Button>
     </ModalFooter>
     </Modal>
 
@@ -386,7 +526,7 @@ return (
 
     {setMessageAlert(true) &&
 
-        (<Alert dismissible on:dismiss={dismissAlert} color={color}>{message}</Alert>)}
+        (<Alert color = {Color} dismissible onDismiss={dismissAlert}>{message}</Alert>)}
 
     {(showForm &&
 
@@ -394,7 +534,7 @@ return (
 
         <CardTitle><center>Cree una proyección</center></CardTitle>
 
-        <Form on:submit={createProjection}>
+        <Form onSubmit={createProjection}>
 
                 <FormGroup>
                     <Label for="province">Provincia</Label>
@@ -441,9 +581,9 @@ return (
 
                     <div class="buttons" style = "text-align: center">
 
-                        <Button color="success" type="submit">Crear</Button>
+                        <Button color = "success" type="submit">Crear</Button>
 
-                        <Button color="info" on:click={view}>Atrás</Button>
+                        <Button color = "info" onClick={view}>Atrás</Button>
                     
                      </div>
                        
@@ -457,29 +597,29 @@ return (
 
     {!showForm && (
 
-    <h2><center><p>Proyecciones de hogares: {projection.length}</p></center></h2>)};
+    <h2><center><p>Proyecciones de hogares: {projections.length}</p></center></h2>)};
 
     {/* --Crear proyeccion */}
 
     <center>
 
-    <Button id="createProjection" color="primary" on:click={toggleForm}>Crear Proyección</Button>
+    <Button id="createProjection" color = "primary" onClick={toggleForm}>Crear Proyección</Button>
 
     {/* --Cargar proyeccion-- */}
 
-    <Button color="success" on:click={loadData}>Cargar proyecciones</Button>
+    <Button color = "success" onClick={loadData}>Cargar proyecciones</Button>
 
     {/* --Borrar proyeccion-- */}
 
-    <Button color="danger" on:click={toggle}>Eliminar proyecciones</Button>
+    <Button color = "danger" onClick={toggle}>Eliminar proyecciones</Button>
 
     {/* --Filtrar campos-- */}
 
-    <Button color = "warning" on:click={getProjectionFilters}>Filtrar</Button>
+    <Button color = "warning" onClick={getProjectionFilters}>Filtrar</Button>
 
     {/* --Limpiar filtros-- */}
 
-    <Button color = "dark" on:click={getDeleteFilters}>Limpiar Filtros</Button>
+    {<Button color = "dark" onClick={getDeleteFilters}>Limpiar Filtros</Button>}
 
     </center>
 
@@ -489,27 +629,27 @@ return (
 
     <label class="columna">
     Provincia:
-    <input bind:value={province} type="text"/>
+    <input onChange={(e) => setSearchProvince(e.target.value)} type="text"/>
     </label>
 
     <label class="columna">
     Año:
-    <input bind:value={year} type="text"/>
+    <input onChange={(e) => setSearchYear(e.target.value)} type="text"/>
     </label>
     
     <label class="columna">
     Parejas con hijos:
-    <input bind:value={couple_children} type="text"/>
+    <input onChange={(e) => setSearchCoupleChildren(e.target.value)} type="text"/>
     </label>
 
     <label class="columna">
     Parejas sin hijos:
-    <input bind:value={couple_nochildren} type="text"/>
+    <input onChange={(e) => setSearchCoupleNoChildren(e.target.value)} type="text"/>
     </label>
 
     <label class="columna">
     Personas solteras:
-    <input bind:value={single_parent} type="text"/>
+    <input onChange={(e) => setSearchSingleParent(e.target.value)} type="text"/>
     </label>
     </div>
         
@@ -529,23 +669,23 @@ return (
             </thead>
 
             <tbody>
-                        {projection.map((projections) => (
+                        {projections.map((projection) => (
                             <tr key={`${projection.province}-${projection.year}`}>
-                        <td>{projections.province}</td>
-                        <td>{projections.year}</td>
-                        <td>{projections.couple_children}</td>
-                        <td>{projections.couple_nochildren}</td>
-                        <td>{projections.single_parent}</td>
+                        <td>{projection.province}</td>
+                        <td>{projection.year}</td>
+                        <td>{projection.couple_children}</td>
+                        <td>{projection.couple_nochildren}</td>
+                        <td>{projection.single_parent}</td>
                         <td>
                         <div>
                         <Button
-                        color="primary" 
+                        color = "primary"
                         href="/react/projection-homes-stats/{projections.province}/{projections.year}">Actualizar
                         </Button>
                         <br/>
                         <br/>      
                                 
-                        <Button color="danger" on:click={() => {
+                        <Button color = "danger" onClick={() => {
                             setProvinceDelete(projection.province);
                             setYearDelete(projection.province);
                             toggleOne();
@@ -563,10 +703,11 @@ return (
     
         {/* Paginación: 10 resultados por página */}
 
+        
         <center>
-
-        <Button color = "danger" on:click={previousPage}>Anterior</Button>
-        <Button color = "success" on:click={nextPage}>Siguiente</Button>
+        
+        <Button color = "danger" onClick={previousPage}>Anterior</Button>
+        <Button color = "success" onClick={nextPage}>Siguiente</Button>
 
         </center>
 

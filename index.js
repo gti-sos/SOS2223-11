@@ -14,6 +14,8 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use(handler);
+
 // Rutas para carpetas diferentes
 
 // --- Versión 1 ---
@@ -34,12 +36,15 @@ import {backend_vrj} from "./backend/api/v2/index_vrj.js";
 
 import { handler } from "./frontend/build/handler.js";
 
-// --- Versión 1 ---
+// --- Versión Firebase ---
 
 import {backend_firebase} from "./backend/api/firebase-vrj/phone-line-stats-firebase.js";
 
 import {backend_firebase_igr} from "./backend/api/firebase-igr/association-stats-firebase.js";
 
+import {backend_firebase_cac} from "./backend/api/firebase-cac/projection-homes-stats-firebase.js";
+
+// --- Versión 1 ---
 
 backend_igrv1(app);
 
@@ -55,11 +60,15 @@ backend_cac(app);
 
 backend_vrj(app);
 
+// --- Versión Firebase
+
 backend_firebase(app);
 
 backend_firebase_igr(app);
 
-app.use(handler);
+backend_firebase_cac(app);
+
+// Escucha de puerto
 
 app.listen(port, () => {
 

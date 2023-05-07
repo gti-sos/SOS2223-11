@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Button, Table, Container, Alert, Card, CardTitle, Form, FormGroup, Input, Label } from "reactstrap";
-
-import {} from "./style.css";
+import { Button, Container, Alert, Card, CardTitle, Form, FormGroup, Input, Label } from "reactstrap";
 
 // Variables
 
@@ -14,10 +12,10 @@ let Projection = () => {
     const {province} = useParams();
     const {year} = useParams();
     const [updatedProvince, setUpdatedProvince] = useState(province);
-    const [updatedYear, setUpdatedYear] = useState("");
-    const [updatedCoupleChildren, setUpdatedCoupleChildren] = useState(couple_children);
-    const [updatedCoupleNoChildren, setUpdatedCoupleNoChildre] = useState("");
-    const [updatedSingleParent, setSingleParent] = useState("");
+    const [updatedYear, setUpdatedYear] = useState(year);
+    const [updatedCoupleChildren, setUpdatedCoupleChildren] = useState("");
+    const [updatedCoupleNoChildren, setUpdatedCoupleNoChildren] = useState("");
+    const [updatedSingleParent, setUpdatedSingleParent] = useState("");
     const [messageAlert, setMessageAlert] = useState(false);
     const [message, setMessage] = useState("");
     const [right, setRight] = useState(true);
@@ -58,12 +56,11 @@ let Projection = () => {
 
             setResult(JSON.stringify(data, null, 2));
 
-            dato = data;
-            setProvinceUpdate(dato.province);
-            setYearUpdate(dato.year);
-            setCoupleChildrenUpdate(dato.couple_children);
-            setCoupleNoChildrenUpdate(dato.couple_nochildren);
-            setSingleParentUpdate(dato.single_parent);
+            setUpdatedProvince(data.province);
+            setUpdatedYear(data.year);
+            setUpdatedCoupleChildren(data.couple_children);
+            setUpdatedCoupleNoChildren(data.couple_nochildren);
+            setUpdatedSingleParent(data.single_parent);
             setResultStatus(res.status);
             setRight(true);
         } 
@@ -150,8 +147,6 @@ let Projection = () => {
 
             setMessage("Proyección actualizada");
 
-            color = "success";
-
             getProjection();
 
         }
@@ -161,8 +156,6 @@ let Projection = () => {
             setMessageAlert(true);
 
             setMessage("Se ha intentado cambiar provincia y año o faltan campos por rellenar");
-
-            color = "warning";
 
             getProjection();
 
@@ -186,7 +179,7 @@ return (
     
     {setMessageAlert(true) &&
 
-        (<Alert dismissible on:dismiss={dismissAlert} color={color}>{message}</Alert>)}
+        (<Alert dismissible onDismiss={dismissAlert}>{message}</Alert>)}
 
     {right && (
 
@@ -194,7 +187,7 @@ return (
 
         <CardTitle><center>Descripción de la proyección</center></CardTitle>
 
-        <Form on:submit={getProjection}>
+        <Form onSubmit={getProjection}>
 
         <FormGroup>
 
@@ -232,9 +225,9 @@ return (
 
         <div class="buttons" style = "text-align: center">        
                     
-        <Button color="success" on:click={updateProjection}>Actualizar</Button>
+        <Button onClick={updateProjection}>Actualizar</Button>
 
-        <Button color="info" on:click={view}>Atrás</Button>
+        <Button onClick={view}>Atrás</Button>
     
         </div> 
         </center> 
