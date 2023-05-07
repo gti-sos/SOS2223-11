@@ -8,6 +8,8 @@
 
     import {} from "./projection-homes-stats.css";
 
+    import {} from "./projection-homes-stats/integrations/d3";
+
     import {
         Button,
         Table,
