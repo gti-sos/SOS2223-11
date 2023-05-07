@@ -38,6 +38,8 @@ import { handler } from "./frontend/build/handler.js";
 
 import {backend_firebase} from "./backend/api/firebase/phone-line-stats-firebase.js";
 
+import {backend_firebase_igr} from "./backend/api/firebase-igr/association-stats-firebase.js";
+
 
 backend_igrv1(app);
 
@@ -54,6 +56,8 @@ backend_cac(app);
 backend_vrj(app);
 
 backend_firebase(app);
+
+backend_firebase_igr(app);
 
 app.use(handler);
 
