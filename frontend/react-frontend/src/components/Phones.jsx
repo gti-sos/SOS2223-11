@@ -11,7 +11,7 @@ import {
   //import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
   
   let Phones = () =>{
-      
+      console.log("laputa")
     const [dropdownOpen, setOpen] = useState(false);
     const [mensaje, setMensaje] = useState("");
     const [Color, setColor] = useState("");
@@ -140,7 +140,6 @@ import {
         }
     }
 return (
-
     <div>
         <h1>Lineas de teléfono</h1>
         {mensaje != "" &&(
@@ -202,13 +201,12 @@ return (
                                 deleteAll()}}
                             >Borrar datos</DropdownItem>
                     </DropdownMenu>
-                </ButtonDropdown></td
-            >
+                </ButtonDropdown></td>
         </tr>
         {phones.map((phone)=>(
             <tr>
                 <td
-                    ><a href="/phone-line-stats/{phone.province}/{phone.year}"
+                    ><a href={`/phone-line-stats/react/${phone.province}/${phone.year}`}
                         >{phone.province}</a>
                 </td>
                 <td>{phone.year}</td>
@@ -224,16 +222,9 @@ return (
             </tr>
         ))} 
     </tbody>
-</Table>
-  
-
-
-    
-    
+</Table>  
     </div>
-
-
-    );
+);
 
 };
 
