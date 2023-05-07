@@ -1,21 +1,5 @@
-import express from 'express';
-import cors from 'cors';
 import admin from 'firebase-admin';
 import serviceAccount from './creds.json' assert {type: 'json'};
-/*
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-
-app.listen(port, () => {
-
-    console.log(`Server ready in port ${port}`);
-
-});
-*/
-//var port = process.env.PORT || 12345;
-
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
