@@ -25,7 +25,7 @@ admin.initializeApp({
 
 
 
-function backend_firebase(app) {
+function backend_firebase_igr(app) {
 
 
 
