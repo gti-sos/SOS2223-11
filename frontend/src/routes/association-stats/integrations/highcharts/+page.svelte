@@ -6,7 +6,6 @@
     // import highchartsMore from 'highcharts/highcharts-more';
     // highchartsMore(Highcharts); // enable highcharts-more module
 
-    import io from "socket.io-client";
 
     
     let API = "/api/v2/association-stats";
@@ -19,13 +18,6 @@
     let resultStatus = "";
 
     onMount(async () => {
-        getAssociations();
-    });
-
-    const socket = io("http://localhost:4444", {path: '/socket'});
-
-    socket.on('data-updated', (updatedData) => {
-        console.log("Database changed:");
         getAssociations();
     });
 
