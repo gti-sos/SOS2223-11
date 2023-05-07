@@ -1,6 +1,6 @@
 // Importaciones
 
-import path from 'path';
+// import path from 'path';
 
 import express from "express";
 
@@ -14,7 +14,6 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use(handler);
 
 // Rutas para carpetas diferentes
 
@@ -38,11 +37,11 @@ import { handler } from "./frontend/build/handler.js";
 
 // --- Versión Firebase ---
 
-// import {backend_firebase} from "./backend/api/firebase-vrj/phone-line-stats-firebase.js";
+import {backend_firebase} from "./backend/api/firebase-vrj/phone-line-stats-firebase.js";
 
-// import {backend_firebase_igr} from "./backend/api/firebase-igr/association-stats-firebase.js";
+import {backend_firebase_igr} from "./backend/api/firebase-igr/association-stats-firebase.js";
 
-// import {backend_firebase_cac} from "./backend/api/firebase-cac/projection-homes-stats-firebase.js";
+import {backend_firebase_cac} from "./backend/api/firebase-cac/projection-homes-stats-firebase.js";
 
 // --- Versión 1 ---
 
@@ -62,11 +61,13 @@ backend_vrj(app);
 
 // --- Versión Firebase
 
-// backend_firebase(app);
+backend_firebase(app);
 
-// backend_firebase_igr(app);
+backend_firebase_igr(app);
 
-// backend_firebase_cac(app);
+backend_firebase_cac(app);
+
+app.use(handler);
 
 // Escucha de puerto
 
