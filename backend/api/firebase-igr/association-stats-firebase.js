@@ -26,6 +26,99 @@ function backend_firebase_igr(app) {
    // var db = admin.database();
     const apiUrl = "/api/firebase/association-stats";
 
+    let associationData = [
+        {
+            name: `PADRES Y MADRES DE ALUMNOS EL CASTELLON DEL C.P. RURAL FILABRES`,
+            goal: `ASISTIR A LOS PADRES O TUTORES EN TODO AQUELLO QUE CONCIERNE A LA EDUCACION DE SUS HIJOS O REPRESENTADOS.`,
+            registration_date: 2000,
+            creation_date: 1999,
+            zip_code: 4857,
+            province: `ALMERIA`,
+            township_code: 46
+        },
+        {
+            name: `CULTURAL ARTISTICA DUENDE Y COMPAS`,
+            goal: `ESTUDIO, REALIZACIÓN Y DIVULGACIÓN DEL FLAMENCO EN SUS VERSIONES DE CANTE, GUITARRA, BAILE Y PERCUSIÓN.`,
+            registration_date: 2001,
+            creation_date: 2000,
+            zip_code: 4002,
+            province: `ALMERIA`,
+            township_code: 139
+        },
+        {
+            name: `JUVENIL TEATROAK`,
+            goal: `DIFUSION CULTURAL. - - - - - -`,
+            registration_date: 2002,
+            creation_date: 2002,
+            zip_code: 4003,
+            province: `ALMERIA`,
+            township_code: 139
+        },
+        {
+            name: `SOCIEDAD CASINO PRINCIPAL`,
+            goal: `LA PROMOCIÓN Y DIFUSIÓN DE LA CULTURA, PRESTANDO ESPECIAL ATENCIÓN A LA HISTORIA, GASTRONOMÍA, FOLCLORE Y ARTESANÍA DE NUESTRO ÁMBITO DE ACTUACIÓN.`,
+            registration_date: 1966,
+            creation_date: 1966,
+            zip_code: 4600,
+            province: `ALMERIA`,
+            township_code: 530
+        },
+        {
+            name: `PADRES DE ALUMNOS SIERRA DE GADOR DEL I.E.S. SANTO DOMINGO`,
+            goal: `Asistir a los padres o tutores en todo aquello que concierne a la educación de sus hijos.`,
+            registration_date: 1971,
+            creation_date: 1970,
+            zip_code: 4700,
+            province: `ALMERIA`,
+            township_code: 9026
+        },
+        {
+            name: `ALUMNAS Y ALUMNOS DE EDUCACIÓN PERMANENTE BOLLULLOS DEL C.E.P. LA PIÑA`,
+            goal: `Colaborar con la comunidad educativa del Centro de Educación Permanete en la educación y en la formación para lograr una formación integral y una educación para la igualdad.La defensa de los derechos del alumnado, en el sentido de que reciban de una forma - eficiente la debida enseñanza del centro de educación permanente "`,
+            registration_date: 2007,
+            creation_date: 2007,
+            zip_code: 21710,
+            province: `HUELVA`,
+            township_code: 139
+        },
+        {
+            name: `PEÑA CULTURAL FLAMENCA DE ARJONA`,
+            goal: `Estudio, conservación promoción y divulgación del Arte Flamenco en cualquiera de sus formas de expresión, cante, toque y baile, procurando su introducción en los Centros escolares, como elemento cultural y actividad propia del pueblo andaluz.`,
+            registration_date: 1985,
+            creation_date: 1985,
+            zip_code: 23760,
+            province: `JAEN`,
+            township_code: 63
+        },
+        {
+            name: `JOVEN ORQUESTA PROVINCIAL DE MÁLAGA`,
+            goal: `Fomentar la afición a la música en la sociedad, difundiendo desde la Orquestal a la de Cámara en la Provncia de Málaga en particular, y en toda Andalucía, en general, con especial atención a los niños y jóvenes.`,
+            registration_date: 1994,
+            creation_date: 1994,
+            zip_code: 29006,
+            province: `MALAGA`,
+            township_code: 672
+        },
+        {
+            name: `CASA DE LA PAZ`,
+            goal: `CREAR EN SEVILLA UN ESPACIO "CASA DE LA PAZ"QUE SERÁ SEDE DE LOS TRES GRUPOS PROMOTORES,SIEMPRE QUE ESTOS PERTENEZCAN A LA FEDERACION,DONDE REALIZAR LAS ACTIVIDADES PROPIAS DE ESTOS GRUPOS Y LOS DE LA FEDERACION.`,
+            registration_date: 1979,
+            creation_date: 1979,
+            zip_code: 41003,
+            province: `SEVILLA`,
+            township_code: 917
+        },
+        {
+            name: `EMPRESARIAL DE ARTESANOS CASTALLA`,
+            goal: `REPRESENTAR A SUS ASOCIADOS EN LA DEFENSA DE SUS INTERESES LABORALES, PROFESIONALES Y ECONOMICOS.`,
+            registration_date: 2000,
+            creation_date: 2000,
+            zip_code: 41950,
+            province: `SEVILLA`,
+            township_code: 299
+        }
+    ];
+
 
     app.get(apiUrl + "/loadInitialData", (req, res) => {
         console.log("Carga de datos");
@@ -59,10 +152,11 @@ function backend_firebase_igr(app) {
         const proReq = req.body.province;
         const townCodeReq = req.body.township_code;
         const isRequestBodyValid = (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (zipReq !== undefined) && (proReq !== undefined) && (townCodeReq !== undefined);
-    
+        console.log(!(Object.values(req.body).length === 7));
+        console.log(!isRequestBodyValid);
         console.log("New POST request to /association-stats");
         const assocRef = db.ref(`association-stats`);
-        if (!(isRequestBodyValid) || !(Object.values(req.body).length === 7)) {
+        if ((isRequestBodyValid) && (Object.values(req.body).length === 7)) {
             assocRef.once("value", (snapshot) => {
                 const data = snapshot.val();
                 const valores = Object.values(data).filter((assoc) => assoc.registration_date === nameReq && assoc.province === proReq);
