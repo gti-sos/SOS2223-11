@@ -13,7 +13,6 @@
   }
 
   let phones = [];
-  let prueba = false;
   let result = "";
   let resultStatus = "";
 

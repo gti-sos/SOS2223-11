@@ -10,7 +10,7 @@
         DropdownToggle,
         Alert,
     } from "sveltestrap";
-    import { Pagination, PaginationItem, PaginationLink } from 'sveltestrap';
+ 
 
     let mensaje = "";
     let color = "";
