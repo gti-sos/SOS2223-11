@@ -18,5 +18,5 @@ onMount(async () =>{
         console.log("API response:", data);
     }
 })
-let habitable = zillow.;
+let habitable = zillow;
 </script>
