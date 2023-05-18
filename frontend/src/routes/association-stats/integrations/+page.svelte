@@ -20,7 +20,7 @@
         {
             title: "Asociaciones de Andalucía por año de registro",
             technology: "D3",
-            widget: "Bar",
+            widget: "Bar(cambiar)",
             href: "/association-stats/integrations/d3"
         },
         {
@@ -48,10 +48,10 @@
             href: "/association-stats/integrations"
         },
         {
-            title: "Por implementar",
-            technology: "???",
+            title: "Average Speed Limit in crashes by Month and Year (Australia)",
+            technology: "Highcharts",
             widget: "",
-            href: "/association-stats/integrations"
+            href: "/association-stats/integrations/crashes"
         },
         {
             title: "Por implementar",
