@@ -32,32 +32,36 @@
         {
             title: "Jugadores de cricket por ranking (API externa)",
             technology: "Highcharts",
-            widget: "",
+            widget: "Areaspline",
             href: "/association-stats/integrations/external/cricket"
         },
         {
-            title: "Students with a disability by school year level (Australia)",
+            title: "Estudiantes con discapacidad por año y nivel escolar en Australia (API externa)", 
+            // title:"Students with a disability by school year level (Australia)",
             technology: "Highcharts",
-            widget: "",
+            widget: "Column",
             href: "/association-stats/integrations/external/students"
         },
         {
-            title: "Domestic Australian Airlines Flights by Month and Year",
+            title: "Vuelos de aerolíneas domésticas por mes y año en Australia (API externa)",
+            // title: "Domestic Airlines Flights by Month and Year (Australia)",
+            technology: "ECharts",
+            widget: "Pie",
+            href: "/association-stats/integrations/external/airlines"
+        },
+        {
+            title: "Límite de velocidad medio en accidentes por mes y año en Australia (API externa)",
+            // title: "Average Speed Limit in crashes by Month and Year (Australia)",
             technology: "Highcharts",
             widget: "Scatter",
-            href: "/association-stats/integrations"
+            href: "/association-stats/integrations/external/crashes"
         },
         {
-            title: "Average Speed Limit in crashes by Month and Year (Australia)",
-            technology: "Highcharts",
-            widget: "",
-            href: "/association-stats/integrations/crashes"
-        },
-        {
-            title: "Por implementar",
-            technology: "???",
-            widget: "",
-            href: "/association-stats/integrations"
+            title: "Desempeño de respuesta de consultas del Metro Adelaide en Australia (API externa)",
+            // title: "Adelaide Metro Enquiries Response Performance (Australia)",
+            technology: "D3",
+            widget: "Area/Scatter",
+            href: "/association-stats/integrations/external/metro"
         }
     ];
 </script>

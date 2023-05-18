@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Highcharts from "highcharts";
+  import { Container } from "sveltestrap";
 
   const url =
     "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen?formatType=test";
@@ -30,11 +31,10 @@
 
       const chartConfig = {
         chart: {
-          polar: true,
-          type: "line", // Set the chart type to line in a polar-like chart
+          type: "areaspline", // Set the chart type to line in a polar-like chart
         },
         title: {
-          text: "ICC Test Batsmen Rankings",
+          text: "Puntuaciones de bateadores por el Consejo Internacional de Cricket",
         },
         pane: {
           startAngle: 0,
@@ -47,12 +47,12 @@
         },
         yAxis: {
           title: {
-            text: "Rating",
+            text: "Puntuación",
           },
         },
         series: [
           {
-            name: "Rating",
+            name: "Puntuación",
             data: chartData.map((player) => player.rating),
             pointPlacement: "on", // Place the data points evenly on the circular axis
           },
@@ -66,4 +66,9 @@
   });
 </script>
 
-<div id="chart-container" style="min-width: 400px; height: 400px;"></div>
+<Container>
+  <div class="my-3">
+    <h2>Puntuaciones de bateadores por el Consejo Internacional de Cricket</h2>
+  </div>
+  <div id="chart-container" style="min-width: 400px; height: 400px;" />
+</Container>

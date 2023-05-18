@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Highcharts from "highcharts";
+  import { Container } from "sveltestrap";
 
   const url =
     "https://data.sa.gov.au/data/api/3/action/datastore_search?resource_id=72d3b563-8b1e-4d48-9df3-a4c2b2ec7ae9&limit=10";
@@ -32,10 +33,10 @@
 
       const chartConfig = {
         chart: {
-          type: "line",
+          type: "column",
         },
         title: {
-          text: "Students with a disability by school year level",
+          text: "Estudiantes con discapacidad por año y nivel escolar en Australia",
         },
         xAxis: {
           categories: chartData[0].values.map((item) => item.year),
@@ -58,4 +59,9 @@
   });
 </script>
 
-<div id="chart-container" style="min-width: 400px; height: 400px;"></div>
+<Container>
+  <div class="my-3">
+    <h2>Estudiantes con discapacidad por año y nivel escolar en Australia</h2>
+  </div>
+  <div id="chart-container" style="min-width: 400px; height: 500px;" />
+</Container>

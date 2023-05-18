@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
-    import Highcharts from "highcharts";
+    import * as echarts from "echarts";
+    import { Container } from "sveltestrap";
   
     const url =
       "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c8c5774c-bfbc-498b-83b6-154a6545b1ca&limit=20";
@@ -25,40 +26,37 @@
           return;
         }
   
-        const chartData = {
-          categories: records.map((record) => record.Month),
-          seriesData: records.map((record) => parseFloat(record.Passenger_Trips)),
-        };
+        const chartData = records.map((record) => ({
+          name: record.Month,
+          value: parseFloat(record.Passenger_Trips),
+        }));
   
         const chartConfig = {
-          chart: {
-            type: "scatter",
-          },
-          title: {
-            text: "Domestic Australian Airlines Flights by Month and Year",
-          },
-          xAxis: {
-            categories: chartData.categories,
-          },
-          yAxis: {
-            title: {
-              text: "Passenger Trips",
-            },
+          tooltip: {
+            trigger: "item",
+            formatter: "{a} <br/>{b}: {c} ({d}%)",
           },
           series: [
             {
-              name: "Passenger Trips",
-              data: chartData.seriesData,
+              name: "Viajes con pasajeros",
+              type: "pie",
+              radius: "50%",
+              data: chartData,
             },
           ],
         };
   
-        Highcharts.chart("chart-container", chartConfig);
+        const chartContainer = document.getElementById("chart-container");
+        const chart = echarts.init(chartContainer);
+        chart.setOption(chartConfig);
       } else {
         console.error("Error retrieving data:", response.status);
       }
     });
   </script>
-  
-  <div id="chart-container" style="min-width: 400px; height: 400px;"></div>
+  <Container>
+
+      <div class="mt-3"><h2>Vuelos de aerolíneas domésticas por mes y año en Australia</h2></div>
+      <div id="chart-container" style="min-width: 800px; height: 800px;"></div>
+    </Container>
   
