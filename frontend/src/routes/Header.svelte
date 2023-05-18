@@ -43,6 +43,28 @@
           >
         </DropdownMenu>
       </Dropdown>
+      <Dropdown nav inNavbar>
+        <DropdownToggle nav caret class="text-white">Integraciones y usos</DropdownToggle>
+        <DropdownMenu end>
+          <DropdownItem
+            ><NavLink href="/association-stats/integrations" class="text-black"
+              >Ignacio</NavLink
+            ></DropdownItem
+          >
+
+          <DropdownItem
+            ><NavLink href="/phone-line-stats/integrations" class="text-black"
+              >Víctor</NavLink
+            ></DropdownItem
+          >
+
+          <DropdownItem
+            ><NavLink href="/projection-homes-stats/integrations" class="text-black"
+              >Christian</NavLink
+            ></DropdownItem
+          >
+        </DropdownMenu>
+      </Dropdown>
     </Nav>
   </Navbar>
 </header>

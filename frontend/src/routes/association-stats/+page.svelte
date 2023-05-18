@@ -206,7 +206,11 @@
 
 <div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">
     <h2 class="my-4">Asociaciones de andalucía</h2>
-    <Button color="dark" href="/react-igr" class="mr-0 p-3"><div>Versión en React &nbsp<ReactIcon/></div></Button>
+    <div class="mr-0">
+
+        <Button color="warning" href="association-stats/integrations" class="p-3"><div>Integraciones y Usos</div></Button>
+        <Button color="dark" href="/react-igr" class="p-3"><div>Versión en React &nbsp<ReactIcon/></div></Button>
+    </div>
 </div>
   
 <div class="my-2 px-5 justify-content-center align-items-center">
