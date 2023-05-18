@@ -217,6 +217,10 @@
     // }
 </script>
 
+<svelte:head>
+    <title>Búsqueda de asociaciones</title>
+</svelte:head>
+
 <h2>
     Asociaciones de andalucía
 

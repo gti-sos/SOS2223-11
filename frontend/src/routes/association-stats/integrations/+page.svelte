@@ -66,6 +66,10 @@
     ];
 </script>
 
+<svelte:head>
+    <title>Integraciones</title>
+</svelte:head>
+
 <Container class="bg-light border my-5 mx-auto">
     <div class="py-3 px-3">
         <h2 class="p-2 mb-3">Gráficas</h2>

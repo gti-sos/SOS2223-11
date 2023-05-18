@@ -66,6 +66,10 @@
   });
 </script>
 
+<svelte:head>
+    <title>Gráfica externa Cricket</title>
+</svelte:head>
+
 <Container>
   <div class="my-3">
     <h2>Puntuaciones de bateadores por el Consejo Internacional de Cricket</h2>

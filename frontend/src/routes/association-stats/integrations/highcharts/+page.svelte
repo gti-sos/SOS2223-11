@@ -85,6 +85,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Gráfica Highcharts</title>
+</svelte:head>
+
 <Container>
     <div class="my-3">
         <h2>Asociaciones de Andalucía por fecha de creación</h2>

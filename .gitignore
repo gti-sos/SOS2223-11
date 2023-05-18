@@ -109,3 +109,6 @@ config.env
 backend/api/firebase-igr/creds.json
 
 backend/api/firebase/creds.json
+/test-results/
+/playwright-report/
+/playwright/.cache/

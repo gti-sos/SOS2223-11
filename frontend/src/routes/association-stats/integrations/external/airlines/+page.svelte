@@ -54,6 +54,11 @@
       }
     });
   </script>
+
+<svelte:head>
+    <title>Gráfica externa aerolíneas</title>
+</svelte:head>
+
   <Container>
 
       <div class="mt-3"><h2>Vuelos de aerolíneas domésticas por mes y año en Australia</h2></div>

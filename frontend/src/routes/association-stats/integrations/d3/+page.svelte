@@ -230,6 +230,10 @@
   }
 </script>
 
+<svelte:head>
+    <title>Gráfica D3</title>
+</svelte:head>
+
 <Container>
   <div class="my-3"><h2>Asociaciones de Andalucía por fecha de registro</h2></div>
   <div class="my-3">

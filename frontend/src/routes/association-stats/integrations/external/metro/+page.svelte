@@ -162,9 +162,15 @@
     });
 </script>
 
+<svelte:head>
+    <title>Gráfica externa metro</title>
+</svelte:head>
+
 <Container container="fluid">
     <div class="my-3">
-        <h2>Desempeño de respuesta de consultas del Metro Adelaide en Australia</h2>
+        <h2>
+            Desempeño de respuesta de consultas del Metro Adelaide en Australia
+        </h2>
     </div>
     <div
         id="chart-container"

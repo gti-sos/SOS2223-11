@@ -99,6 +99,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Asociación</title>
+</svelte:head>
+
 <h2>Detalles de la asociación <Button color="primary" href="/association-stats">Volver a asociaciones</Button></h2>
 
 <Container>

@@ -204,6 +204,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Asociaciones</title>
+</svelte:head>
+
 <div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">
     <h2 class="my-4">Asociaciones de andalucía</h2>
     <div class="mr-0">

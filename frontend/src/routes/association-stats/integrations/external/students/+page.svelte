@@ -59,6 +59,10 @@
   });
 </script>
 
+<svelte:head>
+    <title>Gráfica externa estudiantes</title>
+</svelte:head>
+
 <Container>
   <div class="my-3">
     <h2>Estudiantes con discapacidad por año y nivel escolar en Australia</h2>

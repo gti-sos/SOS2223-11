@@ -22,6 +22,10 @@
     ];
 </script>
 
+<svelte:head>
+    <title>SOS2223-11</title>
+</svelte:head>
+
 <Container>
     <div class="pageContainer">
         <br />
