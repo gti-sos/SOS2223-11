@@ -4,31 +4,107 @@ test('Has correct title', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
   await expect(page).toHaveTitle('Asociaciones');
 });
-
-test('Verifies the presence of buttons', async ({ page }) => {
+test('Has correct heading', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
-
-  await page.waitForSelector('#createAssociation');
-  await page.waitForSelector('button:has-text("Cargar asociaciones")');
-  await page.waitForSelector('button:has-text("Recargar asociaciones")');
-  await page.waitForSelector('a:has-text("Filtrar asociaciones")');
-  await page.waitForSelector('button:has-text("Borrar asociaciones")');
+  const heading = await page.locator('h2');
+  const text = await heading.innerText();
+  expect(text).toContain('Asociaciones de Andalucía');
 });
 
-test('Verifies access of integrations route', async ({page}) => {
+test('Verifies the presence of buttons in main route', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
 
-  (await page.waitForSelector('integrations')).click();
+  await page.locator('#createAssociation');
+  await page.locator('button:has-text("Cargar asociaciones")');
+  await page.locator('button:has-text("Recargar asociaciones")');
+  await page.locator('a:has-text("Filtrar asociaciones")');
+  await page.locator('button:has-text("Borrar asociaciones")');
+});
+
+test('Verifies the filtering route', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
+
+  const filterButton = await page.locator('a:has-text("Filtrar asociaciones")');
+  await filterButton.click();
+
+  await page.waitForURL(/.*search/);
+});
+
+test('Verifies access of integrations route', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations');
+
   await expect(page).toHaveTitle("Integraciones");
 });
+
+test('Verifies the presence of buttons in Integrations route', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations');
+
+  await page.locator('Button[href="/association-stats/integrations/highcharts"]');
+  await page.locator('Button[href="/association-stats/integrations/d3"]');
+  await page.locator('Button[href="/association-stats/integrations/optional"]');
+  await page.locator('Button[href="/association-stats/integrations/external/cricket"]');
+  await page.locator('Button[href="/association-stats/integrations/external/students"]');
+  await page.locator('Button[href="/association-stats/integrations/external/airlines"]');
+  await page.locator('Button[href="/association-stats/integrations/external/crashes"]');
+  await page.locator('Button[href="/association-stats/integrations/external/metro"]');
+});
+
+test('Verifies access of integrations route - Highcharts', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/highcharts');
+
+  await expect(page).toHaveTitle("Gráfica Highcharts");
+});
+
+test('Verifies access of integrations route - D3', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/d3');
+
+  await expect(page).toHaveTitle("Gráfica D3");
+});
+
+test('Verifies access of integrations route - Optional', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/optional');
+
+  await expect(page).toHaveTitle("Gráfica opcional");
+});
+
+test('Verifies access of integrations route - External Airlines', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/external/airlines');
+
+  await expect(page).toHaveTitle("Gráfica externa aerolíneas");
+});
+
+test('Verifies access of integrations route - External Crashes', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/external/crashes');
+
+  await expect(page).toHaveTitle("Gráfica externa accidentes");
+});
+
+test('Verifies access of integrations route - External Cricket', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/external/cricket');
+
+  await expect(page).toHaveTitle("Gráfica externa cricket");
+});
+
+test('Verifies access of integrations route - External Metro', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/external/metro');
+
+  await expect(page).toHaveTitle("Gráfica externa metro");
+});
+
+test('Verifies access of integrations route - External Students', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats/integrations/external/students');
+
+  await expect(page).toHaveTitle("Gráfica externa estudiantes");
+});
+
 
 // test('Creates a new association', async ({ page }) => {
 //   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
 
-//   const createButton = await page.waitForSelector('#createAssociation');
+//   const createButton = await page.locator('#createAssociation');
 //   await createButton.click();
 
-//   const form = await page.waitForSelector('form');
+//   const form = await page.locator('form');
 //   const formVisible = await form.isVisible();
 //   expect(formVisible).toBeTruthy();
 
@@ -42,30 +118,23 @@ test('Verifies access of integrations route', async ({page}) => {
 
 //   await form.submit();
 
-//   const successAlert = await page.waitForSelector('.alert-success');
+//   const successAlert = await page.locator('.alert-success');
 //   const successMessage = await successAlert.innerText();
 //   expect(successMessage).toContain('La asociación de Test Province del año 2023 ha sido creada con éxito');
 
-//   await page.waitForSelector('tr:has-text("Test Association")');
+//   await page.locator('tr:has-text("Test Association")');
 // });
 
 // test('Deletes the association', async ({ page }) => {
 //   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
 
-//   const deleteButton = await page.waitForSelector('button:has-text("Borrar asociaciones")');
+//   const deleteButton = await page.locator('button:has-text("Borrar asociaciones")');
 //   await deleteButton.click();
 
-//   const confirmDeleteButton = await page.waitForSelector('button:has-text("Proceder")');
+//   const confirmDeleteButton = await page.locator('button:has-text("Proceder")');
 //   await confirmDeleteButton.click();
 
-//   await page.waitForSelector('tbody:has-text("No existen asociaciones que eliminar")');
+//   await page.locator('tbody:has-text("No existen asociaciones que eliminar")');
 // });
 
-test('Verifies the URL after filtering', async ({ page }) => {
-  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
 
-  const filterButton = await page.waitForSelector('a:has-text("Filtrar asociaciones")');
-  await filterButton.click();
-
-  await page.waitForURL(/.*search/);
-});

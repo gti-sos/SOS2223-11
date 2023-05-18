@@ -67,7 +67,7 @@
 </script>
 
 <svelte:head>
-    <title>Gráfica externa Cricket</title>
+    <title>Gráfica externa cricket</title>
 </svelte:head>
 
 <Container>
