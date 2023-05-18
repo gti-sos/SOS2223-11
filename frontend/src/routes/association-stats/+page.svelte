@@ -275,7 +275,7 @@
         <Card class="w-50 p-3 mb-3 mx-auto">
             <CardTitle>Crea una asociación</CardTitle>
             <Form on:submit={createAssociation}>
-                <FormGroup>
+                <!-- <FormGroup> -->
                     <Label for="name">Nombre de la asociación</Label>
                     <Input
                         required
@@ -338,7 +338,7 @@
                     />
 
                     <Button color="success" type="submit">Crear</Button>
-                </FormGroup>
+                <!-- </FormGroup> -->
             </Form>
         </Card>
     {/if}
