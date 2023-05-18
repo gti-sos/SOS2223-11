@@ -4,6 +4,7 @@ test('Has correct title', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
   await expect(page).toHaveTitle('Asociaciones');
 });
+
 test('Has correct heading', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
   const heading = await page.locator('h2');
