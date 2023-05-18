@@ -19,14 +19,14 @@ onMount(async () =>{
     if (response.ok){
         furbo = await response.json();
         //console.log("API response:", data);
-        console.log(furbo.response);
+        console.log(furbo.response[0].statistics[0]);
         patata = furbo.response.map(furbolista => ({
-            name: furbolista.player.name
-            //data: furbolista.statistics.map(elem =>())
+            name: furbolista.player.name,
+            data: filterData(furbolista.statistics[0])
         }));
       }
     
-   let options  = {
+   let charOptions  = {
   title: {
     text: 'Basic Radar Chart'
   },
@@ -45,22 +45,23 @@ onMount(async () =>{
   },
   series: [
     {
-      name: 'Budget vs spending',
+      name: 'Football_players statistics',
       type: 'radar',
-      data: [
-        {
-          value: [4200, 3000, 20000, 35000, 50000, 18000],
-          name: 'Allocated Budget'
-        },
-        {
-          value: [5000, 14000, 28000, 26000, 42000, 21000],
-          name: 'Actual Spending'
-        }
-      ]
+      data: patata
     }
   ]
 }
 });
+function filterData(estadisticas){
+  let goles = estadisticas["goals"].total;
+  let asistencias = estadisticas["goals"].assists;
+  let keyPass = estadisticas["passes"].key;
+  let shots_on_target = estadisticas["shots"].on;
+  let successful_driblles = estadisticas["dribbles"].success
+  let result = [goles,asistencias,keyPass,shots_on_target,successful_driblles];
+  console.log(result)  
+
+}
 </script>
 <div class="chart-container" bind:this={chartContainer}></div>
 
