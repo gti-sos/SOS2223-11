@@ -22,7 +22,7 @@ onMount(async () =>{
         console.log(furbo.response);
         patata = furbo.response.map(furbolista => ({
             name: furbolista.player.name
-            data: furbolista.statistics.map(elem =>())
+            //data: furbolista.statistics.map(elem =>())
         }));
       }
     
