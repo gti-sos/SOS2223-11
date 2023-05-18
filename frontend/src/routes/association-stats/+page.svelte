@@ -209,7 +209,7 @@
 </svelte:head>
 
 <div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">
-    <h2 class="my-4">Asociaciones de andalucía</h2>
+    <h2 class="my-4">Asociaciones de Andalucía</h2>
     <div class="mr-0">
 
         <Button color="warning" href="association-stats/integrations" class="p-3"><div>Integraciones y Usos</div></Button>
