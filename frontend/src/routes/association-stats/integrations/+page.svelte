@@ -24,6 +24,12 @@
             href: "/association-stats/integrations/d3"
         },
         {
+            title: "Gráfica grupal",
+            technology: "Highcharts",
+            widget: "Stacked Column",
+            href: "/analytics"
+        },
+        {
             title: "Asociaciones de Andalucía por año de registro (opcional)",
             technology: "D3",
             widget: "Bar",

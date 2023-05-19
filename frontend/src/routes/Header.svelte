@@ -66,7 +66,7 @@
 
           <DropdownItem
             ><NavLink href="/analytics" class="text-black"
-              >Gráfica conjunta</NavLink
+              >Gráfica grupal</NavLink
             ></DropdownItem
           >
         </DropdownMenu>

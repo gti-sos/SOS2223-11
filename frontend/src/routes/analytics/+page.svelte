@@ -111,7 +111,7 @@
       type: "column",
     },
     title: {
-      text: "Gráfica conjunta",
+      text: "Gráfica grupal",
     },
     xAxis: {
       categories: provinces,
@@ -171,7 +171,7 @@
   
   <Container>
     <div class="my-3">
-      <h2>Gráfica conjunta</h2>
+      <h2>Gráfica grupal</h2>
     </div>
     <div id="chart-container" />
   </Container>
