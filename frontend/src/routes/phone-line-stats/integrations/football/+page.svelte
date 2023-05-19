@@ -1,7 +1,7 @@
 <script>
 import { onMount } from 'svelte';
 import { dev } from "$app/environment";
-import * as echarts from 'echarts';
+import  echarts from 'echarts';
 
 let furbo =[];
 let chart;
