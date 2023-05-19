@@ -1,3 +1,4 @@
+<!-- 
 <script>
 import { onMount } from 'svelte';
 import  echarts from 'echarts';
@@ -76,4 +77,4 @@ function filterData(estadisticas){
     width: 100%;
     height: 500px;
   }
-</style>
+</style> -->
