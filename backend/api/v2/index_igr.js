@@ -3,6 +3,100 @@ var db = new Datastore();
 
 function backend_igr(app) {
 
+    // let associationData = [
+    //     {
+    //         name: `PADRES Y MADRES DE ALUMNOS EL CASTELLON DEL C.P. RURAL FILABRES`,
+    //         goal: `ASISTIR A LOS PADRES O TUTORES EN TODO AQUELLO QUE CONCIERNE A LA EDUCACION DE SUS HIJOS O REPRESENTADOS.`,
+    //         registration_date: 2000,
+    //         creation_date: 1999,
+    //         zip_code: 4857,
+    //         province: `ALMERIA`,
+    //         township_code: 46
+    //     },
+    //     {
+    //         name: `CULTURAL ARTISTICA DUENDE Y COMPAS`,
+    //         goal: `ESTUDIO, REALIZACIÓN Y DIVULGACIÓN DEL FLAMENCO EN SUS VERSIONES DE CANTE, GUITARRA, BAILE Y PERCUSIÓN.`,
+    //         registration_date: 2001,
+    //         creation_date: 2000,
+    //         zip_code: 4002,
+    //         province: `ALMERIA`,
+    //         township_code: 139
+    //     },
+    //     {
+    //         name: `JUVENIL TEATROAK`,
+    //         goal: `DIFUSION CULTURAL.`,
+    //         registration_date: 2002,
+    //         creation_date: 2002,
+    //         zip_code: 4003,
+    //         province: `ALMERIA`,
+    //         township_code: 139
+    //     },
+    //     {
+    //         name: `SOCIEDAD CASINO PRINCIPAL`,
+    //         goal: `LA PROMOCIÓN Y DIFUSIÓN DE LA CULTURA, PRESTANDO ESPECIAL ATENCIÓN A LA HISTORIA, GASTRONOMÍA, FOLCLORE Y ARTESANÍA DE NUESTRO ÁMBITO DE ACTUACIÓN.`,
+    //         registration_date: 1966,
+    //         creation_date: 1966,
+    //         zip_code: 4600,
+    //         province: `ALMERIA`,
+    //         township_code: 530
+    //     },
+    //     {
+    //         name: `PADRES DE ALUMNOS SIERRA DE GADOR DEL I.E.S. SANTO DOMINGO`,
+    //         goal: `Asistir a los padres o tutores en todo aquello que concierne a la educación de sus hijos.`,
+    //         registration_date: 1971,
+    //         creation_date: 1970,
+    //         zip_code: 4700,
+    //         province: `ALMERIA`,
+    //         township_code: 9026
+    //     },
+    //     {
+    //         name: `ALUMNAS Y ALUMNOS DE EDUCACIÓN PERMANENTE BOLLULLOS DEL C.E.P. LA PIÑA`,
+    //         goal: `Colaborar con la comunidad educativa del Centro de Educación Permanete en la educación y en la formación para lograr una formación integral y una educación para la igualdad.La defensa de los derechos del alumnado, en el sentido de que reciban de una forma - eficiente la debida enseñanza del centro de educación permanente`,
+    //         registration_date: 2007,
+    //         creation_date: 2007,
+    //         zip_code: 21710,
+    //         province: `HUELVA`,
+    //         township_code: 139
+    //     },
+    //     {
+    //         name: `PEÑA CULTURAL FLAMENCA DE ARJONA`,
+    //         goal: `Estudio, conservación promoción y divulgación del Arte Flamenco en cualquiera de sus formas de expresión, cante, toque y baile, procurando su introducción en los Centros escolares, como elemento cultural y actividad propia del pueblo andaluz.`,
+    //         registration_date: 1985,
+    //         creation_date: 1985,
+    //         zip_code: 23760,
+    //         province: `JAEN`,
+    //         township_code: 63
+    //     },
+    //     {
+    //         name: `JOVEN ORQUESTA PROVINCIAL DE MÁLAGA`,
+    //         goal: `Fomentar la afición a la música en la sociedad, difundiendo desde la Orquestal a la de Cámara en la Provncia de Málaga en particular, y en toda Andalucía, en general, con especial atención a los niños y jóvenes.`,
+    //         registration_date: 1994,
+    //         creation_date: 1994,
+    //         zip_code: 29006,
+    //         province: `MALAGA`,
+    //         township_code: 672
+    //     },
+    //     {
+    //         name: `CASA DE LA PAZ`,
+    //         goal: `CREAR EN SEVILLA UN ESPACIO "CASA DE LA PAZ"QUE SERÁ SEDE DE LOS TRES GRUPOS PROMOTORES,SIEMPRE QUE ESTOS PERTENEZCAN A LA FEDERACION,DONDE REALIZAR LAS ACTIVIDADES PROPIAS DE ESTOS GRUPOS Y LOS DE LA FEDERACION.`,
+    //         registration_date: 1979,
+    //         creation_date: 1979,
+    //         zip_code: 41003,
+    //         province: `SEVILLA`,
+    //         township_code: 917
+    //     },
+    //     {
+    //         name: `EMPRESARIAL DE ARTESANOS CASTALLA`,
+    //         goal: `REPRESENTAR A SUS ASOCIADOS EN LA DEFENSA DE SUS INTERESES LABORALES, PROFESIONALES Y ECONOMICOS.`,
+    //         registration_date: 2000,
+    //         creation_date: 2000,
+    //         zip_code: 41950,
+    //         province: `SEVILLA`,
+    //         township_code: 299
+    //     },
+
+    // ];
+
     let associationData = [
         {
             name: `PADRES Y MADRES DE ALUMNOS EL CASTELLON DEL C.P. RURAL FILABRES`,
@@ -24,7 +118,7 @@ function backend_igr(app) {
         },
         {
             name: `JUVENIL TEATROAK`,
-            goal: `DIFUSION CULTURAL. - - - - - -`,
+            goal: `DIFUSION CULTURAL.`,
             registration_date: 2002,
             creation_date: 2002,
             zip_code: 4003,
@@ -51,7 +145,7 @@ function backend_igr(app) {
         },
         {
             name: `ALUMNAS Y ALUMNOS DE EDUCACIÓN PERMANENTE BOLLULLOS DEL C.E.P. LA PIÑA`,
-            goal: `Colaborar con la comunidad educativa del Centro de Educación Permanete en la educación y en la formación para lograr una formación integral y una educación para la igualdad.La defensa de los derechos del alumnado, en el sentido de que reciban de una forma - eficiente la debida enseñanza del centro de educación permanente "`,
+            goal: `Colaborar con la comunidad educativa del Centro de Educación Permanete en la educación y en la formación para lograr una formación integral y una educación para la igualdad.La defensa de los derechos del alumnado, en el sentido de que reciban de una forma - eficiente la debida enseñanza del centro de educación permanente`,
             registration_date: 2007,
             creation_date: 2007,
             zip_code: 21710,
@@ -93,7 +187,99 @@ function backend_igr(app) {
             zip_code: 41950,
             province: `SEVILLA`,
             township_code: 299
-        }
+        },
+        {
+            name: `TARIFEÑA DE DEFENSA DEL PATRIMONIO CULTURAL - MELLARIA`,
+            goal: `DEFENDER EL PATRIMONIO HISTORICO, ARTISTICO,ARQUELOGICO,ANTROPOLOGICO,ARQUITECTONICO,DOCUMENTAL Y CULTURAL DE TITULARIDAD PUBLICA O PRIVADA QUE SE ENCUENTRE EN EL MUNICIPIO DE TARIFA( CADIZ).`,
+            registration_date: 2000,
+            creation_date: 2000,
+            zip_code: 11380,
+            province: `CADIZ`,
+            township_code: 355
+        },
+        {
+            name: `JUVENIL CULTURAL "LOS COLOMITAS"`,
+            goal: `EDUCACION EN CONTENIDOS COMPRENDIENDO LAS MATERIAS ORIGINALES - EDUCACION EN SENTIMIENTOS INTENTANDO INCULCAR VALORES - EDUCACION EN RESPONSABILIDAD CONCIENCIANDO A LOS ALUMNOS DE QUE VIVEN EN UNA SOCIADAD DEMOCRATICA CON DERECHOS Y DEBERES`,
+            registration_date: 1999,
+            creation_date: 1999,
+            zip_code: 11401,
+            province: `CADIZ`,
+            township_code: 201
+        },
+        {
+            name: `AMPA FELIPE SOLIS`,
+            goal: `ASISTIR A LOS PADRES O TUTORES EN TODO QUELLO QUE CONCIERNE A LA EDUACION DE SUS HIJOS O PUPILOS`,
+            registration_date: 1990,
+            creation_date: 1980,
+            zip_code: 14940,
+            province: `CORDOBA`,
+            township_code: 137
+        },
+        {
+            name: `PENSIONISTAS VIRGEN DEL ROMERO`,
+            goal: `Favorecer una mayor convivencia e identidad de los socios de la Tercera Edad y Pensionistas, por medio de promoción social, cultural recreativa y asociativa de las personsa que la forman. - Velar por los intereses comunes de cuantos integran la Asociación.`,
+            registration_date: 1995,
+            creation_date: 1994,
+            zip_code: 14447,
+            province: `CORDOBA`,
+            township_code: 168
+        },
+        {
+            name: `SIGNOS DE IDENTIDAD`,
+            goal: `LA ENSEÑANZA DEL LENGUAJE DE SIGNOS, LA FORMACIÓN DEL PROFESORADO, ASI COMO LAS ACTIVIDADES DE FOMENTO DE LA COMUNICACIÓN ENTRE Y CON LOS SORDOS Y DISMINUIDOS SENSORIALES, ASÍ COMO CON LOS OYENTES.`,
+            registration_date: 2005,
+            creation_date: 2005,
+            zip_code: 18004,
+            province: `GRANADA`,
+            township_code: 877
+        },
+        {
+            name: `SOCIEDAD DE CAZADORES LA PARRA`,
+            goal: `LA PRÁCTICA DEPORTIVA DE LA CAZA`,
+            registration_date: 2002,
+            creation_date: 2002,
+            zip_code: 18830,
+            province: `GRANADA`,
+            township_code: 981
+        },
+        {
+            name: `DEL HOGAR MUNICIPAL DEL PENSIONISTA`,
+            goal: `Defender los derechos de la Tercera Edad.`,
+            registration_date: 1980,
+            creation_date: 1980,
+            zip_code: 23537,
+            province: `JAEN`,
+            township_code: 9027
+        },
+        {
+            name: `VECINOS EXTRAMUROS DE SAN PEDRO`,
+            goal: `El desarrollo cultural, deportivo y convivencial de la vecindad donde se constituye esta Asociación. La comunicación con otras asociaciones y comunidades análogas. Defensa de los intereses de los asociados y vecinos ante los órganos y estamentos que - hiciera falta.`,
+            registration_date: 1994,
+            creation_date: 1994,
+            zip_code: 41410,
+            province: `SEVILLA`,
+            township_code: 248
+        },
+        {
+            name: `CULTURAL KARMA KAYU DE BENALMADENA`,
+            goal: `EL PRESERVAR Y PROMOVER LA CULTURA, LA FILOSOFIA Y LA RELIGION BUDISTA TIBETANA DE LA TRADICION DE LA ESCUELA KARMA KAYU, BAJO LA AUTORIDAD ESPIRITUAL DEL VANERABLE LOPON TSECHU RIMPOCHE`,
+            registration_date: 2001,
+            creation_date: 2001,
+            zip_code: 29630,
+            province: `MALAGA`,
+            township_code: 252
+        },
+        {
+            name: `ENCINA LAURA`,
+            goal: `LA ASOCIACIÓN TIENE COMO MISIÓN Y OBJETO BÁSICO DEFENDER LOS DERECHOS Y MEJORAR LA CALIDAD DE VIDA DE LAS PERSONAS CON DISCAPACIDAD INTELECTUAL Y DE SUS FAMILIAS EN EL ÁMBITO TERRITORIAL DE LA PROVINCIA DE MÁLAGA`,
+            registration_date: 1997,
+            creation_date: 1997,
+            zip_code: 29130,
+            province: `MALAGA`,
+            township_code: 75
+        },
+
+        
     ];
 
     // Base url declaration
@@ -123,7 +309,7 @@ function backend_igr(app) {
             }
             else {
                 if (count === 0) {
-                    console.log(`Inserted ${associationData.length} contacts`)
+                    console.log(`Inserted ${associationData.length} associations`)
                     db.insert(associationData);
                 }
                 res.sendStatus(200);
