@@ -2,7 +2,9 @@
 import { onMount } from 'svelte';
 import { dev } from "$app/environment";
 import * as echarts from 'echarts';
+
 let furbo =[];
+let chart;
 const url = 'https://api-football-beta.p.rapidapi.com/players/topscorers?season=2019&league=39';
 const options = {
   method: 'GET',
@@ -13,34 +15,37 @@ const options = {
 };
 let chartContainer;
 let patata = [];
+let leyenda
 //Usar grafico de radar para varias estadisticas
 onMount(async () =>{
     const response = await fetch(url,options);
     if (response.ok){
         furbo = await response.json();
         //console.log("API response:", data);
-        console.log(furbo.response[0].statistics[0]);
-        patata = furbo.response.map(furbolista => ({
+        //console.log(furbo.response[0].statistics[0]);
+        patata = furbo.response.slice(0,2).map(furbolista => ({
             name: furbolista.player.name,
             data: filterData(furbolista.statistics[0])
         }));
+      leyenda = furbo.response.slice(0,2).map(furbolista => furbolista.player.name)
+      console.log(leyenda)
       }
     
-   let charOptions  = {
+   let chartOptions  = {
   title: {
     text: 'Basic Radar Chart'
   },
   legend: {
-    data: ['Allocated Budget', 'Actual Spending']
+    data: leyenda
   },
   radar: {
-    // shape: 'circle',
+     shape: 'circle',
     indicator: [
-            { name: 'Goals', max: 40 },
-            { name: 'Assists', max: 25 },
-            { name: 'Key Passes', max: 50 },
-            { name: 'Shots on Target', max: 60 },
-            { name: 'Successful Dribbles', max: 30 }
+            { name: 'Goals', max: 20 },
+            { name: 'Assists', max: 20 },
+            { name: 'Key Passes', max: 20 },
+            { name: 'Shots on Target', max: 20 },
+            { name: 'Successful Dribbles', max: 20 }
           ],
   },
   series: [
@@ -51,6 +56,8 @@ onMount(async () =>{
     }
   ]
 }
+chart = echarts.init(chartContainer);
+chart.setOption(chartOptions);
 });
 function filterData(estadisticas){
   let goles = estadisticas["goals"].total;
@@ -59,7 +66,7 @@ function filterData(estadisticas){
   let shots_on_target = estadisticas["shots"].on;
   let successful_driblles = estadisticas["dribbles"].success
   let result = [goles,asistencias,keyPass,shots_on_target,successful_driblles];
-  console.log(result)  
+  return result;
 
 }
 </script>
