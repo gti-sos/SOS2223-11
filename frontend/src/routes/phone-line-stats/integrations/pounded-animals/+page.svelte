@@ -12,7 +12,43 @@ onMount(async () => {
     if (response.ok){
       datos = await response.json();
       console.log("API response:", datos.result.records);
-     
+      const pastel = datos.result.records.map(item => ({
+      name: item.Animal,
+      y: item["Total#Impounded"],
+    }));
+    console.log(pastel);
+    
+    // Chart options
+    Highcharts.chart("chart-container",{
+      chart: {
+        type: 'pie',
+      },
+      title: {
+        text: 'Animal Pound Statistics',
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+          },
+        },
+      },
+      series: [
+        {
+          name: 'Impounded',
+          colorByPoint: true,
+          data: pastel,
+        },
+      ],
+    });
+
     }
 });
 </script>
+
+<div id="chart-container">
+
+</div>
