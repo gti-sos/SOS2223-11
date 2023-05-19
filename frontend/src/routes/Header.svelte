@@ -63,6 +63,12 @@
               >Christian</NavLink
             ></DropdownItem
           >
+
+          <DropdownItem
+            ><NavLink href="/analytics" class="text-black"
+              >Gráfica conjunta</NavLink
+            ></DropdownItem
+          >
         </DropdownMenu>
       </Dropdown>
     </Nav>

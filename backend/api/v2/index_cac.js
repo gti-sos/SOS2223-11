@@ -96,9 +96,16 @@ app.get(BASE_API_URL_PROJECT + "/loadInitialData", (request, response) => {
 
 app.get(BASE_API_URL_PROJECT, (request, response) => {
 
-    var offset = parseInt(request.query.offset); // Inicio
+    var offset = 0; // Inicio
 
-    var limit = parseInt(request.query.limit); // Fin
+    var limit = 0; // Fin
+
+    if (request.query.limit !== undefined) {
+        limit = parseInt(request.query.limit);
+    }
+    if (request.query.offset !== undefined) {
+        offset = parseInt(request.query.offset);
+    }
 
     var search = {};
 

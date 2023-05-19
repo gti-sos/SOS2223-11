@@ -14,27 +14,21 @@
 
     let associations = [];
 
-    let result = "";
-    let resultStatus = "";
 
     onMount(async () => {
         getAssociations();
     });
 
     async function getAssociations() {
-        resultStatus = result = "";
         const res = await fetch(API, {
             method: "GET",
         });
         try {
             const data = await res.json();
-            result = JSON.stringify(data, null, 2);
             associations = data;
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
-        const status = await res.status;
-        resultStatus = status;
     }
 
     function mapAndOrder(arr) {
