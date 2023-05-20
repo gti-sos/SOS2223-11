@@ -304,7 +304,7 @@ function backend_vrj(app) {
 
     const BASE_API_URL_PHONE = "/api/v2/phone-line-stats";
     //var apiPhoneData = [];
-    app.get(BASE_API_URL_PHONE + "/proxy", (req,res)=>{
+    app.use(BASE_API_URL_PHONE + "/proxy", (req,res)=>{
         console.log("patata");
         const url = 'https://data.gov.au/data/api/3/action/datastore_search?resource_id=316d96a5-715b-43ff-b7ba-af1bd02c536d&limit=20'
         req.pipe(request(url)).pipe(res);
