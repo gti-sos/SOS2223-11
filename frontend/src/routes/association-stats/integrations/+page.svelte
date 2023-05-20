@@ -20,7 +20,7 @@
         {
             title: "Asociaciones de Andalucía por año de registro",
             technology: "D3",
-            widget: "Bar(cambiar)",
+            widget: "Area/Scatter",
             href: "/association-stats/integrations/d3"
         },
         {
