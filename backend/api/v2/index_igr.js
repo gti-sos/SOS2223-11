@@ -305,6 +305,19 @@ function backend_igr(app) {
         req.pipe(request(proxyUrl, proxyOptions)).pipe(res);
       });
 
+      app.use(BASE_API_URL_ASSOC + '/proxy2', (req, res) => {
+        console.log("New proxy2 request");
+        const proxyUrl =
+          "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c8c5774c-bfbc-498b-83b6-154a6545b1ca&limit=20";
+        const proxyOptions = {
+            method: "GET",
+            dataType: "jsonp",
+        };
+      
+        // Pipe the request to the proxy URL
+        req.pipe(request(proxyUrl, proxyOptions)).pipe(res);
+      });
+
     // Redirection to documentation
     app.get(BASE_API_URL_ASSOC + "/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
