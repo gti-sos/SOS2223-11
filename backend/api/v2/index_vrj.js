@@ -1,4 +1,5 @@
 import Datastore from 'nedb';
+import request from 'request';
 var db = new Datastore();
 function backend_vrj(app) {
 
@@ -303,6 +304,13 @@ function backend_vrj(app) {
 
     const BASE_API_URL_PHONE = "/api/v2/phone-line-stats";
     //var apiPhoneData = [];
+    app.get(BASE_API_URL_PHONE + "/proxy", (req,res)=>{
+        console.log("patata");
+        const url = 'https://data.gov.au/data/api/3/action/datastore_search?resource_id=316d96a5-715b-43ff-b7ba-af1bd02c536d&limit=20'
+        req.pipe(request(url)).pipe(res);
+    });
+
+
     app.get("/api/v1/phone-line-stats/docs", (req, res) => {
         console.log("Redirection to Postman documentation");
         res.redirect("https://documenter.getpostman.com/view/26051684/2s93JzMgNi");
