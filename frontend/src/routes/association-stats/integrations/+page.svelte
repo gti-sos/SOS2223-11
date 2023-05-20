@@ -51,7 +51,7 @@
         {
             title: "Vuelos de aerolíneas domésticas por mes y año en Australia (API externa)",
             // title: "Domestic Airlines Flights by Month and Year (Australia)",
-            technology: "ECharts",
+            technology: "ECharts (Proxy)",
             widget: "Pie",
             href: "/association-stats/integrations/external/airlines"
         },

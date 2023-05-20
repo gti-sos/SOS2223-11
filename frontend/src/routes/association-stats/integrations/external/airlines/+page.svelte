@@ -15,7 +15,7 @@
 
   if (dev) API = "http://localhost:12345" + API;
 
-  const url = API + "/proxy2";
+  const url = API + "/proxy";
 
   let data;
 
