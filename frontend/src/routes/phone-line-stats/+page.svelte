@@ -40,6 +40,11 @@
     let searchLandline = "";
     let searchPostPaymentPhoneLine = "";
     let searchWideLandline = "";
+    let p = "";
+    let y = ""
+    let land = "";
+    let post = "";
+    let wide = "";
     async function getPhones() {
         resultStatus = result = "";
         const res = await fetch(API+"?limit="+10+"&offset="+offset, {
@@ -183,7 +188,7 @@
         console.log("tamaño de los telefonos: "+phones.length);
         console.log("tamaño offset: "+offset);
         
-        searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline);
+        searchPhones(p,y,land,post,wide);
        
         /*
         if(phones.length === 10){
@@ -198,9 +203,17 @@
         if (offset >= 10){
             offset = offset-10;
             console.log("Tamaño del offset: "+ offset);
-            searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline);  
+            searchPhones(p,y,land,post,wide);  
             }
 
+    }
+    async function actualiza_valores (province,year,landline,post_payment_phone_line,wide_landline){
+    p = province;
+    y = year;
+    land = landline;
+    post = post_payment_phone_line;
+    wide = wide_landline;
+    searchPhones(p,y,land,post,wide);  
     }
 
 </script>
@@ -234,7 +247,7 @@
             <td><input bind:value={searchLandline} /></td>
             <td><input bind:value={searchPostPaymentPhoneLine} /></td>
             <td><input bind:value={searchWideLandline} /></td>
-            <td><Button on:click={searchPhones(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)} on:click={() => (visible = true)}>Buscar</Button></td>
+            <td><Button on:click={actualiza_valores(searchProvince,searchYear,searchLandline,searchPostPaymentPhoneLine,searchWideLandline)} on:click={() => (visible = true)}>Buscar</Button></td>
         </tr>
         <tr>
             <td><input bind:value={newPhoneProvince} /></td>
