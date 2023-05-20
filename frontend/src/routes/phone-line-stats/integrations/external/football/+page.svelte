@@ -42,16 +42,16 @@ onMount(async () =>{
   radar: {
      shape: 'circle',
     indicator: [
-            { name: 'Goals', max: 30 },
-            { name: 'Assists', max: 17 },
-            { name: 'Key Passes', max: 65 },
-            { name: 'Shots on Target', max: 60 },
-            { name: 'Successful Dribbles', max: 60 }
+            { name: 'Goles', max: 30 },
+            { name: 'Asistencias', max: 17 },
+            { name: 'Pases Clave', max: 65 },
+            { name: 'Disparos a porteria', max: 60 },
+            { name: 'Regates con Exito', max: 60 }
           ],
   },
   series: [
     {
-      name: 'Football_players statistics',
+      name: 'Estadisticas de jugadores de futbol',
       type: 'radar',
       data: patata
     }

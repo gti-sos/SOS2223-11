@@ -32,7 +32,7 @@ chartOptions =     {
         }
       },
       legend: {
-        data: ['Flora', 'Invertebrates', 'Birds', 'Mammals', 'Fish', 'Reptiles', 'Frogs']
+        data: ['Flora', 'Invertebrados', 'Pajaros', 'Mamiferos', 'Peces', 'Reptiles', 'Ranas']
       },
       xAxis: {
         type: 'category',
@@ -49,25 +49,25 @@ chartOptions =     {
           data: flora
         },
         {
-          name: 'Invertebrates',
+          name: 'Invertebrados',
           type: 'bar',
           stack: 'total',
           data: invertebrados
         },
         {
-          name: 'Birds',
+          name: 'Pajaros',
           type: 'bar',
           stack: 'total',
           data: pajaros
         },
         {
-          name: 'Mammals',
+          name: 'Mamiferos',
           type: 'bar',
           stack: 'total',
           data: Mamiferos
         },
         {
-          name: 'Fish',
+          name: 'Peces',
           type: 'bar',
           stack: 'total',
           data: peces
@@ -79,7 +79,7 @@ chartOptions =     {
           data: reptiles
         },
         {
-          name: 'Frogs',
+          name: 'Ranas',
           type: 'bar',
           stack: 'total',
           data: ranas
