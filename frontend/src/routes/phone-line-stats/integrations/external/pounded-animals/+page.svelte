@@ -27,7 +27,7 @@ onMount(async () => {
     }));
     console.log(pastel);
     
-    // Chart options
+   
     Highcharts.chart("chart-container",{
       chart: {
         type: 'pie',

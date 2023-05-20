@@ -16,7 +16,6 @@ const options = {
 let chartContainer;
 let patata = [];
 let leyenda
-//Usar grafico de radar para varias estadisticas
 onMount(async () =>{
     const response = await fetch(url,options);
     if (response.ok){
