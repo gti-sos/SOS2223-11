@@ -1,7 +1,7 @@
-<!-- 
+
 <script>
 import { onMount } from 'svelte';
-import  echarts from 'echarts';
+import * as echarts from 'echarts';
 
 let furbo =[];
 let chart;
@@ -21,13 +21,14 @@ onMount(async () =>{
     const response = await fetch(url,options);
     if (response.ok){
         furbo = await response.json();
-        //console.log("API response:", data);
-        //console.log(furbo.response[0].statistics[0]);
-        patata = furbo.response.slice(0,2).map(furbolista => ({
+        console.log("API response:", furbo);
+        console.log(furbo.response[0].statistics[0]);
+        patata = furbo.response.slice(0,5).map(furbolista => ({
             name: furbolista.player.name,
-            data: filterData(furbolista.statistics[0])
+            value: filterData(furbolista.statistics[0])
         }));
-      leyenda = furbo.response.slice(0,2).map(furbolista => furbolista.player.name)
+      console.log(patata)
+      leyenda = furbo.response.slice(0,5).map(furbolista => furbolista.player.name)
       console.log(leyenda)
       }
     
@@ -41,11 +42,11 @@ onMount(async () =>{
   radar: {
      shape: 'circle',
     indicator: [
-            { name: 'Goals', max: 20 },
-            { name: 'Assists', max: 20 },
-            { name: 'Key Passes', max: 20 },
-            { name: 'Shots on Target', max: 20 },
-            { name: 'Successful Dribbles', max: 20 }
+            { name: 'Goals', max: 30 },
+            { name: 'Assists', max: 17 },
+            { name: 'Key Passes', max: 65 },
+            { name: 'Shots on Target', max: 60 },
+            { name: 'Successful Dribbles', max: 60 }
           ],
   },
   series: [
@@ -77,4 +78,4 @@ function filterData(estadisticas){
     width: 100%;
     height: 500px;
   }
-</style> -->
+</style> 
