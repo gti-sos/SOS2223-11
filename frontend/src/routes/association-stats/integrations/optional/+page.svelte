@@ -10,27 +10,21 @@
 
   let associations = [];
 
-  let result = "";
-  let resultStatus = "";
-
   onMount(async () => {
-    getAssociations();
+    await getAssociations();
+    await createChart(mapAndOrder(associations));
   });
 
   async function getAssociations() {
-    resultStatus = result = "";
     const res = await fetch(API, {
       method: "GET",
     });
     try {
       const data = await res.json();
-      result = JSON.stringify(data, null, 2);
       associations = data;
     } catch (error) {
       console.log(`Error parsing result: ${error}`);
     }
-    const status = await res.status;
-    resultStatus = status;
   }
 
   function mapAndOrder(arr) {
@@ -147,20 +141,20 @@
           d3.select("#tooltip").style("visibility", "hidden");
         });
 
-      let zoom = d3
-        .zoom()
-        .scaleExtent([1, 10])
-        .translateExtent([
-          [0, 0],
-          [width, height],
-        ])
-        .on("zoom", () => {
-          if (!d3.event || !d3.event.transform) return; // Check if d3.event is defined and has transform property
-          const transform = d3.event.transform;
-          svg.attr("transform", transform);
-        });
+      // let zoom = d3
+      //   .zoom()
+      //   .scaleExtent([1, 10])
+      //   .translateExtent([
+      //     [0, 0],
+      //     [width, height],
+      //   ])
+      //   .on("zoom", () => {
+      //     if (!d3.event || !d3.event.transform) return; // Check if d3.event is defined and has transform property
+      //     const transform = d3.event.transform;
+      //     svg.attr("transform", transform);
+      //   });
 
-      svg.call(zoom);
+      // svg.call(zoom);
     }
   }
   function updateChartScale() {
@@ -231,18 +225,15 @@
 </script>
 
 <svelte:head>
-    <title>Gráfica opcional</title>
+  <title>Gráfica opcional</title>
 </svelte:head>
 
 <Container>
-  <div class="my-3"><h2>Asociaciones de Andalucía por fecha de registro</h2></div>
   <div class="my-3">
-    <Button
-      color="primary"
-      on:click={() => createChart(mapAndOrder(associations))}
-      >Cargar gráfica</Button
-    >
-    <label for="scale-slider">Y-axis scale:</label>
+    <h2>Asociaciones de Andalucía por fecha de registro</h2>
+  </div>
+  <div class="my-3">
+    <label for="scale-slider">Escala del eje Y:</label>
     <input
       id="scale-slider"
       type="range"
@@ -256,7 +247,7 @@
     color="primary"
     style="display:{buttonVisibility ? 'inline-block' : 'none'}"
     id="reverse"
-    on:click={() => reverseBars()}>Reverse Bars</Button
+    on:click={() => reverseBars()}>Invertir barras</Button
   >
 
   <div id="tooltip" />

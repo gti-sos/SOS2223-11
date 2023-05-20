@@ -3,10 +3,6 @@
     import { dev } from "$app/environment";
     import { Button, Container } from "sveltestrap";
     import Highcharts from "highcharts";
-    // import highchartsMore from 'highcharts/highcharts-more';
-    // highchartsMore(Highcharts); // enable highcharts-more module
-
-
     
     let API = "/api/v2/association-stats";
 
@@ -14,9 +10,9 @@
 
     let associations = [];
 
-
     onMount(async () => {
-        getAssociations();
+        await getAssociations();
+        await createChart(mapAndOrder(associations));
     });
 
     async function getAssociations() {
@@ -86,13 +82,6 @@
 <Container>
     <div class="my-3">
         <h2>Asociaciones de Andalucía por fecha de creación</h2>
-    </div>
-    <div class="my-3">
-        <Button
-            color="primary"
-            on:click={createChart(mapAndOrder(associations))}
-            >Cargar gráfica</Button
-        >
     </div>
     <div id="chart-container" />
 </Container>

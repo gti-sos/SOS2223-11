@@ -166,7 +166,7 @@
   </script>
   
   <svelte:head>
-    <title>Gráfica conjunta</title>
+    <title>Gráfica grupal</title>
   </svelte:head>
   
   <Container>

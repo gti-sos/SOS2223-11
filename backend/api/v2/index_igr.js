@@ -1,5 +1,6 @@
 import Datastore from 'nedb';
 var db = new Datastore();
+import request from 'request';
 
 function backend_igr(app) {
 
@@ -289,10 +290,20 @@ function backend_igr(app) {
         res.redirect('https://sos2223-11-react.vercel.app/');
     });
 
-    app.get("/api/v2/association-stats/docs", (req, res) => {
-        console.log("Redirection to Postman documentation");
-        res.redirect("https://documenter.getpostman.com/view/26035195/2s93Jxt2eg");
-    });
+    app.use(BASE_API_URL_ASSOC + '/proxy', (req, res) => {
+        const proxyUrl =
+          "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen?formatType=test";
+        const proxyOptions = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key": "eeee45067bmshf7bbc170a86dc03p16d26ajsncd5a1d1d6357",
+            "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
+          },
+        };
+      
+        // Pipe the request to the proxy URL
+        req.pipe(request(proxyUrl, proxyOptions)).pipe(res);
+      });
 
     // Redirection to documentation
     app.get(BASE_API_URL_ASSOC + "/docs", (req, res) => {

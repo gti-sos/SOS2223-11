@@ -1,33 +1,30 @@
 <script>
   import { onMount } from "svelte";
   import Highcharts from "highcharts";
+  import { dev } from "$app/environment";
   import { Container } from "sveltestrap";
 
+  let API = "/api/v2/association-stats";
+
+if (dev) API = "http://localhost:12345" + API;
+
   const url =
-    "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/batsmen?formatType=test";
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "eeee45067bmshf7bbc170a86dc03p16d26ajsncd5a1d1d6357",
-      "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com",
-    },
-  };
+    API + "/proxy";
 
   let data;
 
+
   onMount(async () => {
-    const response = await fetch(url, options);
+    const response = await fetch(url);
 
     if (response.ok) {
       data = await response.json();
-      console.log("API response:", data);
 
       const chartData = data.rank.map((player) => ({
         name: player.name,
         country: player.country,
         rating: parseInt(player.rating),
       }));
-      console.log("ChartData:", chartData);
 
       const chartConfig = {
         chart: {
