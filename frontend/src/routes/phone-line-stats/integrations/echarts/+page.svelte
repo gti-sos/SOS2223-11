@@ -46,7 +46,7 @@
     const chartOptions = {
       tooltip: {},
       legend: {
-        data: ['Landline', 'Post Payment Phone Line', 'Wide Landline']
+        data: ['Telefonia Fija', 'Linea PosPago', 'Telefonia Fija Ancha']
       },
       xAxis: {
         data: xAxisData,
@@ -60,21 +60,21 @@
         name: 'Value'
       },
       series: [{
-        name: 'Landline',
+        name: 'Telefonia Fija',
         type: 'bar',
         data: landlineData,
         itemStyle: {
           color: '#a6cee3'
         }
       }, {
-        name: 'Post Payment Phone Line',
+        name: 'Linea PostPago',
         type: 'bar',
         data: postPaymentPhoneLineData,
         itemStyle: {
           color: '#1f78b4'
         }
       }, {
-        name: 'Wide Landline',
+        name: 'Telefonia Fija Ancha',
         type: 'bar',
         data: wideLandlineData,
         itemStyle: {

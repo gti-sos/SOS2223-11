@@ -40,15 +40,15 @@
     var years = filtro.map(p=> p.year)
     var serie = [
       {
-        name: "landline",
+        name: "Telefonia Fija",
         data: filtro.map(p => p.landline)
     },
     {
-        name: "post_payment_phone_line",
+        name: "Linea PosPago",
         data: filtro.map(p => p.post_payment_phone_line)
     },
     {
-        name: "widelandline",
+        name: "Telefonia Fija Ancha",
         data: filtro.map(p => p.wide_landline)
     }
   ]

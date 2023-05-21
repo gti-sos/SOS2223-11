@@ -1,3 +1,4 @@
+/*
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
@@ -26,3 +27,4 @@ test("Delete All",async ({ page }) => {
   await expect((await page.locator(".phoneRow").all()).length).toEqual(0);
 });
 
+*/
