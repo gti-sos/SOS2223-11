@@ -1,4 +1,4 @@
-/*import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
     await page.goto('http://localhost:5173/phone-line-stats');
@@ -7,12 +7,12 @@ test('has title', async ({ page }) => {
     await expect(page).toHaveTitle('Lineas telefonicas');
   });
 
-test("Has the correct buttons",async ({ page }) => {
+test("Load Data",async ({ page }) => {
   await page.goto('http://localhost:5173/phone-line-stats');
   await page.waitForTimeout(2000);
   await page.locator("#carga").click();
   await page.waitForTimeout(2000);
-  await expect((await page.locator(".phoneRow").all()).length).toBeGreaterThanOrEqual(1);
+  await expect((await page.locator(".phoneRow").all()).length).toBeGreaterThanOrEqual(10);
 });
 
 
@@ -23,6 +23,6 @@ test("Delete All",async ({ page }) => {
   await page.waitForTimeout(1000);
   page.locator('#Borrar').click();
   await page.waitForTimeout(1000);
+  await expect((await page.locator(".phoneRow").all()).length).toEqual(0);
 });
 
-*/
