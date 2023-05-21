@@ -37,7 +37,9 @@
 
     let API = "/api/v2/projection-homes-stats";
 
-    if (dev) API = "http://localhost:12345" + API;
+    if (dev) 
+    
+        API = "http://localhost:12345" + API;
 
     // Variable global
 
@@ -111,6 +113,7 @@
     // Obtener proyecciones
 
     async function getProjection() {
+
         resultStatus = result = "";
 
         const res = await fetch(API + `?offset=${offset}&limit=${limit}`, {
@@ -123,8 +126,13 @@
             result = JSON.stringify(data, null, 2);
 
             projection = data;
-        } catch (error) {
+
+        } 
+        
+        catch (error) {
+
             console.log(`Error al parsear el resultado: ${error}`);
+
         }
 
         const status = await res.status;
@@ -132,6 +140,7 @@
         resultStatus = status;
 
         if (status == 500) {
+
             message = "Error interno del servidor";
 
             color = "danger";
@@ -548,6 +557,7 @@
             <Button color="dark" on:click={getDeleteFilters}
                 >Limpiar Filtros</Button
             >
+
         </center>
 
         <!--Filtros -->

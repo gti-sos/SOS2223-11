@@ -33,7 +33,7 @@
         const data = await res.json();
         associations = data.map((item) => ({
           x: item.registration_date,
-          y: item.province.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+          y: item.province.toLowerCase().replace(/[\u0300-\u036f]/g, ""),
           name: item.name,
         }));
       } catch (error) {
@@ -164,14 +164,10 @@
 }
 
   </script>
-  
-  <svelte:head>
-    <title>Gráfica grupal</title>
-  </svelte:head>
+
   
   <Container>
     <div class="my-3">
-      <h2>Gráfica grupal</h2>
     </div>
     <div id="chart-container" />
   </Container>
