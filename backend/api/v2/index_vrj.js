@@ -445,9 +445,12 @@ function backend_vrj(app) {
 
 
     app.post(BASE_API_URL_PHONE, (req, res) => {
-
+        let newprovince = null;
         console.log(req.body);
-        const newprovince = req.body.province;
+        console.log(typeof(req.body.province));
+        if(typeof(req.body.province)==="string"){
+             newprovince = req.body.province;
+        }
         const newyear = parseInt(req.body.year);
         const newlandline = parseInt(req.body.landline);
         const newpost_payment_phone_line = parseInt(req.body.post_payment_phone_line);
