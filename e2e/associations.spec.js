@@ -2,11 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test('Has correct title', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
+
   await expect(page).toHaveTitle('Asociaciones');
 });
 
 test('Has correct heading', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
+
   const heading = await page.locator('h2');
   const text = await heading.innerText();
   expect(text).toContain('Asociaciones de Andalucía');
@@ -22,12 +24,21 @@ test('Verifies the presence of buttons in main route', async ({ page }) => {
   await page.locator('button:has-text("Borrar asociaciones")');
 });
 
+test('Verifies the number of associations to be above one statelessly', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
+
+  await page.locator('button:has-text("Cargar asociaciones"):not(:has-text("Recargar asociaciones"))').click();
+  await page.waitForSelector('tbody tr');
+  const rows = await page.locator('tbody tr').count();
+  expect(rows).toBeGreaterThan(1);
+});
+
+
 test('Verifies the filtering route', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
 
   const filterButton = await page.locator('a:has-text("Filtrar asociaciones")');
   await filterButton.click();
-
   await page.waitForURL(/.*search/);
 });
 
