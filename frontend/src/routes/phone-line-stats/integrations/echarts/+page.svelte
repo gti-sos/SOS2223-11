@@ -67,7 +67,7 @@
           color: '#a6cee3'
         }
       }, {
-        name: 'Linea PostPago',
+        name: 'Linea PosPago',
         type: 'bar',
         data: postPaymentPhoneLineData,
         itemStyle: {
