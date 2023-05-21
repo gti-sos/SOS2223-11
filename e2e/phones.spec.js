@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+/*import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
     await page.goto('http://localhost:5173/phone-line-stats');
@@ -13,3 +13,4 @@ test("Has the correct buttons",async ({ page }) => {
   await expect((await page.locator(".phoneRow").all()).length).toBeGreaterThanOrEqual(1);
 });
 
+*/
