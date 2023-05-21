@@ -92,11 +92,11 @@
     <Table>
         <thead>
             <tr>
-                <th>Province</th>
-                <th>Year</th>
-                <th>Landline</th>
-                <th>Post_Payment</th>
-                <th>Wide_Landline</th>
+                <th>Provincia</th>
+                <th>Año</th>
+                <th>Telefonia Fija</th>
+                <th>PosPago</th>
+                <th>Telefonia Fija Ancha</th>
                 <th>Action</th>
             </tr>
         </thead>
