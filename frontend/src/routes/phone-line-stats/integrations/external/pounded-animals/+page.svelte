@@ -33,7 +33,7 @@ onMount(async () => {
         type: 'pie',
       },
       title: {
-        text: 'Animal Pound Statistics',
+        text: 'Estadísticas de la Perrera',
       },
       plotOptions: {
         pie: {
@@ -47,7 +47,7 @@ onMount(async () => {
       },
       series: [
         {
-          name: 'Impounded',
+          name: 'capturado y retenido en una perrera',
           colorByPoint: true,
           data: pastel,
         },
