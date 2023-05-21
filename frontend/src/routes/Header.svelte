@@ -47,6 +47,12 @@
         <DropdownToggle nav caret class="text-white">Integraciones y usos</DropdownToggle>
         <DropdownMenu end>
           <DropdownItem
+          ><NavLink href="/integrations" class="text-black"
+            >Todas</NavLink
+          ></DropdownItem
+        >
+
+          <DropdownItem
             ><NavLink href="/association-stats/integrations" class="text-black"
               >Ignacio</NavLink
             ></DropdownItem
