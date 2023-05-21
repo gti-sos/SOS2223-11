@@ -13,9 +13,15 @@ test("Has the correct buttons",async ({ page }) => {
   await page.locator("#carga").click();
   await page.waitForTimeout(2000);
   await expect((await page.locator(".phoneRow").all()).length).toBeGreaterThanOrEqual(1);
-  await page.locator("#acciones").click();
-  await page.waitForTimeout(1000);
-  page.locator('button:has-text("Borrar Datos")').click(); 
 });
 
+
+test("Delete All",async ({ page }) => {
+  await page.goto('http://localhost:5173/phone-line-stats');
+  await page.waitForTimeout(2000);
+  await page.locator("#acciones").click();
+  await page.waitForTimeout(1000);
+  page.locator('#Borrar').click();
+  await page.waitForTimeout(1000);
+});
 

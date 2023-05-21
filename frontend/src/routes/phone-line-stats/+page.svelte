@@ -273,7 +273,7 @@
                         >
                         <DropdownItem divider/>
                         <DropdownItem header>Eliminar</DropdownItem>
-                        <DropdownItem
+                        <DropdownItem id=Borrar
                             on:click={deleteAll}
                             on:click={() => (visible = true)}
                             >Borrar datos</DropdownItem
