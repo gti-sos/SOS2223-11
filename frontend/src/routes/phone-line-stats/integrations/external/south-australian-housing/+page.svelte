@@ -17,11 +17,11 @@ onMount(async () => {
   console.log(anos);
   let serie = [
     {
-      name: "aboriginal housing probationary",
+      name: "Casas Aboriginales Experimentales",
       data: datos.result.records.map(e=> e["aboriginal housing probationary"])
     },
     {
-      name: "public housing probationary",
+      name: "Casas Publicas Experimentales",
       data: datos.result.records.map(e=> e["public housing probationary"])
     },
    ]
