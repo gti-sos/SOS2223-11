@@ -217,6 +217,9 @@
     }
 
 </script>
+<svelte:head>
+    <title>Lineas telefonicas</title>
+</svelte:head>
 <h1>Lineas de teléfono</h1>
 {#if mensaje != ""}
     <Alert {color} isOpen={visible} toggle={() => (visible = false)}
@@ -225,6 +228,7 @@
 {/if}
 <Button on:click={siguiente} on:click={() => (visible = true)}>Siguiente</Button>
 <Button on:click={anterior} on:click={() => (visible = true)}>Anterior</Button>
+<Button id=carga on:click={loadPhones} color="primary" on:click={() => (visible = true)}>Cargar Telefonos</Button>
 <Table>
     <!-- <thead>
         <td><Button></Button></td>
@@ -256,24 +260,17 @@
             <td><input bind:value={newPhonePostPaymentPhoneLine} /></td>
             <td><input bind:value={newPhoneWideLandline} /></td>
             <td
-                ><ButtonDropdown>
-                    <DropdownToggle color="primary" caret
+                ><ButtonDropdown id=acciones>
+                    <DropdownToggle  color="primary" caret
                         >Acciones</DropdownToggle
                     >
-                    <DropdownMenu>
+                    <DropdownMenu id=menu>
                         <DropdownItem header>Header</DropdownItem>
                         <DropdownItem
                             on:click={createPhone}
                             on:click={() => (visible = true)}
                             >Crear recurso</DropdownItem
                         >
-                        <DropdownItem  on:click={loadPhones}
-                            >Cargar telefonos</DropdownItem
-                        >
-                        <DropdownItem on:click={() => (visible = true)} on:click={searchPhones(newPhoneProvince,newPhoneYear,newPhoneLandline,newPhonePostPaymentPhoneLine,newPhoneWideLandline)}
-                            >Buscar telefonos</DropdownItem
-                        >
-                        
                         <DropdownItem divider/>
                         <DropdownItem header>Eliminar</DropdownItem>
                         <DropdownItem
@@ -287,7 +284,7 @@
         </tr>
         <!-- {#if resultStatus === 200} -->
         {#each phones as phone}
-            <tr>
+            <tr class="phoneRow">
                 <td
                     ><a href="/phone-line-stats/{phone.province}/{phone.year}"
                         >{phone.province}</a
