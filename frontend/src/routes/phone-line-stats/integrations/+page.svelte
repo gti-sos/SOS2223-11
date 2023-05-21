@@ -78,7 +78,7 @@ let integraciones = [
                 <td></td>
 
                 <td
-                    ><Button href={integracion.href}>Mira que bonito</Button
+                    ><Button href={integracion.href}>Ir a grafica</Button
                     ></td
                 >
             </tr>
