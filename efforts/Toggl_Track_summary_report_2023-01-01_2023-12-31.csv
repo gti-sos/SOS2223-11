@@ -1,0 +1,80 @@
+﻿Project,Client,Description,Duration
+SOS2223-11,,#1 Update readme with the real data,00:01:50
+SOS2223-11,,#10 Create and run Node.js JavaScript file,01:33:22
+SOS2223-11,,#11 Verify worsheet details and data,00:43:00
+SOS2223-11,,"#12 Create and run ""index-YYY.js"" file",02:08:27
+SOS2223-11,,#13 Create a Postman account,00:17:21
+SOS2223-11,,#14 Make first app index-chr.js,01:31:50
+SOS2223-11,,#15 Establish the fields within each issue,00:30:05
+SOS2223-11,,#16 Verify individual sheet tab online,01:00:14
+SOS2223-11,,#17 Common repository information check,00:49:49
+SOS2223-11,,#18 Create personal data route,01:51:31
+SOS2223-11,,#19 Verify individual worksheet,00:23:10
+SOS2223-11,,#20 add cool route to index.js,00:36:38
+SOS2223-11,,#21 add own route to index.js,01:10:09
+SOS2223-11,,#22 verify my worksheet  data,01:32:16
+SOS2223-11,,#23 Create 3 issues for F04,01:00:20
+SOS2223-11,,#24 Verify individual sheet tab online,01:00:57
+SOS2223-11,,#25 Replicate the index/cac algorithm within index.js to display the result on the web,01:00:28
+SOS2223-11,,#26 Read piazza news,00:18:36
+SOS2223-11,,#28 Google Cloud resource deployment,03:20:54
+SOS2223-11,,#29 Load Initial Data route,00:23:06
+SOS2223-11,,#30 POSTMAN request batch,01:02:35
+SOS2223-11,,#31 Deploy a REST API in Google cloud,01:03:51
+SOS2223-11,,#32 The API must comply with the good practices defined in the laboratories,01:12:42
+SOS2223-11,,#33 Collection of calls in POSTMAN deployed in Gcloud,01:03:21
+SOS2223-11,,#34 desarrollar coleccion de llamadas en Postman,01:25:10
+SOS2223-11,,#35 crear ruta loadInitial data,01:42:06
+SOS2223-11,,#36 Comprobar nombre del recurso (FFFFF),00:33:00
+SOS2223-11,,#37 Database persistency for the API,01:03:07
+SOS2223-11,,#38 Field base search implementation for the API,01:47:33
+SOS2223-11,,#39 Pagination feature for the API,01:06:17
+SOS2223-11,,#4 Add Project description field to common repository description,00:10:05
+SOS2223-11,,#40 Implement persistence in NeDB,01:06:51
+SOS2223-11,,#41 Implement searches for all fields,01:15:07
+SOS2223-11,,#42 Redirect docs link to documentation portal,01:02:56
+SOS2223-11,,#43 Crear ruta /docs,00:30:46
+SOS2223-11,,#44 Implementar paginación,00:31:15
+SOS2223-11,,#45 Implementar busqueda por todos los campos,02:03:32
+SOS2223-11,,#46 Postman request collection creation,01:15:51
+SOS2223-11,,#47 Testing script creation,00:53:35
+SOS2223-11,,#48 Prevent _id property from being sent or received,01:02:10
+SOS2223-11,,#49 Extender coleccion Postman,03:20:12
+SOS2223-11,,#5 Add Team field to common repository description,00:39:12
+SOS2223-11,,#50 No recibir ni enviar _id,00:35:47
+SOS2223-11,,#51 Comprobar identificadores de recursos,00:30:28
+SOS2223-11,,#52 Extend collection of POSTMAN calls,01:05:49
+SOS2223-11,,#53 Identifiers for various properties must be well used,01:04:20
+SOS2223-11,,#54 Launch script test-FFFF,01:01:33
+SOS2223-11,,#55 New Postman Documentation,01:03:05
+SOS2223-11,,#56 Frontend functionality,01:09:12
+SOS2223-11,,#57 Return status codes as user message,01:13:28
+SOS2223-11,,#58 funcionalidades frontend,02:29:04
+SOS2223-11,,#59 Hacer comprensibles los elementos de la interfaz,01:00:05
+SOS2223-11,,#60 Mostrar mensaje informativo al usuario,00:51:45
+SOS2223-11,,#61 Basic functionalities of svelte,01:02:37
+SOS2223-11,,#62 User understandable elements,01:03:16
+SOS2223-11,,#63 User understandable messages,01:01:37
+SOS2223-11,,#64 Svelte functionalities,01:03:04
+SOS2223-11,,#65 Messages understood for non-technical users,01:01:36
+SOS2223-11,,#66 Reload automated data,01:06:38
+SOS2223-11,,#67 Implementar paginación,02:10:04
+SOS2223-11,,#68 Implementar busquedas por campos,02:28:35
+SOS2223-11,,#69 Hacer comprensibles elementos para usuarios no tecnicos,00:50:13
+SOS2223-11,,#7 Fields to fill in for the feedback session F02,00:12:42
+SOS2223-11,,#70 Field base search,01:00:10
+SOS2223-11,,#71 Limit and offset pagination,01:22:46
+SOS2223-11,,#72 Automatic reload functionality,01:18:00
+SOS2223-11,,#73 Graph integration Highcharts,01:03:35
+SOS2223-11,,#74 Graph Integration D3,03:34:12
+SOS2223-11,,#75 Video demo,01:35:00
+SOS2223-11,,#79 Update Postman tests,02:04:55
+SOS2223-11,,#8 Create POSTMAN account,00:16:21
+SOS2223-11,,#80 Video proyecto,02:04:01
+SOS2223-11,,#81 visualizacion e integracion,12:28:46
+SOS2223-11,,#82 Pruebas e2e,02:00:40
+SOS2223-11,,#83 Api use or integrations,09:23:59
+SOS2223-11,,#84 Playwright's e2e testing,02:47:43
+SOS2223-11,,#85 Conjoined chart,03:27:04
+SOS2223-11,,#86 Proxy implementation,03:11:26
+SOS2223-11,,#9 Verify worksheet details,01:23:04
