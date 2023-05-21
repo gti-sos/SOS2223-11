@@ -35,7 +35,7 @@
 
         <Row>
             <Col>
-                <strong>Team</strong>
+                <strong>Equipo</strong>
                 <ul>
                     {#each teamMembers as member}
                         <li>
