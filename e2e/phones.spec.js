@@ -22,7 +22,7 @@ test("Delete All",async ({ page }) => {
   await page.locator("#acciones").click();
   await page.waitForTimeout(1000);
   page.locator('#Borrar').click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(2000);
   await expect((await page.locator(".phoneRow").all()).length).toEqual(0);
 });
 
