@@ -27,8 +27,9 @@
         <h2 class="my-3">Vídeo de Ignacio García Rodríguez</h2>
         <div class="m-2">
             <iframe
-                width="560"
-                height="315"
+            title="SOS2223-11 Ignacio García Rdríguez"
+                width="1080"
+                height="720"
                 src="https://www.youtube.com/embed/VMMUDoD4tF8"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
