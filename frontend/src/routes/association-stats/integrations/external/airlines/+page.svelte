@@ -4,13 +4,6 @@
   import { dev } from "$app/environment";
   import { Container } from "sveltestrap";
 
-  // const url =
-  //   "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c8c5774c-bfbc-498b-83b6-154a6545b1ca&limit=20";
-  // const options = {
-  //   method: "GET",
-  //   dataType: "jsonp",
-  // };
-
   let API = "/api/v2/association-stats";
 
   if (dev) API = "http://localhost:12345" + API;
@@ -21,12 +14,9 @@
 
   onMount(async () => {
     const response = await fetch(url);
-
     if (response.ok) {
       data = await response.json();
-
       const records = data.result.records;
-
       if (records.length === 0) {
         console.warn("No records found.");
         return;

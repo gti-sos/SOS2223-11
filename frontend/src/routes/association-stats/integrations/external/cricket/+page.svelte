@@ -17,10 +17,8 @@
 
   onMount(async () => {
     const response = await fetch(url, options);
-
     if (response.ok) {
       data = await response.json();
-
       const chartData = data.rank.map((player) => ({
         name: player.name,
         country: player.country,
@@ -29,7 +27,7 @@
 
       const chartConfig = {
         chart: {
-          type: "areaspline", // Set the chart type to line in a polar-like chart
+          type: "areaspline",
         },
         title: {
           text: "Puntuaciones de bateadores por el Consejo Internacional de Cricket",
@@ -52,7 +50,7 @@
           {
             name: "Puntuación",
             data: chartData.map((player) => player.rating),
-            pointPlacement: "on", // Place the data points evenly on the circular axis
+            pointPlacement: "on",
           },
         ],
       };
@@ -65,7 +63,7 @@
 </script>
 
 <svelte:head>
-    <title>Gráfica externa cricket</title>
+  <title>Gráfica externa cricket</title>
 </svelte:head>
 
 <Container>

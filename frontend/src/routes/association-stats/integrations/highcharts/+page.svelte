@@ -1,9 +1,9 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import { Button, Container } from "sveltestrap";
+    import { Container } from "sveltestrap";
     import Highcharts from "highcharts";
-    
+
     let API = "/api/v2/association-stats";
 
     if (dev) API = "http://localhost:12345" + API;
@@ -39,10 +39,7 @@
     }
 
     function createChart(data) {
-        // Convert the data to an array of values
         const values = Object.values(data);
-
-        // Create the chart using Highcharts
         Highcharts.chart("chart-container", {
             chart: {
                 type: "spline",

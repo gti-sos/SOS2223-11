@@ -21,8 +21,12 @@
     } from "sveltestrap";
 
     onMount(async () => {
-        getAssociationsNumber();
-        getAssociations();
+        // console.log(currentPage);
+        // console.log(totalPages);
+        await getAssociationsNumber();
+        await getAssociations();
+        // console.log(currentPage);
+        // console.log(totalPages);
     });
 
     let API = "/api/v2/association-stats";
@@ -34,16 +38,12 @@
     let messageAlert = false;
     let message = "";
 
-    let result = "";
-    let resultStatus = "";
-
     let limit = 10;
     let offset = 0;
 
-    let updatedLimit = limit;
-    let updatedOffset = offset;
-    let searchName;
+    let searchLimit = 10;
 
+    let searchName;
     let searchGoal;
     let searchRegistrationDate;
     let searchCreationDate;
@@ -61,8 +61,6 @@
     let totalLength;
 
     async function getAssociationsNumber() {
-        resultStatus = result = "";
-
         const queryParams = {};
 
         if (searchName !== null && searchName !== undefined) {
@@ -95,21 +93,24 @@
         });
         try {
             const data = await res.json();
-            result = JSON.stringify(data, null, 2);
             totalLength = data.length;
+            if (isNaN(totalPages)) {
+                totalPages = 1;
+            }
+            if (totalLength === 0) {
+                totalPages = 1;
+            } else {
+                totalPages = Math.ceil(totalLength / searchLimit);
+            }
+            if (isNaN(totalPages)) {
+                totalPages = 1;
+            }
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
-
-        const status = await res.status;
-        resultStatus = status;
     }
 
     async function getAssociations() {
-        resultStatus = result = "";
-        if (isNaN(totalPages)) {
-            totalPages = 1;
-        }
         const queryParams = {};
         if (limit !== null && limit !== undefined) {
             queryParams.limit = limit;
@@ -147,33 +148,25 @@
         });
         try {
             const data = await res.json();
-            result = JSON.stringify(data, null, 2);
             associations = data;
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
-        if (totalLength === 0) {
-            totalPages = 1;
-        } else {
-            totalPages = Math.ceil(totalLength / limit);
-        }
-        if (isNaN(totalPages)) {
-            totalPages = 1;
-        }
-        const status = await res.status;
-        resultStatus = status;
     }
 
-    function updateSearch() {
-        limit = updatedLimit;
-        offset = updatedOffset;
+    async function updateSearch() {
+        limit = searchLimit;
+        await getAssociationsNumber();
+        await getAssociations();
+        totalPages = Math.ceil(totalLength / limit);
         if (offset == 0) {
             currentPage = 1;
         } else {
-            currentPage = totalPages / offset;
+            currentPage = Math.ceil(offset / limit) + 1;
         }
-        getAssociationsNumber();
-        getAssociations();
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        } 
     }
 
     async function reload() {
@@ -188,33 +181,6 @@
             message = "No se ha podido recargar la lista de asociaciones";
         }
     }
-
-    // let provinceDelete = "";
-    // let registrationDateDelete = "";
-
-    // let openOne = false;
-    // const toggleOne = () => (openOne = !openOne);
-
-    // async function deleteAssociation(province, registration_date) {
-    //     resultStatus = result = "";
-    //     const res = await fetch(
-    //         API + "/" + province + "/" + registration_date,
-    //         {
-    //             method: "DELETE",
-    //         }
-    //     );
-    //     const status = await res.status;
-    //     resultStatus = status;
-    //     if (status == 200) {
-    //         getAssociations();
-    //         messageAlert = true;
-    //         message = `La asociación de ${province} del año ${registration_date} ha sido eliminada`;
-    //     } else if (status == 404) {
-    //         messageAlert = true;
-    //         message = `La asociación de ${province} del año ${registration_date} no ha podido ser eliminada`;
-    //     } else {
-    //     }
-    // }
 </script>
 
 <svelte:head>
@@ -251,77 +217,77 @@
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
     {/if}
 
-    <div class="d-flex justify-content-between align-items-center mt-3">
-        <Form on:submit={updateSearch}>
-            <div class="d-flex align-items-center">
-                <Label class="mr-2" for="name">Nombre:</Label>
-                <Input type="text" id="name" bind:value={searchName} />
-                <Label class="mr-2" for="goal">Objetivo:</Label>
-                <Input type="text" id="goal" bind:value={searchGoal} />
-                <Label class="mr-2" for="registration_date"
-                    >Año de registro:</Label
-                >
-                <Input
-                    type="number"
-                    id="registration_date"
-                    bind:value={searchRegistrationDate}
-                />
-                <Label class="mr-2" for="creation_date">Año de creación:</Label>
-                <Input
-                    type="number"
-                    id="creation_date"
-                    bind:value={searchCreationDate}
-                />
-            </div>
-            <div class="d-flex align-items-center">
-                <Label class="mr-2" for="zip_code">Código postal:</Label>
-                <Input type="number" id="zip_code" bind:value={searchZipCode} />
-                <Label class="mr-2" for="province">Provincia:</Label>
-                <Input type="text" id="province" bind:value={searchProvince} />
-                <Label class="mr-2" for="township_code">Código municipal:</Label
-                >
-                <Input
-                    type="number"
-                    id="township_code"
-                    bind:value={searchTownshipCode}
-                />
-                <Label class="mr-2" for="limit">Límite:</Label>
-                <Input
-                    type="number"
-                    id="limit"
-                    bind:value={updatedLimit}
-                    min="1"
-                    max="100"
-                    step="1"
-                />
-
-                <!-- <Label class="mr-2" for="offset">Saltar:</Label>
-                <Input
-                    type="number"
-                    id="limit"
-                    bind:value={updatedOffset}
-                    min="0"
-                    max={limit}
-                    step="1"
-                /> -->
-            </div>
-            <div>
-                <Button color="primary" type="submit">Filtrar</Button>
-            </div>
-
-            <br />
-            <!-- <div class="d-flex align-items-center"> -->
+    <div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <Form on:submit={updateSearch}>
+                <div class="d-flex align-items-center">
+                    <Label class="mr-2" for="name">Nombre:</Label>
+                    <Input type="text" id="name" bind:value={searchName} />
+                    <Label class="mr-2" for="goal">Objetivo:</Label>
+                    <Input type="text" id="goal" bind:value={searchGoal} />
+                    <Label class="mr-2" for="registration_date"
+                        >Año de registro:</Label
+                    >
+                    <Input
+                        type="number"
+                        id="registration_date"
+                        bind:value={searchRegistrationDate}
+                    />
+                    <Label class="mr-2" for="creation_date"
+                        >Año de creación sobre:</Label
+                    >
+                    <Input
+                        type="number"
+                        id="creation_date"
+                        bind:value={searchCreationDate}
+                    />
+                </div>
+                <div class="d-flex align-items-center">
+                    <Label class="mr-2" for="zip_code"
+                        >Código postal sobre:</Label
+                    >
+                    <Input
+                        type="number"
+                        id="zip_code"
+                        bind:value={searchZipCode}
+                    />
+                    <Label class="mr-2" for="province">Provincia:</Label>
+                    <Input
+                        type="text"
+                        id="province"
+                        bind:value={searchProvince}
+                    />
+                    <Label class="mr-2" for="township_code"
+                        >Código municipal sobre:</Label
+                    >
+                    <Input
+                        type="number"
+                        id="township_code"
+                        bind:value={searchTownshipCode}
+                    />
+                    <Label class="mr-2" for="limit">Límite:</Label>
+                    <Input
+                        type="number"
+                        id="limit"
+                        bind:value={searchLimit}
+                        min="1"
+                        max="100"
+                        step="1"
+                    />
+                </div>
                 <div>
-
-                
+                    <Button color="primary" type="submit">Filtrar</Button>
+                </div>
+            </Form>
+        </div>
+        <br />
+        <div>
             <Button
                 color="primary"
                 disabled={currentPage === 1}
                 on:click={() => {
-                    currentPage -= 1;
                     offset -= limit;
-                    getAssociations();
-                    getAssociationsNumber();
+                    updateSearch();
                 }}
             >
                 Anterior
@@ -333,19 +299,14 @@
                 color="primary"
                 disabled={currentPage === totalPages}
                 on:click={() => {
-                    currentPage += 1;
                     offset += limit;
-                    getAssociations();
-                    getAssociationsNumber();
+                    updateSearch();
                 }}
             >
                 Siguiente
             </Button>
         </div>
-            <!-- </div> -->
-        </Form>
     </div>
-    
 
     <Table striped>
         <thead>

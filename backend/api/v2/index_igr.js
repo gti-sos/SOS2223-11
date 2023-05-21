@@ -280,7 +280,7 @@ function backend_igr(app) {
             township_code: 75
         },
 
-        
+
     ];
 
     // Base url declaration
@@ -290,17 +290,17 @@ function backend_igr(app) {
         res.redirect('https://sos2223-11-react.vercel.app/');
     });
 
-      app.use(BASE_API_URL_ASSOC + '/proxy', (req, res) => {
+    app.use(BASE_API_URL_ASSOC + '/proxy', (req, res) => {
         const proxyUrl =
-          "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c8c5774c-bfbc-498b-83b6-154a6545b1ca&limit=20";
+            "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c8c5774c-bfbc-498b-83b6-154a6545b1ca&limit=20";
         const proxyOptions = {
             method: "GET",
             dataType: "jsonp",
         };
-      
+
         // Pipe the request to the proxy URL
         req.pipe(request(proxyUrl, proxyOptions)).pipe(res);
-      });
+    });
 
     // Redirection to documentation
     app.get(BASE_API_URL_ASSOC + "/docs", (req, res) => {
@@ -365,6 +365,9 @@ function backend_igr(app) {
 
     // Post request of data entry to base url
     app.post(BASE_API_URL_ASSOC, (req, res) => {
+
+        const newAssociation = req.body;
+
         const nameReq = req.body.name;
         const goalReq = req.body.goal;
         const regReq = req.body.registration_date;
@@ -372,31 +375,58 @@ function backend_igr(app) {
         const zipReq = req.body.zip_code;
         const proReq = req.body.province;
         const townCodeReq = req.body.township_code;
-        const isRequestBodyValid = (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (zipReq !== undefined) && (proReq !== undefined) && (townCodeReq !== undefined);
-        const newAssociation = req.body;
+
+        // Validate field types
+        if (
+            typeof nameReq !== 'string' ||
+            typeof goalReq !== 'string' ||
+            typeof regReq !== 'number' ||
+            typeof creReq !== 'number' ||
+            typeof zipReq !== 'number' ||
+            typeof proReq !== 'string' ||
+            typeof townCodeReq !== 'number'
+        ) {
+            console.log("Body format parameters type is not correct");
+            res.sendStatus(400);
+            return;
+        }
+
+        const isRequestBodyValid = (
+            nameReq !== undefined &&
+            goalReq !== undefined &&
+            regReq !== undefined &&
+            creReq !== undefined &&
+            zipReq !== undefined &&
+            proReq !== undefined &&
+            townCodeReq !== undefined
+        );
+
         console.log("New POST request to /association-stats");
-        if (!(isRequestBodyValid) || !(Object.values(req.body).length === 7)) {
+        if (!isRequestBodyValid || Object.values(req.body).length !== 7) {
             console.log("Body request format not valid");
             res.sendStatus(400);
             return;
         }
-        db.find({ province: newAssociation.province, registration_date: newAssociation.registration_date }, (err, data) => {
-            if (err) {
-                console.log("Error retrieving associations data");
-            }
-            else {
-                if (data.length > 0) {
-                    console.log("Association already exists");
-                    res.sendStatus(409);
+
+        db.find(
+            { province: newAssociation.province, registration_date: newAssociation.registration_date },
+            (err, data) => {
+                if (err) {
+                    console.log("Error retrieving associations data");
                 } else {
-                    console.log(`Created new association with province ${newAssociation.province} and registration date ${newAssociation.registration_date}`);
-                    db.insert(newAssociation);
-                    // APIAssocData.push(newAssociation);
-                    res.sendStatus(201);
+                    if (data.length > 0) {
+                        console.log("Association already exists");
+                        res.sendStatus(409);
+                    } else {
+                        console.log(`Created new association with province ${newAssociation.province} and registration date ${newAssociation.registration_date}`);
+                        db.insert(newAssociation);
+                        res.sendStatus(201);
+                    }
                 }
             }
-        })
+        );
     });
+
 
     // Put request of data entry to base url (error)
     app.put(BASE_API_URL_ASSOC, (req, res) => {
@@ -489,27 +519,60 @@ function backend_igr(app) {
         const zipReq = req.body.zip_code;
         const proReq = req.body.province;
         const townCodeReq = req.body.township_code;
-        const isRequestBodyValid = (nameReq !== undefined) && (goalReq !== undefined) && (regReq !== undefined) && (creReq !== undefined) && (zipReq !== undefined) && (proReq !== undefined) && (townCodeReq !== undefined) && (Object.values(req.body).length === 7);
-        const areParamsMatching = provinceParam === proReq && parseInt(regParam) === regReq;
+    
+        // Validate field types
+        if (
+            typeof nameReq !== 'string' ||
+            typeof goalReq !== 'string' ||
+            typeof regReq !== 'number' ||
+            typeof creReq !== 'number' ||
+            typeof zipReq !== 'number' ||
+            typeof proReq !== 'string' ||
+            typeof townCodeReq !== 'number'
+        ) {
+            console.log("Body format parameters type is not correct");
+            res.sendStatus(400);
+            return;
+        }
+    
+        const isRequestBodyValid =
+            nameReq !== undefined &&
+            goalReq !== undefined &&
+            regReq !== undefined &&
+            creReq !== undefined &&
+            zipReq !== undefined &&
+            proReq !== undefined &&
+            townCodeReq !== undefined &&
+            Object.values(req.body).length === 7;
+    
+        const areParamsMatching =
+            provinceParam === proReq &&
+            parseInt(regParam) === regReq;
+    
         console.log(`New PUT request to /association-stats/${provinceParam}/${regParam}`);
         if (isRequestBodyValid && areParamsMatching) {
-            db.update({ province: provinceParam, registration_date: regParam }, {
-                $set: {
-                    name: nameReq,
-                    goal: goalReq,
-                    creation_date: creReq,
-                    zip_code: zipReq,
-                    township_code: townCodeReq
+            db.update(
+                { province: provinceParam, registration_date: regParam },
+                {
+                    $set: {
+                        name: nameReq,
+                        goal: goalReq,
+                        creation_date: creReq,
+                        zip_code: zipReq,
+                        township_code: townCodeReq
+                    }
+                },
+                {},
+                (err, numReplaced) => {
+                    if (err) {
+                        console.log(`Error updating data`);
+                        res.sendStatus(500);
+                    } else {
+                        console.log(`Updated ${numReplaced} association(s)`);
+                        res.sendStatus(201);
+                    }
                 }
-            }, {}, (err, numReplaced) => {
-                if (err) {
-                    console.log(`Error updating data`);
-                    res, sendStatus(500);
-                } else {
-                    console.log(`Updated ${numReplaced} association(s)`);
-                    res.sendStatus(201);
-                }
-            });
+            );
         } else {
             if (!isRequestBodyValid) {
                 console.log("Request body not valid");
@@ -520,6 +583,7 @@ function backend_igr(app) {
             res.sendStatus(400);
         }
     });
+    
 
     // Delete request of data entry by province and registration date field
     app.delete(`${BASE_API_URL_ASSOC}/:province/:regDate`, (req, res) => {

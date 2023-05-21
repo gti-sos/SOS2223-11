@@ -19,7 +19,7 @@
         CardTitle,
         Alert,
     } from "sveltestrap";
-    import ReactIcon from '../ReactIcon.svelte';
+    import ReactIcon from "../ReactIcon.svelte";
 
     let open = false;
     let openOne = false;
@@ -50,10 +50,6 @@
     let messageAlert = false;
     let message = "";
 
-    let result = "";
-    let resultStatus = "";
-
-    // let showForm = false;
     let showForm = false;
 
     function dismissAlert() {
@@ -66,19 +62,15 @@
     }
 
     async function getAssociations() {
-        resultStatus = result = "";
         const res = await fetch(API, {
             method: "GET",
         });
         try {
             const data = await res.json();
-            result = JSON.stringify(data, null, 2);
             associations = data;
         } catch (error) {
             console.log(`Error parsing result: ${error}`);
         }
-        const status = await res.status;
-        resultStatus = status;
     }
 
     async function loadData() {
@@ -114,7 +106,6 @@
     }
 
     async function createAssociation() {
-        resultStatus = result = "";
         messageAlert = false;
         const res = await fetch(API, {
             method: "POST",
@@ -132,7 +123,6 @@
             }),
         });
         const status = await res.status;
-        resultStatus = status;
         if (status == 201) {
             getAssociations();
             toggleForm();
@@ -163,12 +153,10 @@
         }
     }
     async function deleteAssociations() {
-        resultStatus = result = "";
         const res = await fetch(API, {
             method: "DELETE",
         });
         const status = await res.status;
-        resultStatus = status;
         if (status == 200) {
             getAssociations();
             messageAlert = true;
@@ -183,7 +171,6 @@
         }
     }
     async function deleteAssociation(province, registration_date) {
-        resultStatus = result = "";
         const res = await fetch(
             API + "/" + province + "/" + registration_date,
             {
@@ -191,7 +178,6 @@
             }
         );
         const status = await res.status;
-        resultStatus = status;
         if (status == 200) {
             getAssociations();
             messageAlert = true;
@@ -208,15 +194,23 @@
     <title>Asociaciones</title>
 </svelte:head>
 
-<div class="d-flex justify-content-between align-items-center" style="padding-right: 20px;">
+<div
+    class="d-flex justify-content-between align-items-center"
+    style="padding-right: 20px;"
+>
     <h2 class="my-4">Asociaciones de Andalucía</h2>
     <div class="mr-0">
-
-        <Button color="warning" href="association-stats/integrations" class="p-3"><div>Integraciones y Usos</div></Button>
-        <Button color="dark" href="/react-igr" class="p-3"><div>Versión en React &nbsp<ReactIcon/></div></Button>
+        <Button
+            color="warning"
+            href="association-stats/integrations"
+            class="p-3"><div>Integraciones y Usos</div></Button
+        >
+        <Button color="dark" href="/react-igr" class="p-3"
+            ><div>Versión en React &nbsp<ReactIcon /></div></Button
+        >
     </div>
 </div>
-  
+
 <div class="my-2 px-5 justify-content-center align-items-center">
     &nbsp
     <Button id="createAssociation" color="success" on:click={toggleForm}>
@@ -232,7 +226,6 @@
     </Button>
     &nbsp
     <Button color="danger" on:click={toggle}>Borrar asociaciones</Button>
-    
 </div>
 <Modal isOpen={open} {toggle}>
     <ModalHeader {toggle}
@@ -276,68 +269,68 @@
             <CardTitle>Crea una asociación</CardTitle>
             <Form on:submit={createAssociation}>
                 <!-- <FormGroup> -->
-                    <Label for="name">Nombre de la asociación</Label>
-                    <Input
-                        required
-                        id="name"
-                        bind:value={newName}
-                        placeholder="Nombre"
-                    />
+                <Label for="name">Nombre de la asociación</Label>
+                <Input
+                    required
+                    id="name"
+                    bind:value={newName}
+                    placeholder="Nombre"
+                />
 
-                    <Label for="goal">Objetivo de la asociación</Label>
-                    <Input
-                        required
-                        id="goal"
-                        bind:value={newGoal}
-                        placeholder="Objetivo"
-                    />
+                <Label for="goal">Objetivo de la asociación</Label>
+                <Input
+                    required
+                    id="goal"
+                    bind:value={newGoal}
+                    placeholder="Objetivo"
+                />
 
-                    <Label for="province">Provincia</Label>
-                    <Input
-                        required
-                        id="province"
-                        bind:value={newProvince}
-                        placeholder="Provincia"
-                    />
+                <Label for="province">Provincia</Label>
+                <Input
+                    required
+                    id="province"
+                    bind:value={newProvince}
+                    placeholder="Provincia"
+                />
 
-                    <Label for="registration-date">Año de registro</Label>
-                    <Input
-                        type="number"
-                        required
-                        id="registration-date"
-                        bind:value={newRegistrationDate}
-                        placeholder="0000"
-                    />
+                <Label for="registration-date">Año de registro</Label>
+                <Input
+                    type="number"
+                    required
+                    id="registration-date"
+                    bind:value={newRegistrationDate}
+                    placeholder="0000"
+                />
 
-                    <Label for="creation-date">Año de creación</Label>
-                    <Input
-                        type="number"
-                        required
-                        id="creation-date"
-                        bind:value={newCreationDate}
-                        placeholder="0000"
-                    />
+                <Label for="creation-date">Año de creación</Label>
+                <Input
+                    type="number"
+                    required
+                    id="creation-date"
+                    bind:value={newCreationDate}
+                    placeholder="0000"
+                />
 
-                    <Label for="zip-code">Código postal</Label>
-                    <Input
-                        type="number"
-                        required
-                        id="zip-code"
-                        bind:value={newZipCode}
-                        placeholder="00000"
-                    />
+                <Label for="zip-code">Código postal</Label>
+                <Input
+                    type="number"
+                    required
+                    id="zip-code"
+                    bind:value={newZipCode}
+                    placeholder="00000"
+                />
 
-                    <Label for="township-code">Código municipal</Label>
-                    <Input
-                        type="number"
-                        required
-                        id="township-code"
-                        bind:value={newTownshipCode}
-                        placeholder="000"
-                        class="mb-3"
-                    />
+                <Label for="township-code">Código municipal</Label>
+                <Input
+                    type="number"
+                    required
+                    id="township-code"
+                    bind:value={newTownshipCode}
+                    placeholder="000"
+                    class="mb-3"
+                />
 
-                    <Button color="success" type="submit">Crear</Button>
+                <Button color="success" type="submit">Crear</Button>
                 <!-- </FormGroup> -->
             </Form>
         </Card>

@@ -19,8 +19,6 @@
 
     if (response.ok) {
       data = await response.json();
-      console.log("API response:", data);
-
       const records = data.result.records;
 
       if (records.length === 0) {

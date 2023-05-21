@@ -13,11 +13,8 @@
 
   onMount(async () => {
     const response = await fetch(url, options);
-
     if (response.ok) {
       data = await response.json();
-      console.log("API response:", data);
-
       const records = data.result.records;
       const chartData = records.map((record) => {
         const values = Object.entries(record)
@@ -29,7 +26,6 @@
           values: values,
         };
       });
-      // console.log("ChartData:", chartData);
 
       const chartConfig = {
         chart: {
@@ -60,7 +56,7 @@
 </script>
 
 <svelte:head>
-    <title>Gráfica externa estudiantes</title>
+  <title>Gráfica externa estudiantes</title>
 </svelte:head>
 
 <Container>

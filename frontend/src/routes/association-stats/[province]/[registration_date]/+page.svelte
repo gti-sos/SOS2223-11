@@ -3,7 +3,18 @@
 
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import { Button, Table, Container, Alert, Card, CardTitle, Form, FormGroup, Input, Label,  } from "sveltestrap";
+    import {
+        Button,
+        Table,
+        Container,
+        Alert,
+        Card,
+        CardTitle,
+        Form,
+        FormGroup,
+        Input,
+        Label,
+    } from "sveltestrap";
     import { page } from "$app/stores";
 
     onMount(async () => {
@@ -29,9 +40,6 @@
     let messageAlert = false;
     let message = "";
 
-    let result = "";
-    let resultStatus = "";
-
     function dismissAlert() {
         messageAlert = false;
     }
@@ -39,13 +47,11 @@
     let right = true;
 
     async function getAssociation() {
-        resultStatus = result = "";
         const res = await fetch(API, {
             method: "GET",
         });
         try {
             const data = await res.json();
-            result = JSON.stringify(data, null, 2);
             updated_name = data.name;
             updated_goal = data.goal;
             updated_registration_date = data.registration_date;
@@ -60,14 +66,10 @@
             message = "La asociación no existe";
             console.log(`Error parsing result: ${error}`);
         }
-        const status = await res.status;
-        resultStatus = status;
     }
 
     async function updateAssociation() {
-        resultStatus = result = "";
         messageAlert = false;
-        console.log("que buena cortesia");
         const res = await fetch(API, {
             method: "PUT",
             headers: {
@@ -84,9 +86,6 @@
             }),
         });
         const status = await res.status;
-        resultStatus = status;
-        console.log("precheck");
-        console.log(status);
         if (status == 201) {
             getAssociation();
             messageAlert = true;
@@ -103,82 +102,88 @@
     <title>Asociación</title>
 </svelte:head>
 
-<h2>Detalles de la asociación <Button color="primary" href="/association-stats">Volver a asociaciones</Button></h2>
+<h2>
+    Detalles de la asociación <Button color="primary" href="/association-stats"
+        >Volver a asociaciones</Button
+    >
+</h2>
 
 <Container>
     {#if messageAlert}
         <Alert dismissible on:dismiss={dismissAlert}>{message}</Alert>
     {/if}
     {#if right}
-    <Card class="w-50 p-3 mb-3 mx-auto">
-        <CardTitle>Actualiza la asociación de {province} en el año {registration_date} </CardTitle>
-        <Form on:submit={updateAssociation}>
-            <FormGroup>
-                <Label for="name">Nombre de la asociación</Label>
-                <Input
-                    required
-                    id="name"
-                    bind:value={updated_name}
-                    placeholder="Nombre"
-                />
+        <Card class="w-50 p-3 mb-3 mx-auto">
+            <CardTitle
+                >Actualiza la asociación de {province} en el año {registration_date}
+            </CardTitle>
+            <Form on:submit={updateAssociation}>
+                <FormGroup>
+                    <Label for="name">Nombre de la asociación</Label>
+                    <Input
+                        required
+                        id="name"
+                        bind:value={updated_name}
+                        placeholder="Nombre"
+                    />
 
-                <Label for="goal">Objetivo de la asociación</Label>
-                <Input
-                    required
-                    id="goal"
-                    bind:value={updated_goal}
-                    placeholder="Objetivo"
-                />
+                    <Label for="goal">Objetivo de la asociación</Label>
+                    <Input
+                        required
+                        id="goal"
+                        bind:value={updated_goal}
+                        placeholder="Objetivo"
+                    />
 
-                <Label for="province">Provincia</Label>
-                <Input
-                    required
-                    id="province"
-                    bind:value={updated_province}
-                    placeholder="Provincia"
-                />
+                    <Label for="province">Provincia</Label>
+                    <Input
+                        required
+                        id="province"
+                        bind:value={updated_province}
+                        placeholder="Provincia"
+                    />
 
-                <Label for="registration-date">Año de registro</Label>
-                <Input
-                    type="number"
-                    required
-                    id="registration-date"
-                    bind:value={updated_registration_date}
-                    placeholder="0000"
-                />
+                    <Label for="registration-date">Año de registro</Label>
+                    <Input
+                        type="number"
+                        required
+                        id="registration-date"
+                        bind:value={updated_registration_date}
+                        placeholder="0000"
+                    />
 
-                <Label for="creation-date">Año de creación</Label>
-                <Input
-                    type="number"
-                    required
-                    id="creation-date"
-                    bind:value={updated_creation_date}
-                    placeholder="0000"
-                />
+                    <Label for="creation-date">Año de creación</Label>
+                    <Input
+                        type="number"
+                        required
+                        id="creation-date"
+                        bind:value={updated_creation_date}
+                        placeholder="0000"
+                    />
 
-                <Label for="zip-code">Código postal</Label>
-                <Input
-                    type="number"
-                    required
-                    id="zip-code"
-                    bind:value={updated_zip_code}
-                    placeholder="00000"
-                />
+                    <Label for="zip-code">Código postal</Label>
+                    <Input
+                        type="number"
+                        required
+                        id="zip-code"
+                        bind:value={updated_zip_code}
+                        placeholder="00000"
+                    />
 
-                <Label for="township-code">Código municipal</Label>
-                <Input
-                    type="number"
-                    required
-                    id="township-code"
-                    bind:value={updated_township_code}
-                    placeholder="000"
-                    class="mb-3"
-                />
+                    <Label for="township-code">Código municipal</Label>
+                    <Input
+                        type="number"
+                        required
+                        id="township-code"
+                        bind:value={updated_township_code}
+                        placeholder="000"
+                        class="mb-3"
+                    />
 
-                <Button color="primary" type="submit">Actualizar</Button>
-            </FormGroup>
-        </Form>
-    </Card>
+                    <Button color="primary" type="submit">Actualizar</Button>
+                </FormGroup>
+            </Form>
+        </Card>
     {/if}
 </Container>
 

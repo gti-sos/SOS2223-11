@@ -13,11 +13,8 @@
 
     onMount(async () => {
         const response = await fetch(url, options);
-
         if (response.ok) {
             data = await response.json();
-            console.log("API response:", data);
-
             const records = data.result.records;
             const chartData = records.map((record) => ({
                 period: record["Quarterly Period"],
@@ -28,7 +25,6 @@
                     record["% of calls answered within 2 minutes"]
                 ),
             }));
-            // console.log("ChartData:", chartData);
 
             const svgWidth = 900;
             const svgHeight = 600;

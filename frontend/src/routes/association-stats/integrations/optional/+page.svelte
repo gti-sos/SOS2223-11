@@ -140,21 +140,6 @@
           d3.select(this).style("opacity", 1);
           d3.select("#tooltip").style("visibility", "hidden");
         });
-
-      // let zoom = d3
-      //   .zoom()
-      //   .scaleExtent([1, 10])
-      //   .translateExtent([
-      //     [0, 0],
-      //     [width, height],
-      //   ])
-      //   .on("zoom", () => {
-      //     if (!d3.event || !d3.event.transform) return; // Check if d3.event is defined and has transform property
-      //     const transform = d3.event.transform;
-      //     svg.attr("transform", transform);
-      //   });
-
-      // svg.call(zoom);
     }
   }
   function updateChartScale() {
