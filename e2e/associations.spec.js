@@ -33,6 +33,18 @@ test('Verifies the number of associations to be above one statelessly', async ({
   expect(rows).toBeGreaterThan(1);
 });
 
+test('Verifies the buttons inside the first association', async ({ page }) => {
+  await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
+
+  await page.locator('button:has-text("Cargar asociaciones"):not(:has-text("Recargar asociaciones"))').click();
+  await page.waitForSelector('tbody tr');
+  const firstRow = await page.locator('tbody tr').first();
+  const editButtonExists = await firstRow.locator('button:has-text("Editar")').count() > 0;
+  expect(editButtonExists).toBe(true);
+  const deleteButtonExists = await firstRow.locator('button:has-text("Borrar")').count() > 0;
+  expect(deleteButtonExists).toBe(true);
+});
+
 
 test('Verifies the filtering route', async ({ page }) => {
   await page.goto('https://sos2223-11.ew.r.appspot.com/association-stats');
