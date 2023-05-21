@@ -21,6 +21,9 @@
       <NavItem>
         <NavLink href="/" class="text-white">Inicio</NavLink>
       </NavItem>
+      <NavItem>
+        <NavLink href="/about" class="text-white">Vídeos</NavLink>
+      </NavItem>
       <Dropdown nav inNavbar>
         <DropdownToggle nav caret class="text-white">Interfaces</DropdownToggle>
         <DropdownMenu end>
