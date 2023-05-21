@@ -40,7 +40,7 @@
     </div>
     <div class="m-4">
         <h2 class="my-3">Vídeo de Victor Ruiz Jiménez</h2>
-        <Button href="/">Vídeo</Button>
+        <Button href="https://youtu.be/1OwHQBw9ZZY">Vídeo</Button>
     </div>
     <div class="m-4">
         <h2 class="my-3">Vídeo de Christian Asuero Carrellán</h2>
