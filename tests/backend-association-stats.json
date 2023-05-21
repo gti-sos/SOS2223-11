@@ -117,7 +117,7 @@
 			"response": []
 		},
 		{
-			"name": "GET prov & reg",
+			"name": "GET prov & reg POST success",
 			"event": [
 				{
 					"listen": "test",
@@ -148,6 +148,47 @@
 						"association-stats",
 						"MADEUPPROVINCE",
 						"3000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST base \"\" and ; 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 1999,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"test\",\r\n    \"township_code\": 123,\r\n    \"test\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v2/association-stats",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"association-stats"
 					]
 				}
 			},
@@ -189,6 +230,49 @@
 						"api",
 						"v2",
 						"association-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST prov & reg 405",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"goal\": \"test\",\r\n    \"registration_date\": 3000,\r\n    \"creation_date\": 2000,\r\n    \"zip_code\": 11111,\r\n    \"province\": \"MADEUPPROVINCE\",\r\n    \"township_code\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/3000",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"association-stats",
+						"MADEUPPROVINCE",
+						"3000"
 					]
 				}
 			},
@@ -463,6 +547,49 @@
 		},
 		{
 			"name": "PUT prov & reg 400 param",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"goal\": \"MADEUPGOAL\",\r\n    \"registration_date\": 5000,\r\n    \"creation_date\": 3000,\r\n    \"zip_code\": 55555,\r\n    \"province\": \"MADEUPPROVINCE\",\r\n    \"township_code\": 321\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTURL}}/api/v2/association-stats/MADEUPPROVINCE/300",
+					"host": [
+						"{{HOSTURL}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"association-stats",
+						"MADEUPPROVINCE",
+						"300"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT prov & reg 400 \"\" & ;",
 			"event": [
 				{
 					"listen": "test",
