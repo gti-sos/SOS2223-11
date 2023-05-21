@@ -1,5 +1,4 @@
 <script>
-    // Importaciones
 
     import { onMount } from "svelte";
 
