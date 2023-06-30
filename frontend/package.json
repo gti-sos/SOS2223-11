@@ -31,7 +31,7 @@
 		"plotly.js": "^2.23.2",
 		"plotly.js-basic-dist": "^2.23.2",
 		"plotly.js-dist": "^2.23.2",
-		"plotly.js-dist-min": "^2.23.2",
+		"plotly.js-dist-min": "^2.24.1",
 		"svelte-apexcharts": "^1.0.2",
 		"sveltestrap": "^5.10.0"
 	}
